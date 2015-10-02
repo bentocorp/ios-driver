@@ -1,0 +1,504 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
+		FC9CB31B1BBF4409000F4395 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB31A1BBF4409000F4395 /* ViewController.swift */; };
+		FC9CB31E1BBF4409000F4395 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31C1BBF4409000F4395 /* Main.storyboard */; };
+		FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
+		FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */; };
+		FC9CB32E1BBF4409000F4395 /* BentoDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */; };
+		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FC9CB32A1BBF4409000F4395 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC9CB30D1BBF4409000F4395 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC9CB3141BBF4409000F4395;
+			remoteInfo = BentoDriver;
+		};
+		FC9CB3351BBF4409000F4395 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FC9CB30D1BBF4409000F4395 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC9CB3141BBF4409000F4395;
+			remoteInfo = BentoDriver;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FC9CB3151BBF4409000F4395 /* BentoDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BentoDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC9CB3181BBF4409000F4395 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FC9CB31A1BBF4409000F4395 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		FC9CB31D1BBF4409000F4395 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FC9CB31F1BBF4409000F4395 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FC9CB3221BBF4409000F4395 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FC9CB3241BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC9CB3291BBF4409000F4395 /* BentoDriverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BentoDriverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BentoDriverTests.swift; sourceTree = "<group>"; };
+		FC9CB32F1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BentoDriverUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BentoDriverUITests.swift; sourceTree = "<group>"; };
+		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FC9CB3121BBF4409000F4395 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC9CB3261BBF4409000F4395 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC9CB3311BBF4409000F4395 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FC9CB30C1BBF4409000F4395 = {
+			isa = PBXGroup;
+			children = (
+				FC9CB3171BBF4409000F4395 /* BentoDriver */,
+				FC9CB32C1BBF4409000F4395 /* BentoDriverTests */,
+				FC9CB3371BBF4409000F4395 /* BentoDriverUITests */,
+				FC9CB3161BBF4409000F4395 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FC9CB3161BBF4409000F4395 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FC9CB3151BBF4409000F4395 /* BentoDriver.app */,
+				FC9CB3291BBF4409000F4395 /* BentoDriverTests.xctest */,
+				FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC9CB3171BBF4409000F4395 /* BentoDriver */ = {
+			isa = PBXGroup;
+			children = (
+				FC9CB3181BBF4409000F4395 /* AppDelegate.swift */,
+				FC9CB31A1BBF4409000F4395 /* ViewController.swift */,
+				FC9CB31C1BBF4409000F4395 /* Main.storyboard */,
+				FC9CB31F1BBF4409000F4395 /* Assets.xcassets */,
+				FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */,
+				FC9CB3241BBF4409000F4395 /* Info.plist */,
+			);
+			path = BentoDriver;
+			sourceTree = "<group>";
+		};
+		FC9CB32C1BBF4409000F4395 /* BentoDriverTests */ = {
+			isa = PBXGroup;
+			children = (
+				FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */,
+				FC9CB32F1BBF4409000F4395 /* Info.plist */,
+			);
+			path = BentoDriverTests;
+			sourceTree = "<group>";
+		};
+		FC9CB3371BBF4409000F4395 /* BentoDriverUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */,
+				FC9CB33A1BBF4409000F4395 /* Info.plist */,
+			);
+			path = BentoDriverUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FC9CB3141BBF4409000F4395 /* BentoDriver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC9CB33D1BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriver" */;
+			buildPhases = (
+				FC9CB3111BBF4409000F4395 /* Sources */,
+				FC9CB3121BBF4409000F4395 /* Frameworks */,
+				FC9CB3131BBF4409000F4395 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BentoDriver;
+			productName = BentoDriver;
+			productReference = FC9CB3151BBF4409000F4395 /* BentoDriver.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FC9CB3281BBF4409000F4395 /* BentoDriverTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC9CB3401BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriverTests" */;
+			buildPhases = (
+				FC9CB3251BBF4409000F4395 /* Sources */,
+				FC9CB3261BBF4409000F4395 /* Frameworks */,
+				FC9CB3271BBF4409000F4395 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FC9CB32B1BBF4409000F4395 /* PBXTargetDependency */,
+			);
+			name = BentoDriverTests;
+			productName = BentoDriverTests;
+			productReference = FC9CB3291BBF4409000F4395 /* BentoDriverTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FC9CB3331BBF4409000F4395 /* BentoDriverUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC9CB3431BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriverUITests" */;
+			buildPhases = (
+				FC9CB3301BBF4409000F4395 /* Sources */,
+				FC9CB3311BBF4409000F4395 /* Frameworks */,
+				FC9CB3321BBF4409000F4395 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FC9CB3361BBF4409000F4395 /* PBXTargetDependency */,
+			);
+			name = BentoDriverUITests;
+			productName = BentoDriverUITests;
+			productReference = FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FC9CB30D1BBF4409000F4395 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Joseph Lau";
+				TargetAttributes = {
+					FC9CB3141BBF4409000F4395 = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+					FC9CB3281BBF4409000F4395 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = FC9CB3141BBF4409000F4395;
+					};
+					FC9CB3331BBF4409000F4395 = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = FC9CB3141BBF4409000F4395;
+					};
+				};
+			};
+			buildConfigurationList = FC9CB3101BBF4409000F4395 /* Build configuration list for PBXProject "BentoDriver" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FC9CB30C1BBF4409000F4395;
+			productRefGroup = FC9CB3161BBF4409000F4395 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FC9CB3141BBF4409000F4395 /* BentoDriver */,
+				FC9CB3281BBF4409000F4395 /* BentoDriverTests */,
+				FC9CB3331BBF4409000F4395 /* BentoDriverUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FC9CB3131BBF4409000F4395 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */,
+				FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */,
+				FC9CB31E1BBF4409000F4395 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC9CB3271BBF4409000F4395 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC9CB3321BBF4409000F4395 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FC9CB3111BBF4409000F4395 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC9CB31B1BBF4409000F4395 /* ViewController.swift in Sources */,
+				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC9CB3251BBF4409000F4395 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC9CB32E1BBF4409000F4395 /* BentoDriverTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC9CB3301BBF4409000F4395 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FC9CB32B1BBF4409000F4395 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC9CB3141BBF4409000F4395 /* BentoDriver */;
+			targetProxy = FC9CB32A1BBF4409000F4395 /* PBXContainerItemProxy */;
+		};
+		FC9CB3361BBF4409000F4395 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC9CB3141BBF4409000F4395 /* BentoDriver */;
+			targetProxy = FC9CB3351BBF4409000F4395 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FC9CB31C1BBF4409000F4395 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC9CB31D1BBF4409000F4395 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC9CB3221BBF4409000F4395 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FC9CB33B1BBF4409000F4395 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FC9CB33C1BBF4409000F4395 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FC9CB33E1BBF4409000F4395 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = BentoDriver/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FC9CB33F1BBF4409000F4395 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = BentoDriver/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriver;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		FC9CB3411BBF4409000F4395 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = BentoDriverTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BentoDriver.app/BentoDriver";
+			};
+			name = Debug;
+		};
+		FC9CB3421BBF4409000F4395 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = BentoDriverTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BentoDriver.app/BentoDriver";
+			};
+			name = Release;
+		};
+		FC9CB3441BBF4409000F4395 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = BentoDriverUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriverUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = BentoDriver;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		FC9CB3451BBF4409000F4395 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = BentoDriverUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriverUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = BentoDriver;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FC9CB3101BBF4409000F4395 /* Build configuration list for PBXProject "BentoDriver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC9CB33B1BBF4409000F4395 /* Debug */,
+				FC9CB33C1BBF4409000F4395 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC9CB33D1BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC9CB33E1BBF4409000F4395 /* Debug */,
+				FC9CB33F1BBF4409000F4395 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FC9CB3401BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriverTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC9CB3411BBF4409000F4395 /* Debug */,
+				FC9CB3421BBF4409000F4395 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FC9CB3431BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriverUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC9CB3441BBF4409000F4395 /* Debug */,
+				FC9CB3451BBF4409000F4395 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FC9CB30D1BBF4409000F4395 /* Project object */;
+}
