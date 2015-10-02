@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D0127E7377702A1924037C9D /* Pods_BentoDriver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB591346C85EBAAAA8EC6D0 /* Pods_BentoDriver.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
 		FC9CB31B1BBF4409000F4395 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB31A1BBF4409000F4395 /* ViewController.swift */; };
 		FC9CB31E1BBF4409000F4395 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31C1BBF4409000F4395 /* Main.storyboard */; };
@@ -34,6 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		496DD6E83891F94653BCB5C9 /* Pods-BentoDriver.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BentoDriver.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BentoDriver/Pods-BentoDriver.debug.xcconfig"; sourceTree = "<group>"; };
+		5AB591346C85EBAAAA8EC6D0 /* Pods_BentoDriver.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BentoDriver.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		740ED416EA46E8C8CA60F0DE /* Pods-BentoDriver.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BentoDriver.release.xcconfig"; path = "Pods/Target Support Files/Pods-BentoDriver/Pods-BentoDriver.release.xcconfig"; sourceTree = "<group>"; };
 		FC9CB3151BBF4409000F4395 /* BentoDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BentoDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9CB3181BBF4409000F4395 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC9CB31A1BBF4409000F4395 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0127E7377702A1924037C9D /* Pods_BentoDriver.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +79,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5BBB3966997C9820FCBD0B7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5AB591346C85EBAAAA8EC6D0 /* Pods_BentoDriver.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		884D9F31A8D6A8E098A09450 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				496DD6E83891F94653BCB5C9 /* Pods-BentoDriver.debug.xcconfig */,
+				740ED416EA46E8C8CA60F0DE /* Pods-BentoDriver.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FC9CB30C1BBF4409000F4395 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +103,8 @@
 				FC9CB32C1BBF4409000F4395 /* BentoDriverTests */,
 				FC9CB3371BBF4409000F4395 /* BentoDriverUITests */,
 				FC9CB3161BBF4409000F4395 /* Products */,
+				884D9F31A8D6A8E098A09450 /* Pods */,
+				5BBB3966997C9820FCBD0B7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FC9CB33D1BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriver" */;
 			buildPhases = (
+				55596C68FB45820E09F2E7FB /* Check Pods Manifest.lock */,
 				FC9CB3111BBF4409000F4395 /* Sources */,
 				FC9CB3121BBF4409000F4395 /* Frameworks */,
 				FC9CB3131BBF4409000F4395 /* Resources */,
+				4042D430177CFCCB28CECE73 /* Embed Pods Frameworks */,
+				79583C11A1E86808A53DFC43 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,6 +276,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4042D430177CFCCB28CECE73 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BentoDriver/Pods-BentoDriver-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55596C68FB45820E09F2E7FB /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		79583C11A1E86808A53DFC43 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BentoDriver/Pods-BentoDriver-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FC9CB3111BBF4409000F4395 /* Sources */ = {
@@ -394,6 +469,7 @@
 		};
 		FC9CB33E1BBF4409000F4395 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 496DD6E83891F94653BCB5C9 /* Pods-BentoDriver.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BentoDriver/Info.plist;
@@ -405,6 +481,7 @@
 		};
 		FC9CB33F1BBF4409000F4395 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 740ED416EA46E8C8CA60F0DE /* Pods-BentoDriver.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = BentoDriver/Info.plist;
@@ -481,6 +558,7 @@
 				FC9CB33F1BBF4409000F4395 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FC9CB3401BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriverTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +567,7 @@
 				FC9CB3421BBF4409000F4395 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FC9CB3431BBF4409000F4395 /* Build configuration list for PBXNativeTarget "BentoDriverUITests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +576,7 @@
 				FC9CB3451BBF4409000F4395 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
