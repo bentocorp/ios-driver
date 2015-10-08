@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "43BBE059043487B17CCC17FADA6579249BED1B67",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F76BA38EFFC55E46E8D0815660EDB772ADABA782" : 0,
+    "43BBE059043487B17CCC17FADA6579249BED1B67" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D0627D1C-BC30-469A-BE69-B7AE05D5564E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F76BA38EFFC55E46E8D0815660EDB772ADABA782" : "",
+    "43BBE059043487B17CCC17FADA6579249BED1B67" : "BentoDriver\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BentoDriver",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "BentoDriver.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/JosephLauSF\/BentoDriver.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "43BBE059043487B17CCC17FADA6579249BED1B67"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/JosephLauSF\/AppCoda_NoStoryboard_CustomTableWithPropertyList.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F76BA38EFFC55E46E8D0815660EDB772ADABA782"
+    }
+  ]
+}

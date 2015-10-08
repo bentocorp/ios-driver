@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Socket.IO-Client-Swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -31,6 +36,37 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict/>
+	<dict>
+		<key>3CD6A168CBF3B631BB2C2F0BE2952A1C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3DA374BB5346C86BB9E37D7D8A3F9705</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8240A687A12B3496C485DFBEB80E79E2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>93208DF5F66C021BD60146424D07E751</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>94CA8B597FFDD2F80DDFE5E0A2B6F1B5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A2A2FE8CEF5E76E2FDED8A83ED4634F3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

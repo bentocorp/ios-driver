@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9DB99CC410CF6A9E23281E96"
-               BuildableName = "Pods_BentoDriver.framework"
-               BlueprintName = "Pods-BentoDriver"
+               BlueprintIdentifier = "542D1ED4290D29426A001092"
+               BuildableName = "Socket_IO_Client_Swift.framework"
+               BlueprintName = "Socket.IO-Client-Swift"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
