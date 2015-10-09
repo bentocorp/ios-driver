@@ -9,12 +9,11 @@
 /* Begin PBXBuildFile section */
 		D0127E7377702A1924037C9D /* Pods_BentoDriver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB591346C85EBAAAA8EC6D0 /* Pods_BentoDriver.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
-		FC9CB31B1BBF4409000F4395 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB31A1BBF4409000F4395 /* ViewController.swift */; };
-		FC9CB31E1BBF4409000F4395 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31C1BBF4409000F4395 /* Main.storyboard */; };
 		FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
 		FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */; };
 		FC9CB32E1BBF4409000F4395 /* BentoDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */; };
 		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
+		FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFC938F1BC73EDF00DB52AC /* Order.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +39,6 @@
 		740ED416EA46E8C8CA60F0DE /* Pods-BentoDriver.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BentoDriver.release.xcconfig"; path = "Pods/Target Support Files/Pods-BentoDriver/Pods-BentoDriver.release.xcconfig"; sourceTree = "<group>"; };
 		FC9CB3151BBF4409000F4395 /* BentoDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BentoDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9CB3181BBF4409000F4395 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FC9CB31A1BBF4409000F4395 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		FC9CB31D1BBF4409000F4395 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FC9CB31F1BBF4409000F4395 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FC9CB3221BBF4409000F4395 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FC9CB3241BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,6 +48,7 @@
 		FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BentoDriverUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BentoDriverUITests.swift; sourceTree = "<group>"; };
 		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCFC938F1BC73EDF00DB52AC /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,11 +120,13 @@
 			isa = PBXGroup;
 			children = (
 				FC9CB3181BBF4409000F4395 /* AppDelegate.swift */,
-				FC9CB31A1BBF4409000F4395 /* ViewController.swift */,
-				FC9CB31C1BBF4409000F4395 /* Main.storyboard */,
 				FC9CB31F1BBF4409000F4395 /* Assets.xcassets */,
 				FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */,
 				FC9CB3241BBF4409000F4395 /* Info.plist */,
+				FCFC93861BC731D300DB52AC /* Modules */,
+				FCFC93871BC731D900DB52AC /* Models */,
+				FCFC93891BC731EA00DB52AC /* Utilities */,
+				FCFC93881BC731E500DB52AC /* Extensions */,
 			);
 			path = BentoDriver;
 			sourceTree = "<group>";
@@ -147,6 +147,75 @@
 				FC9CB33A1BBF4409000F4395 /* Info.plist */,
 			);
 			path = BentoDriverUITests;
+			sourceTree = "<group>";
+		};
+		FCFC93861BC731D300DB52AC /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				FCFC938E1BC7344D00DB52AC /* Reusable Elements */,
+				FCFC938A1BC7331900DB52AC /* Login */,
+				FCFC938D1BC7334900DB52AC /* Profile */,
+				FCFC938B1BC7332000DB52AC /* OrderList */,
+				FCFC938C1BC7332D00DB52AC /* OrderDetail */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
+		FCFC93871BC731D900DB52AC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FCFC938F1BC73EDF00DB52AC /* Order.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		FCFC93881BC731E500DB52AC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		FCFC93891BC731EA00DB52AC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		FCFC938A1BC7331900DB52AC /* Login */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		FCFC938B1BC7332000DB52AC /* OrderList */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = OrderList;
+			sourceTree = "<group>";
+		};
+		FCFC938C1BC7332D00DB52AC /* OrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = OrderDetail;
+			sourceTree = "<group>";
+		};
+		FCFC938D1BC7334900DB52AC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		FCFC938E1BC7344D00DB52AC /* Reusable Elements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Reusable Elements";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +326,6 @@
 			files = (
 				FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */,
 				FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */,
-				FC9CB31E1BBF4409000F4395 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC9CB31B1BBF4409000F4395 /* ViewController.swift in Sources */,
+				FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */,
 				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,14 +435,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FC9CB31C1BBF4409000F4395 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FC9CB31D1BBF4409000F4395 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

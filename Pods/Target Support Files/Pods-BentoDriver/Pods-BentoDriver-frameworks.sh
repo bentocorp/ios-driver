@@ -56,6 +56,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-BentoDriver/PureLayout.framework'
   install_framework 'Pods-BentoDriver/SVProgressHUD.framework'
   install_framework 'Pods-BentoDriver/Socket_IO_Client_Swift.framework'
+  install_framework 'Pods-BentoDriver/SwiftyJSON.framework'
   install_framework 'Pods-BentoDriver/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -63,5 +64,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-BentoDriver/PureLayout.framework'
   install_framework 'Pods-BentoDriver/SVProgressHUD.framework'
   install_framework 'Pods-BentoDriver/Socket_IO_Client_Swift.framework'
+  install_framework 'Pods-BentoDriver/SwiftyJSON.framework'
   install_framework 'Pods-BentoDriver/pop.framework'
 fi
