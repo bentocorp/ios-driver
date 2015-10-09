@@ -1,0 +1,1 @@
+ALAMOFIRE_SWIFTYJSON_OTHER_LDFLAGS = -framework "Alamofire" -framework "SwiftyJSON"

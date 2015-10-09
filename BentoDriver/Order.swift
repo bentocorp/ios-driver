@@ -29,6 +29,7 @@ public class Order {
     public var orderId: Int
     public var customerName: String
     public var phoneNumber: String
+    
     public var street: String
     public var residence: String?
     public var city: String
@@ -58,18 +59,26 @@ public class Order {
 extension Order {
     public class func pullOrders() {
         Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": "d-8-123ABC"]).responseJSON { response in
-            print(response.result )
+//            print(response.result )
 //            if let ret = response["ret"] {
 //                if let dataFromString = ret.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
 //                    print(dataFromString)
 //                }
 //            }
-
-            
             print(response)
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

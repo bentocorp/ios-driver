@@ -1,21 +1,33 @@
 PODS:
   - Alamofire (2.0.2)
+  - Alamofire-SwiftyJSON (2.0.0-beta.1)
   - pop (1.0.8)
   - PureLayout (3.0.1)
   - Socket.IO-Client-Swift (3.1.4)
-  - SVProgressHUD (HEAD based on 1.1.3)
+  - SVProgressHUD (1.1.3)
   - SwiftyJSON (2.3.0)
 
 DEPENDENCIES:
-  - Alamofire (~> 2.0)
-  - pop (~> 1.0.8)
+  - Alamofire
+  - Alamofire-SwiftyJSON (from `https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec`)
+  - pop
   - PureLayout
-  - Socket.IO-Client-Swift (~> 3.1.4)
-  - SVProgressHUD (HEAD)
+  - Socket.IO-Client-Swift
+  - SVProgressHUD
   - SwiftyJSON
+
+EXTERNAL SOURCES:
+  Alamofire-SwiftyJSON:
+    :podspec: https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec
+
+CHECKOUT OPTIONS:
+  Alamofire-SwiftyJSON:
+    :commit: edee0486d60489807c6488e5f0d08b32c1985d92
+    :git: https://github.com/SwiftyJSON/Alamofire-SwiftyJSON.git
 
 SPEC CHECKSUMS:
   Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
+  Alamofire-SwiftyJSON: e394c54579b41d18d2aa1b88adf9fd6a2351e888
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   Socket.IO-Client-Swift: a0c8a6ba85ea685891d2c5f0e73b7287b89d0121

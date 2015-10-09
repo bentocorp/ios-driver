@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire-SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,7 +47,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3CD6A168CBF3B631BB2C2F0BE2952A1C</key>
+		<key>2178E942A87148C902A3E2671558B9C5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,17 +67,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>A064B75A9838606659BB57FE5AC8A101</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B9A04D3C9B208813656510FDA8ADAE02</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BB6ED35C8865A986E2F1F820716D01C1</key>
+		<key>D990F8345DA15712B1F1C7888CAB0541</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E6CF3E4285532C1F2FAEB4AB458E33D3</key>
+		<key>E0E21796C28B660B050CC4C38D64EDF0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

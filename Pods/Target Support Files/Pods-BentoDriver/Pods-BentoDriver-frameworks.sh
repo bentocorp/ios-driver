@@ -53,6 +53,7 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods-BentoDriver/Alamofire.framework'
+  install_framework 'Pods-BentoDriver/Alamofire_SwiftyJSON.framework'
   install_framework 'Pods-BentoDriver/PureLayout.framework'
   install_framework 'Pods-BentoDriver/SVProgressHUD.framework'
   install_framework 'Pods-BentoDriver/Socket_IO_Client_Swift.framework'
@@ -61,6 +62,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods-BentoDriver/Alamofire.framework'
+  install_framework 'Pods-BentoDriver/Alamofire_SwiftyJSON.framework'
   install_framework 'Pods-BentoDriver/PureLayout.framework'
   install_framework 'Pods-BentoDriver/SVProgressHUD.framework'
   install_framework 'Pods-BentoDriver/Socket_IO_Client_Swift.framework'

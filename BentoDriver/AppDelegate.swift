@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Socket_IO_Client_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        Order.pullOrders()
+//        Order.pullOrders()
+        
+        let socket = SocketIOClient(socketURL: "http://54.191.141.101:8081")
+        
+        socket.on("connect") {data, ack in
+            print("socket connected")
+            
+            if let cur = data[0] as? Double {
+//                socket.emitWithAck("canUpdate", cur)(timeoutAfter: 0) {data in
+//                    socket.emit("update", ["amount": cur + 2.50])
+//                }
+//                
+//                ack?.with("Got your currentAmount", "dude")
+                
+                print(cur)
+            }
+        }
+        
+        socket.connect()
         
         return true
     }
