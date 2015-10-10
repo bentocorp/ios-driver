@@ -288,6 +288,11 @@
 				TargetAttributes = {
 					FC9CB3141BBF4409000F4395 = {
 						CreatedOnToolsVersion = 7.0.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					FC9CB3281BBF4409000F4395 = {
 						CreatedOnToolsVersion = 7.0.1;

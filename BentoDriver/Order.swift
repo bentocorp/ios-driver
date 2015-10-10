@@ -9,6 +9,8 @@
 import Foundation
 import CoreLocation
 import Alamofire
+import Alamofire_SwiftyJSON
+import SwiftyJSON
 
 public enum OrderStatus {
     case Pending, Rejected, Completed
@@ -57,16 +59,33 @@ public class Order {
 
 //MARK: API
 extension Order {
-    public class func pullOrders() {
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": "d-8-123ABC"]).responseJSON { response in
-//            print(response.result )
-//            if let ret = response["ret"] {
-//                if let dataFromString = ret.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-//                    print(dataFromString)
-//                }
+    
+//    func convertJSONStringToDictionary(jsonString: String) -> [String: String]? {
+//        if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
+//
+//            let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? [String: String]
+//            if error != nil {
+//                print(error)
 //            }
-            print(response)
-        }
+//            return json
+//        }
+//        return nil
+//    }
+    
+    public class func pullOrders() {
+        let userToken = NSUserDefaults.standardUserDefaults().objectForKey("userToken")
+        
+        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": userToken!])
+            .responseSwiftyJSON({ (request, response, json, error) in
+                
+                let ret = json["ret"]
+                
+//                self.convertJSONStringToDictionary(ret)
+                
+                print("ret: \(ret)")
+//                print(json)
+//                print(error)
+        })
     }
 }
 
