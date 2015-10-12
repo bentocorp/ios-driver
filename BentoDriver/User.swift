@@ -7,3 +7,36 @@
 //
 
 import Foundation
+
+public class User {
+    // Properties
+    private static var cUser: User?
+    public var username: String?
+    public var password: String?
+}
+
+// Methods
+extension User {
+    
+    // Log In
+    public static func login(username: String, password: String) {
+        
+        // set username and password
+        self.cUser?.username = username
+        self.cUser?.password = password
+        
+        // if no currentUser, log into socket
+        if cUser == nil {
+            SocketHandler.sharedSocket.loginToSocketConnection((self.cUser?.username)!, password: (self.cUser?.password)!)
+            
+            SocketHandler.
+        }
+    }
+    
+    // Get current user
+    public static func currentUser() -> User {
+        login((self.cUser?.username)!, password: (self.cUser?.password)!)
+        
+        return self.cUser!
+    }
+}

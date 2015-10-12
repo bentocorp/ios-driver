@@ -17,8 +17,6 @@
 		FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594331BC89C2600F532BD /* SocketHandler.swift */; settings = {ASSET_TAGS = (); }; };
 		FC1594361BC89C3C00F532BD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594351BC89C3C00F532BD /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		FC1594381BC89C5000F532BD /* OrderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594371BC89C5000F532BD /* OrderItem.swift */; settings = {ASSET_TAGS = (); }; };
-		FC15943C1BC89C9700F532BD /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15943B1BC89C9700F532BD /* ProfileView.swift */; settings = {ASSET_TAGS = (); }; };
-		FC15943E1BC89CAF00F532BD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15943D1BC89CAF00F532BD /* ProfileViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
 		FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
 		FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */; };
@@ -57,8 +55,6 @@
 		FC1594331BC89C2600F532BD /* SocketHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketHandler.swift; sourceTree = "<group>"; };
 		FC1594351BC89C3C00F532BD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FC1594371BC89C5000F532BD /* OrderItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderItem.swift; sourceTree = "<group>"; };
-		FC15943B1BC89C9700F532BD /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		FC15943D1BC89CAF00F532BD /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		FC9CB3151BBF4409000F4395 /* BentoDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BentoDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9CB3181BBF4409000F4395 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC9CB31F1BBF4409000F4395 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -176,7 +172,6 @@
 			children = (
 				FCFC938E1BC7344D00DB52AC /* Reusable Elements */,
 				FCFC938A1BC7331900DB52AC /* Login */,
-				FCFC938D1BC7334900DB52AC /* Profile */,
 				FCFC938B1BC7332000DB52AC /* OrderList */,
 				FCFC938C1BC7332D00DB52AC /* OrderDetail */,
 			);
@@ -187,9 +182,9 @@
 			isa = PBXGroup;
 			children = (
 				FC1594351BC89C3C00F532BD /* User.swift */,
+				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
 				FCFC938F1BC73EDF00DB52AC /* Order.swift */,
 				FC1594371BC89C5000F532BD /* OrderItem.swift */,
-				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -233,15 +228,6 @@
 				FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */,
 			);
 			name = OrderDetail;
-			sourceTree = "<group>";
-		};
-		FCFC938D1BC7334900DB52AC /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				FC15943B1BC89C9700F532BD /* ProfileView.swift */,
-				FC15943D1BC89CAF00F532BD /* ProfileViewController.swift */,
-			);
-			name = Profile;
 			sourceTree = "<group>";
 		};
 		FCFC938E1BC7344D00DB52AC /* Reusable Elements */ = {
@@ -440,13 +426,11 @@
 				FC1594321BC89C1200F532BD /* OrderView.swift in Sources */,
 				FC15942C1BC89BE000F532BD /* OrderListView.swift in Sources */,
 				FC15942E1BC89BF100F532BD /* OrderListViewController.swift in Sources */,
-				FC15943C1BC89C9700F532BD /* ProfileView.swift in Sources */,
 				FC1594281BC89BBA00F532BD /* LoginViewController.swift in Sources */,
 				FC1594381BC89C5000F532BD /* OrderItem.swift in Sources */,
 				FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */,
 				FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */,
 				FC15942A1BC89BCA00F532BD /* LoginView.swift in Sources */,
-				FC15943E1BC89CAF00F532BD /* ProfileViewController.swift in Sources */,
 				FC1594361BC89C3C00F532BD /* User.swift in Sources */,
 				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
 			);

@@ -10,45 +10,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BentoDriver/AppDelegate.swift"
-            timestampString = "466131598.660031"
+            timestampString = "466371608.655333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BentoDriver.AppDelegate.(application (BentoDriver.AppDelegate) -&gt; (ObjectiveC.UIApplication, didFinishLaunchingWithOptions : Swift.Optional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; Swift.Bool).(closure #1)"
-                  moduleName = "BentoDriver"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/JosephLauSF/_github/BentoDriver/BentoDriver/AppDelegate.swift"
-                  timestampString = "466131621.902243"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "29"
-                  endingLineNumber = "29"
-                  offsetFromSymbolStart = "232">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BentoDriver.AppDelegate.(application (BentoDriver.AppDelegate) -&gt; (ObjectiveC.UIApplication, didFinishLaunchingWithOptions : Swift.Optional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; Swift.Bool).(closure #1).(closure #1)"
-                  moduleName = "BentoDriver"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/JosephLauSF/_github/BentoDriver/BentoDriver/AppDelegate.swift"
-                  timestampString = "466131621.902524"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "30"
-                  endingLineNumber = "30"
-                  offsetFromSymbolStart = "24">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,60 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BentoDriver/AppDelegate.swift"
-            timestampString = "466131606.136354"
+            timestampString = "466371755.289567"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BentoDriver.AppDelegate.application (BentoDriver.AppDelegate)(ObjectiveC.UIApplication, didFinishLaunchingWithOptions : Swift.Optional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; Swift.Bool"
-                  moduleName = "BentoDriver"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/JosephLauSF/_github/BentoDriver/BentoDriver/AppDelegate.swift"
-                  timestampString = "466131621.903844"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "25"
-                  endingLineNumber = "25"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BentoDriver.AppDelegate.(application (BentoDriver.AppDelegate) -&gt; (ObjectiveC.UIApplication, didFinishLaunchingWithOptions : Swift.Optional&lt;Swift.Dictionary&lt;ObjectiveC.NSObject, Swift.AnyObject&gt;&gt;) -&gt; Swift.Bool).(closure #1)"
-                  moduleName = "BentoDriver"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/JosephLauSF/_github/BentoDriver/BentoDriver/AppDelegate.swift"
-                  timestampString = "466131621.90406"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "26"
-                  endingLineNumber = "26"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BentoDriver/AppDelegate.swift"
-            timestampString = "466131639.427531"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "applicationDidEnterBackground(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BentoDriver/User.swift"
+            timestampString = "466371540.263118"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "login(_:password:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
