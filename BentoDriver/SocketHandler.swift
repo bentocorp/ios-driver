@@ -11,7 +11,8 @@ import Socket_IO_Client_Swift
 import SwiftyJSON
 
 public class SocketHandler {
-    static let sharedSocket = SocketHandler()
+//    static let sharedSocket = SocketHandler()
+    
     let socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil)
 }
 
@@ -43,21 +44,20 @@ extension SocketHandler {
                 }
             }
             
-            // listen to push channel from marc
+            // get from ping channel
             self.socket.on("ping", callback: { (data, ack) -> Void in
-                print(data)
+                
+                // send through pong channel
+                self.socket.emit("pong", data)
+                self.socket.emit("pong", "Time remaining - \(UIApplication.sharedApplication().backgroundTimeRemaining)")
+                
+                let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
+                let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
+                
+                self.socket.emit("pong", "lat: \(lat), long: \(long)")
             })
-            
-            // send to him pong msgs
-            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "update", userInfo: nil, repeats: true)
         }
         
         socket.connect()
-    }
-    
-    func update() {
-        let timestamp = NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .MediumStyle, timeStyle: .MediumStyle)
-        print(timestamp)
-        self.socket.emit("pong", timestamp)
     }
 }

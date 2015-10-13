@@ -13,7 +13,9 @@ import Alamofire_SwiftyJSON
 import SwiftyJSON
 
 public enum OrderStatus {
-    case Pending, Rejected, Completed
+    case Pending
+    case Rejected
+    case Completed
     
     func statusFromString(statusString: String)-> OrderStatus {
         switch statusString {
@@ -31,7 +33,7 @@ public class Order {
     public var orderId: Int
     public var customerName: String
     public var phoneNumber: String
-    
+    // address
     public var street: String
     public var residence: String?
     public var city: String
@@ -39,8 +41,10 @@ public class Order {
     public var zipCode: String
     public var county: String
     public var coordinates: CLLocationCoordinate2D
+    
     public var driverId: Int
     public var status: OrderStatus
+    
     
     init(orderId: Int, customerName: String, phoneNumber: String, street: String, city: String, region: String, zipCode: String, country: String, coordinates: CLLocationCoordinate2D, driverId: Int, status: OrderStatus) {
         self.orderId = orderId

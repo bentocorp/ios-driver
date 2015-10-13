@@ -27,9 +27,7 @@ extension User {
         
         // if no currentUser, log into socket
         if cUser == nil {
-            SocketHandler.sharedSocket.loginToSocketConnection((self.cUser?.username)!, password: (self.cUser?.password)!)
-            
-            SocketHandler.
+            SocketHandler.init().loginToSocketConnection("marc@bentonow.com", password: "wordpass")
         }
     }
     
