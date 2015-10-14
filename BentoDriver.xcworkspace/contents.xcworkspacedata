@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:New York City Marathon.gpx">
-   </FileRef>
-   <FileRef
-      location = "group:test_route.gpx">
-   </FileRef>
-   <FileRef
       location = "group:BentoDriver.xcodeproj">
    </FileRef>
    <FileRef

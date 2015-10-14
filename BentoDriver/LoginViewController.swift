@@ -10,8 +10,6 @@ import UIKit
 import CoreLocation
 
 class LoginViewController: UIViewController, CLLocationManagerDelegate {
-
-//    var locationManager: CLLocationManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,23 +30,5 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
     
     func onLogin() {
         User.login("marc@bentonow.com", password: "wordpass")
-        
-        // location manager
-//        self.locationManager = CLLocationManager()
-//        self.locationManager!.delegate = self
-//        self.locationManager!.desiredAccuracy = kCLLocationAccuracyBest
-//        self.locationManager!.distanceFilter = kCLDistanceFilterNone
-//        self.locationManager!.pausesLocationUpdatesAutomatically = false
-//        self.locationManager!.allowsBackgroundLocationUpdates = true
-//        self.locationManager!.requestAlwaysAuthorization()
-//        self.locationManager!.startUpdatingLocation()
     }
-    
-//    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-//        print("Location failed")
-//    }
-//    
-//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        print("Time remaining - \(UIApplication.sharedApplication().backgroundTimeRemaining)")
-//    }
 }

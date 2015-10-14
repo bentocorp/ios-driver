@@ -14,10 +14,7 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
-    
-//    var backgroundUpdateTask: UIBackgroundTaskIdentifier = 0 // a unique token requesting to run task in background
-    var timer = NSTimer() // to invoke startUpdatingLocation every 2.0 seconds
-    var locationManager = CLLocationManager() // to update coordinates
+    let locationManager = CLLocationManager()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -26,23 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.window?.rootViewController = LoginViewController()
         self.window?.makeKeyAndVisible()
         
-        // Location Manager
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.distanceFilter = kCLDistanceFilterNone
-        self.locationManager.pausesLocationUpdatesAutomatically = false
-        self.locationManager.allowsBackgroundLocationUpdates = true
-        self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.startUpdatingLocation()
-        
-//        self.timer = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: "generateLowMemory", userInfo: nil, repeats: true)
-        
+        // Location Services
+        self.initiateLocationManager()
+    
         return true
     }
-    
-//    func generateLowMemory() {
-//        UIApplication.sharedApplication().performSelector("_performMemoryWarning")
-//    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -52,14 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-//        self.beginBackgroundUpdateTask()
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-        
-//        self.endBackgroundUpdateTask()
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -70,7 +51,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        application.applicationIconBadgeNumber = 0
+    }
+    
 //MARK: LOCATION SERVICES
+    func initiateLocationManager() {
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.distanceFilter = kCLDistanceFilterNone
+        self.locationManager.pausesLocationUpdatesAutomatically = false
+        self.locationManager.allowsBackgroundLocationUpdates = true
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.startUpdatingLocation()
+    }
+    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         print("Location update failed")
     }
@@ -78,32 +73,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Location is updating")
         
-
+        // check if local notification is enabled
+        if UIApplication.sharedApplication().currentUserNotificationSettings()?.types == UIUserNotificationType.None {
+            // if not, register for local notification
+            if UIApplication.instancesRespondToSelector("registerUserNotificationSettings:") {
+                UIApplication.sharedApplication().registerUserNotificationSettings(UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: nil))
+            }
+        }
         
+        // save coordinates to device
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "lat")
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "long")
         NSUserDefaults.standardUserDefaults().synchronize()
         
+        // print coordinates
         let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
         let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
-        
         print("lat: \(lat), long: \(long)")
     }
-    
-//MARK: BACKGROUND EXECUTION
-//    func endBackgroundUpdateTask() {
-//        UIApplication.sharedApplication().endBackgroundTask(self.backgroundUpdateTask)
-//        self.backgroundUpdateTask = UIBackgroundTaskInvalid
-//    }
-//    
-//    func beginBackgroundUpdateTask() {
-//        self.backgroundUpdateTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({
-//            self.endBackgroundUpdateTask()
-//            self.backgroundUpdateTask = UIBackgroundTaskInvalid
-//        })
-//        
-//        // call startUpdatingLocation every 2.0 seconds
-//        self.timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self.locationManager, selector: "startUpdatingLocation", userInfo: nil, repeats: true)
-//    }
 }
 
