@@ -71,7 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Location is updating")
         
         // check if local notification is enabled
         if UIApplication.sharedApplication().currentUserNotificationSettings()?.types == UIUserNotificationType.None {
