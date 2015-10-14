@@ -51,6 +51,10 @@ extension SocketHandler {
                 self.socket.emit("pong", data)
                 self.socket.emit("pong", "Time remaining - \(UIApplication.sharedApplication().backgroundTimeRemaining)")
                 
+                self.socket.emit("get", "/api/uloc?token=d-8-test?lat=90.0&lng=78.90", { } data
+                // error handle
+                )
+                
                 let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
                 let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
                 

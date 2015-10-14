@@ -35,14 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.startUpdatingLocation()
         
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: "generateLowMemory", userInfo: nil, repeats: true)
+//        self.timer = NSTimer.scheduledTimerWithTimeInterval(60, target: self, selector: "generateLowMemory", userInfo: nil, repeats: true)
         
         return true
     }
     
-    func generateLowMemory() {
-        UIApplication.sharedApplication().performSelector("_performMemoryWarning")
-    }
+//    func generateLowMemory() {
+//        UIApplication.sharedApplication().performSelector("_performMemoryWarning")
+//    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -78,9 +78,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("Location is updating")
         
+
+        
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "lat")
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "long")
         NSUserDefaults.standardUserDefaults().synchronize()
+        
+        let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
+        let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
+        
+        print("lat: \(lat), long: \(long)")
     }
     
 //MARK: BACKGROUND EXECUTION
