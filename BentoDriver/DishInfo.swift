@@ -40,3 +40,13 @@ public class DishInfo {
     }
 }
 
+/*
+
+{
+"id" : 30,
+"label" : "B",
+"name" : "Kimchi Fried Rice",
+"type" : "main"
+}
+
+*/

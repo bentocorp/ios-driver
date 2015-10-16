@@ -19,11 +19,41 @@ public class BentoBox {
     }
 }
 
+/*
 
+Bento boxes contains an array of dishes(DishInfo)
 
+"items" : [
+{
+    "id" : 30,
+    "label" : "B",
+    "name" : "Kimchi Fried Rice",
+    "type" : "main"
+},
+{
+    "id" : 41,
+    "label" : "D",
+    "name" : "Jasmine Rice",
+    "type" : "side"
+},
+{
+    "id" : 59,
+    "label" : "Y",
+    "name" : "Kale & Carrot Curry Salad",
+    "type" : "side"
+},
+{
+    "id" : 32,
+    "label" : "D",
+    "name" : "Miso Udon Noodles",
+    "type" : "side"
+},
+{
+    "id" : 61,
+    "label" : "C",
+    "name" : "Miso Marinated Mushrooms",
+    "type" : "side"
+}
+]
 
-
-
-
-
-
+*/
