@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreFoundation
 import AVFoundation
 import Socket_IO_Client_Swift
 import SwiftyJSON
@@ -18,25 +19,23 @@ protocol SocketHandlerDelegate {
 }
 
 public class SocketHandler {
-    // make singleton
-    static let sharedSocket = SocketHandler()
-    
-    let socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil)
-    var delegate: SocketHandlerDelegate?
-//    var audioPlayer: AVAudioPlayer!
-    
+    static let sharedSocket = SocketHandler() // singleton
+    var delegate: SocketHandlerDelegate? // delegate
+    let socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // API to connect to Node
     var json: JSON?
+    var audioPlayer: AVAudioPlayer!
 }
 
 extension SocketHandler {
     
-    public func loginToSocketConnection(username: String, password: String) {
-        // connect to socket
+    public func connectAndAuthenticateWith(username: String, password: String) {
+        
+        // 1) connect to node
         self.socket.on("connect") {data, ack in
             print("socket connected")
             self.delegate?.userConnected(true)
             
-            // authenticate
+            // 2) authenticate
             self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 0) {data in
                 
                 // check data for type String, then cast as String if exists
@@ -62,7 +61,7 @@ extension SocketHandler {
                             let token = ret["token"]
                                 
                             // save token to device
-                            NSUserDefaults.standardUserDefaults().setObject(String(token), forKey: "userToken")
+                            User.currentUser.token = token.stringValue
                             print(token)
                         }
                     
@@ -78,44 +77,6 @@ extension SocketHandler {
                     }
                 }
             }
-            
-//            // get from ping channel
-//            self.socket.on("ping", callback: { (data, ack) -> Void in
-            
-//                // send through pong channel
-//                self.socket.emit("pong", data)
-//                self.socket.emit("pong", "Time remaining - \(UIApplication.sharedApplication().backgroundTimeRemaining)")
-//
-//                let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
-//                let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
-//                
-//                // would be a good idea to check for nil data first
-//                self.socket.emit("pong", "lat: \(lat), long: \(long)")
-//                
-//                self.socket.emitWithAck("get", "/api/uloc?token=d-8-test?lat=90.0&lng=78.90")(timeoutAfter: 0) { data in
-//                    // don't really need to use data returned here, just handle any errors
-//                }
-                
-//                self.invokeLocalNotification()
-//                
-//                let soundPath = NSBundle.mainBundle().pathForResource("new_order.wav", ofType: nil)!
-//                let soundURL = NSURL(fileURLWithPath: soundPath)
-//                
-//                // play audio
-//                do {
-//                    let sound = try AVAudioPlayer(contentsOfURL: soundURL)
-//                    self.audioPlayer = sound
-//                    sound.play()
-//                } catch {
-//                    // couldn't load file, handle error
-//                }
-                
-//                // stop audio
-//                if self.audioPlayer != nil {
-//                    self.audioPlayer.stop()
-//                    self.audioPlayer = nil
-//                }
-//            })
         }
         
         self.socket.connect(timeoutAfter: 1) { () -> Void in
@@ -124,14 +85,135 @@ extension SocketHandler {
         }
     }
     
-//    @objc func invokeLocalNotification() {
-//        let localNotification = UILocalNotification()
-//        localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
-//        localNotification.alertBody = "New Order!"
-//        localNotification.soundName = "new_order.wav"
-//        localNotification.timeZone = NSTimeZone.defaultTimeZone()
-//        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
-//        
-//        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
-//    }
+    @objc func promptLocalNotification() {
+        let localNotification = UILocalNotification()
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
+        localNotification.alertBody = "New Order!"
+        localNotification.soundName = "new_order.wav"
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+    }
 }
+
+
+
+//interface ISocketHandler {
+//    public func onPushNotification(push: Push)->()
+//    public func onLocationUpdate(lat: Long, lng: Long)->()
+//    ...
+//}
+//
+//class SocketConnection {
+//    var WebSocket socket;
+//    
+//    func init() {
+//        // Initalize
+//    }
+//    
+//    func login(username: String, password: String)) {
+//        // connect & authenticate
+//    }
+//    
+//    static func registerEventHandler(handler: ) {
+//        socket.on("push", () -> {
+//            // Deserialize
+//            handler.onPush
+//        })
+//        
+//        socket.on("loc", () -> {
+//            // Deserialize or whatever
+//            handler.onLocationUpdate(lat, lng)
+//        })
+//    }
+//}
+//
+//class MyController implement ISocketHandler {
+//    
+//    //static var socket: SocketConnection = new SocketConnection("marc@bentonow.com", "password");
+//    
+//    public func onPushNotification()-> {
+//        // do stuff with push
+//    }
+//    
+//    public func onLocationUpdate()-> {
+//        // update Map
+//    }
+//    
+//    socket.registerEventHandler(self)
+//    
+//    
+//}
+//
+//
+//class LoginController {
+//    var controller = new MyController();
+//    var conn = new SocketConnection();
+//    
+//    conn.connect("mdoan", "passrod")
+//    conn.registerEventHandler(controller)
+//    self.navigationcontroller.pushviewcontroller(controller)
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// get from ping channel
+//            self.socket.on("ping", callback: { (data, ack) -> Void in
+//            })
+
+// send through pong channel
+//            self.socket.emit("pong", data)
+//            self.socket.emit("pong", "Time remaining - \(UIApplication.sharedApplication().backgroundTimeRemaining)")
+//
+//            let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
+//            let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
+//
+//            // would be a good idea to check for nil data first
+//            self.socket.emit("pong", "lat: \(lat), long: \(long)")
+//
+//            self.socket.emitWithAck("get", "/api/uloc?token=d-8-test?lat=90.0&lng=78.90")(timeoutAfter: 0) { data in
+//                // don't really need to use data returned here, just handle any errors
+//            }
+//
+//            self.invokeLocalNotification()
+//
+//            let soundPath = NSBundle.mainBundle().pathForResource("new_order.wav", ofType: nil)!
+//            let soundURL = NSURL(fileURLWithPath: soundPath)
+//
+//            // play audio
+//            do {
+//                let sound = try AVAudioPlayer(contentsOfURL: soundURL)
+//                self.audioPlayer = sound
+//                sound.play()
+//            } catch {
+//                // couldn't load file, handle error
+//            }
+
+// stop audio
+//                if self.audioPlayer != nil {
+//                    self.audioPlayer.stop()
+//                    self.audioPlayer = nil
+//                }

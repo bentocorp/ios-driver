@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FC9CB3141BBF4409000F4395"
-               BuildableName = "BentoDriver.app"
-               BlueprintName = "BentoDriver"
+               BuildableName = "Bento Driver.app"
+               BlueprintName = "Bento Driver"
                ReferencedContainer = "container:BentoDriver.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -53,8 +53,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC9CB3141BBF4409000F4395"
-            BuildableName = "BentoDriver.app"
-            BlueprintName = "BentoDriver"
+            BuildableName = "Bento Driver.app"
+            BlueprintName = "Bento Driver"
             ReferencedContainer = "container:BentoDriver.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -76,8 +76,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC9CB3141BBF4409000F4395"
-            BuildableName = "BentoDriver.app"
-            BlueprintName = "BentoDriver"
+            BuildableName = "Bento Driver.app"
+            BlueprintName = "Bento Driver"
             ReferencedContainer = "container:BentoDriver.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -99,8 +99,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FC9CB3141BBF4409000F4395"
-            BuildableName = "BentoDriver.app"
-            BlueprintName = "BentoDriver"
+            BuildableName = "Bento Driver.app"
+            BlueprintName = "Bento Driver"
             ReferencedContainer = "container:BentoDriver.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

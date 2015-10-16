@@ -9,32 +9,20 @@
 import Foundation
 
 public class User {
-    // Properties
-    private static var cUser: User?
+    static let currentUser = User() // singleton
     public var username: String?
     public var password: String?
+    public var token: String?
 }
 
-// Methods
 extension User {
-    
-    // Log In
-    public static func login(username: String, password: String) {
+    public func login(username: String, password: String) {
         
         // set username and password
-        self.cUser?.username = username
-        self.cUser?.password = password
+        self.username = username
+        self.password = password
         
-        // if no currentUser, try to connect to socket
-        if cUser == nil {
-            SocketHandler.sharedSocket.loginToSocketConnection(username, password: password)
-        }
-    }
-    
-    // Get current user
-    public static func currentUser() -> User {
-        login((self.cUser?.username)!, password: (self.cUser?.password)!)
-        
-        return self.cUser!
+        // connect to Node
+        SocketHandler.sharedSocket.connectAndAuthenticateWith(username, password: password)
     }
 }

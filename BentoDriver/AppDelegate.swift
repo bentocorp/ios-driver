@@ -20,7 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Override point for customization after application launch.
 
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window?.rootViewController = LoginViewController()
+        
+        let orderListVC = LoginViewController()
+        let navC = UINavigationController(rootViewController: orderListVC)
+        
+        self.window?.rootViewController = navC
         self.window?.makeKeyAndVisible()
         
         // Location Services
@@ -86,9 +90,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         NSUserDefaults.standardUserDefaults().synchronize()
         
         // print coordinates
-        let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
-        let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
-        print("lat: \(lat), long: \(long)")
+//        let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
+//        let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
+//        print("lat: \(lat), long: \(long)")
     }
 }
 

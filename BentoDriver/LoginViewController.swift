@@ -15,11 +15,17 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBarHidden = true
+        
         // background color
         self.view.backgroundColor = UIColor.whiteColor()
         
         // set as SocketHandler's delegate
         SocketHandler.sharedSocket.delegate = self
+        
+        // username textfield
+        
+        // password textfield
         
         // login button
         let loginButton = UIButton(frame: CGRectMake(100, 100, 100, 100))
@@ -31,32 +37,36 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func onLogin() {
-        User.login("marc@bentonow.co", password: "wordpass")
+        User.currentUser.login("marc@bentonow.com", password: "wordpass")
     }
     
 //MARK: SocketHandlerDelegate Method
     func userConnected(connected: Bool) {
         if connected == false {
-            self.promptAlertWith("Could not connect to Node server")
+            self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
     }
     
     func userAuthenticated(authenticated: Bool) {
         if authenticated {
-            self.promptAlertWith("Authenticated User")
+            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
         }
         else {
-            self.promptAlertWith("Could not authenticate user")
+            self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
         }
     }
     
-    func promptAlertWith(messageString: String) {
+    func promptAlertWith(messageString: String, style: UIAlertActionStyle) {
         let alertController = UIAlertController(title: "", message: messageString, preferredStyle: .Alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            // go to Order List
+            if action.style == .Default {
+                self.navigationController?.pushViewController(OrderListViewController(), animated: true)
+            }
+        }))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 }

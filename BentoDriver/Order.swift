@@ -8,8 +8,6 @@
 
 import Foundation
 import CoreLocation
-import Alamofire
-import Alamofire_SwiftyJSON
 import SwiftyJSON
 
 public enum OrderStatus {
@@ -17,7 +15,7 @@ public enum OrderStatus {
     case Rejected
     case Completed
     
-    func statusFromString(statusString: String)-> OrderStatus {
+    static func statusFromString(statusString: String)-> OrderStatus {
         switch statusString {
             case "PENDING":
                 return Pending
@@ -29,81 +27,39 @@ public enum OrderStatus {
     }
 }
 
-public class Order {
-    public var orderId: Int
-    public var customerName: String
-    public var phoneNumber: String
-    // address
+public class Order<T> {
+    public var id: Int
+    public var name: String
+    public var phone: String
+
+    /*-Address (Dictionary)-*/
     public var street: String
     public var residence: String?
     public var city: String
     public var region: String
     public var zipCode: String
-    public var county: String
+    public var country: String
     public var coordinates: CLLocationCoordinate2D
     
-    public var driverId: Int
     public var status: OrderStatus
+    public var item: T
     
-    
-    init(orderId: Int, customerName: String, phoneNumber: String, street: String, city: String, region: String, zipCode: String, country: String, coordinates: CLLocationCoordinate2D, driverId: Int, status: OrderStatus) {
-        self.orderId = orderId
-        self.customerName = customerName
-        self.phoneNumber = phoneNumber
-        self.street = street
-        self.city = city
-        self.region = region
-        self.zipCode = zipCode
-        self.county = country
-        self.coordinates = coordinates
-        self.driverId = driverId
-        self.status = status
-    }
-}
-
-//MARK: API
-extension Order {
-    
-//    func convertJSONStringToDictionary(jsonString: String) -> [String: String]? {
-//        if let data = jsonString.dataUsingEncoding(NSUTF8StringEncoding) {
-//
-//            let json = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? [String: String]
-//            if error != nil {
-//                print(error)
-//            }
-//            return json
-//        }
-//        return nil
-//    }
-    
-    public class func pullOrders() {
-        let userToken = NSUserDefaults.standardUserDefaults().objectForKey("userToken")
+    init(json: JSON) {
+        self.id = json["id"].intValue
+        self.name = json["name"].stringValue
+        self.phone = json["phone"].stringValue
         
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": userToken!])
-            .responseSwiftyJSON({ (request, response, json, error) in
-                
-                let ret = json["ret"]
-                
-//                self.convertJSONStringToDictionary(ret)
-                
-                print("ret: \(ret)")
-//                print(json)
-//                print(error)
-        })
+        // address
+        var address = json["address"]
+        self.street = address["street"].stringValue
+        self.residence = address["residence"].stringValue
+        self.city = address["city"].stringValue
+        self.region = address["region"].stringValue
+        self.zipCode = address["zipCode"].stringValue
+        self.country = address["country"].stringValue
+        self.coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
+
+        self.status = OrderStatus.statusFromString(json["status"].stringValue)
+        self.item = json["item"].arrayValue
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
