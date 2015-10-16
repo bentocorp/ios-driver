@@ -7,26 +7,23 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-public enum Temperature {
-    case Hot, Cold
+public class BentoBox {
+    public var items: [DishInfo] = []
     
-    func temperatureFromString(temperatureString: String)-> Temperature {
-        switch temperatureString {
-        case "hot":
-            return Hot
-        default:
-            return Cold
+    init(json: JSON) {
+        for dishJSON in json["items"].arrayValue {
+            items.append(DishInfo(json: dishJSON))
         }
     }
 }
 
-public enum Type {
-    case Main, Side, Add_On
-    
-    
-}
 
-public class BentoBox {
-    
-}
+
+
+
+
+
+
+

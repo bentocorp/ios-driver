@@ -13,7 +13,6 @@
 		FC1594301BC89C0500F532BD /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594331BC89C2600F532BD /* SocketHandler.swift */; settings = {ASSET_TAGS = (); }; };
 		FC1594361BC89C3C00F532BD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594351BC89C3C00F532BD /* User.swift */; settings = {ASSET_TAGS = (); }; };
-		FC1594381BC89C5000F532BD /* OrderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594371BC89C5000F532BD /* OrderItem.swift */; settings = {ASSET_TAGS = (); }; };
 		FC1594401BCC5FB600F532BD /* BentoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15943F1BCC5FB600F532BD /* BentoBox.swift */; settings = {ASSET_TAGS = (); }; };
 		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
 		FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
@@ -23,7 +22,7 @@
 		FCED93811BCEDF59008C17C8 /* new_order.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCED93801BCEDF59008C17C8 /* new_order.wav */; settings = {ASSET_TAGS = (); }; };
 		FCED93841BCEDF69008C17C8 /* New York City Marathon.gpx in Resources */ = {isa = PBXBuildFile; fileRef = FCED93821BCEDF69008C17C8 /* New York City Marathon.gpx */; settings = {ASSET_TAGS = (); }; };
 		FCED93851BCEDF69008C17C8 /* test_route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = FCED93831BCEDF69008C17C8 /* test_route.gpx */; settings = {ASSET_TAGS = (); }; };
-		FCED938C1BD086E9008C17C8 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED938B1BD086E9008C17C8 /* Push.swift */; settings = {ASSET_TAGS = (); }; };
+		FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93911BD174D5008C17C8 /* DishInfo.swift */; settings = {ASSET_TAGS = (); }; };
 		FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFC938F1BC73EDF00DB52AC /* Order.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -53,7 +52,6 @@
 		FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
 		FC1594331BC89C2600F532BD /* SocketHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketHandler.swift; sourceTree = "<group>"; };
 		FC1594351BC89C3C00F532BD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		FC1594371BC89C5000F532BD /* OrderItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderItem.swift; sourceTree = "<group>"; };
 		FC15943F1BCC5FB600F532BD /* BentoBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BentoBox.swift; sourceTree = "<group>"; };
 		FC1594471BCC6BD500F532BD /* BentoDriver-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BentoDriver-Bridging-Header.h"; sourceTree = "<group>"; };
 		FC9CB3151BBF4409000F4395 /* Bento Driver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bento Driver.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +68,7 @@
 		FCED93801BCEDF59008C17C8 /* new_order.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = new_order.wav; sourceTree = "<group>"; };
 		FCED93821BCEDF69008C17C8 /* New York City Marathon.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "New York City Marathon.gpx"; sourceTree = "<group>"; };
 		FCED93831BCEDF69008C17C8 /* test_route.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test_route.gpx; sourceTree = "<group>"; };
-		FCED938B1BD086E9008C17C8 /* Push.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
+		FCED93911BD174D5008C17C8 /* DishInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DishInfo.swift; sourceTree = "<group>"; };
 		FCFC938F1BC73EDF00DB52AC /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -201,9 +199,8 @@
 				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
 				FC1594351BC89C3C00F532BD /* User.swift */,
 				FCFC938F1BC73EDF00DB52AC /* Order.swift */,
-				FC1594371BC89C5000F532BD /* OrderItem.swift */,
 				FC15943F1BCC5FB600F532BD /* BentoBox.swift */,
-				FCED938B1BD086E9008C17C8 /* Push.swift */,
+				FCED93911BD174D5008C17C8 /* DishInfo.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -443,11 +440,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC1594301BC89C0500F532BD /* OrderDetailViewController.swift in Sources */,
-				FCED938C1BD086E9008C17C8 /* Push.swift in Sources */,
 				FC1594401BCC5FB600F532BD /* BentoBox.swift in Sources */,
 				FC15942E1BC89BF100F532BD /* OrderListViewController.swift in Sources */,
 				FC1594281BC89BBA00F532BD /* LoginViewController.swift in Sources */,
-				FC1594381BC89C5000F532BD /* OrderItem.swift in Sources */,
+				FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */,
 				FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */,
 				FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */,
 				FC1594361BC89C3C00F532BD /* User.swift in Sources */,

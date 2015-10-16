@@ -27,7 +27,7 @@ public enum OrderStatus {
     }
 }
 
-public class Order<T> {
+public class Order {
     public var id: Int
     public var name: String
     public var phone: String
@@ -42,7 +42,8 @@ public class Order<T> {
     public var coordinates: CLLocationCoordinate2D
     
     public var status: OrderStatus
-    public var item: T
+    public var itemClass: String
+    public var item: AnyObject
     
     init(json: JSON) {
         self.id = json["id"].intValue
@@ -60,6 +61,17 @@ public class Order<T> {
         self.coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
 
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
-        self.item = json["item"].arrayValue
+        
+        self.itemClass = json["@class"].stringValue
+        if self.itemClass == "org.bentocorp.Bento" {
+            var itemArray: [BentoBox] = []
+            for items in json["item"].arrayValue {
+                itemArray.append(BentoBox(json: items))
+            }
+            self.item = itemArray
+        }
+        else if self.itemClass == "java.lang.String" {
+            self.item = json["item"].stringValue
+        }
     }
 }

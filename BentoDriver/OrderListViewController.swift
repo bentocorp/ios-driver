@@ -19,9 +19,7 @@ class OrderListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ///////////////////////
-        
-        // navigation bar
+        // Navigation Controller
         self.navigationController?.navigationBarHidden = false
         
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
@@ -30,13 +28,13 @@ class OrderListViewController: UIViewController {
         let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.rightBarButtonItem = logOutButton
         
-        // background
+        // Background Color
         self.view.backgroundColor = UIColor.whiteColor()
         
-        // title
+        // Title
         self.title = "Order List"
         
-        // user info
+        // User Info
         let connectedAsLabel = UILabel(frame: CGRectMake(20, 80, 110, 30))
         connectedAsLabel.text = "Logged in as:"
         self.view.addSubview(connectedAsLabel)
@@ -45,8 +43,7 @@ class OrderListViewController: UIViewController {
         usernameLabel.text = User.currentUser.token
         self.view.addSubview(usernameLabel)
         
-        ///////////////////////
-
+        // Get orders
         self.pullOrders()
     }
 
