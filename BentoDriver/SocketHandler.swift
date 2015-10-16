@@ -7,15 +7,16 @@
 //
 
 import Foundation
-import CoreFoundation
+import CoreLocation
 import AVFoundation
 import Socket_IO_Client_Swift
 import SwiftyJSON
 
-
 protocol SocketHandlerDelegate {
-    func userConnected(connected: Bool)
-    func userAuthenticated(authenticated: Bool)
+    func socketHandlerDidConnect(connected: Bool)
+    func socketHandlerDidDisconnect()
+    func socketHandlerDidAuthenticate(authenticated: Bool)
+    func socketHandlerDidRecievePushNotification(push: Push)
 }
 
 public class SocketHandler {
@@ -33,7 +34,7 @@ extension SocketHandler {
         // 1) connect to node
         self.socket.on("connect") {data, ack in
             print("socket connected")
-            self.delegate?.userConnected(true)
+            self.delegate?.socketHandlerDidConnect(true)
             
             // 2) authenticate
             self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 0) {data in
@@ -44,14 +45,9 @@ extension SocketHandler {
                     if let dataFromString = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                         self.json = JSON(data: dataFromString)
                         
-                        /* 
-                        
-                        example:
-                        
+                        /*
                         ‘{“code”:1,”msg”:”Bad authentication credentials”,”ret”:null}’
-                        
                         ‘{“code”:0,”msg”:”OK”,”ret”:{“uid”:”d-8”,”token”:”123ABC”}}’
-
                         */
                         
                         let ret: JSON
@@ -66,14 +62,33 @@ extension SocketHandler {
                         }
                     
                         let code = self.json?["code"]
-                        // authenticated
                         if code == 0 {
-                            self.delegate?.userAuthenticated(true)
+                            self.delegate?.socketHandlerDidAuthenticate(true)
                         }
-                        // not authenticated
                         else {
-                            self.delegate?.userAuthenticated(false)
+                            self.delegate?.socketHandlerDidAuthenticate(false)
                         }
+                        
+                        // 3) Emit location to loc channel
+                        let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
+                        let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
+                        self.socket.emit("loc", ["lat": lat, "lng": long])
+
+                        // 4) Listen for push notifications
+                        self.socket.on("push", callback: { (data, ack) -> Void in
+                            // check data for type String, then cast as String if exists
+                            if let jsonStr = data[0] as? String {
+                                // get data from jsonString
+                                if let dataFromStr = jsonStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                                    let json2 = JSON(data: dataFromStr)
+
+                                    let push = Push(json: json2)
+                                    self.delegate?.socketHandlerDidRecievePushNotification(push)
+                                    
+                                    print(push.bodyArray)
+                                }
+                            }
+                        })
                     }
                 }
             }
@@ -81,7 +96,7 @@ extension SocketHandler {
         
         self.socket.connect(timeoutAfter: 1) { () -> Void in
             // connection failed
-            self.delegate?.userConnected(false)
+            self.delegate?.socketHandlerDidConnect(false)
         }
     }
     
@@ -98,7 +113,7 @@ extension SocketHandler {
 }
 
 
-
+//
 //interface ISocketHandler {
 //    public func onPushNotification(push: Push)->()
 //    public func onLocationUpdate(lat: Long, lng: Long)->()

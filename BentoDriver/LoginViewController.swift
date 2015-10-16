@@ -44,19 +44,27 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
 //MARK: SocketHandlerDelegate Method
-    func userConnected(connected: Bool) {
+    func socketHandlerDidConnect(connected: Bool) {
         if connected == false {
             self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
     }
     
-    func userAuthenticated(authenticated: Bool) {
+    func socketHandlerDidDisconnect() {
+        // handler disconnect
+    }
+    
+    func socketHandlerDidAuthenticate(authenticated: Bool) {
         if authenticated {
             self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
         }
         else {
             self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
         }
+    }
+    
+    func socketHandlerDidRecievePushNotification(push: Push) {
+        // don't need
     }
     
     func promptAlertWith(messageString: String, style: UIAlertActionStyle) {

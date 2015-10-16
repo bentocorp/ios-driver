@@ -63,8 +63,8 @@ public class Order {
         self.coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
 
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
-        self.itemClass = json["@class"].stringValue
         
+        self.itemClass = json["@class"].stringValue
         if self.itemClass == "org.bentocorp.Bento" {
             for items in json["item"].arrayValue {
                 self.itemArray!.append(BentoBox(json: items))
