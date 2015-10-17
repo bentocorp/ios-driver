@@ -17,10 +17,10 @@ public class Push {
     
     public var itemClass: String
     // public body: T
-    public var bodyArray: [BentoBox]?
+    public var bodyOrder: Order?
     public var bodyString: String?
     
-    public var timeStamp: String
+    public var createdAt: String
     
     init(json: JSON) {
         self.rid = json["rid"].stringValue // don't need to use for now
@@ -32,14 +32,12 @@ public class Push {
         self.itemClass = json["@class"].stringValue
         
         if self.itemClass == "org.bentocorp.Bento" {
-            for items in json["item"].arrayValue {
-                self.bodyArray!.append(BentoBox(json: items))
-            }
+            self.bodyOrder = Order(json: json["item"])
         }
         else if self.itemClass == "java.lang.String" {
             self.bodyString = json["item"].stringValue
         }
         
-        self.timeStamp = json["timeStamp"].stringValue
+        self.createdAt = json["timeStamp"].stringValue
     }
 }

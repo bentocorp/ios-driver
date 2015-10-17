@@ -56,6 +56,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     
     func socketHandlerDidAuthenticate(authenticated: Bool) {
         if authenticated {
+            // TODO: check if connected already. if yes, don't prompt alert...
             self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
         }
         else {
@@ -64,14 +65,14 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
     func socketHandlerDidRecievePushNotification(push: Push) {
-        // don't need
+        // handle push
     }
     
     func promptAlertWith(messageString: String, style: UIAlertActionStyle) {
         let alertController = UIAlertController(title: "", message: messageString, preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
             // go to Order List
-            if action.style == .Default {
+            if style == .Default {
                 self.navigationController?.pushViewController(OrderListViewController(), animated: true)
             }
         }))

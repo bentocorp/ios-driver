@@ -12,7 +12,7 @@ import Alamofire
 import Alamofire_SwiftyJSON
 import SwiftyJSON
 
-class OrderListViewController: UIViewController {
+class OrderListViewController: UIViewController, SocketHandlerDelegate {
 
     var ordersArray: Array<Order> = []
     
@@ -42,6 +42,9 @@ class OrderListViewController: UIViewController {
         let usernameLabel = UILabel(frame: CGRectMake((connectedAsLabel.frame.width + 25), 80, 200, 30))
         usernameLabel.text = User.currentUser.token
         self.view.addSubview(usernameLabel)
+        
+        let socket = SocketHandler.sharedSocket
+        socket.delegate = self;
         
         // Get orders
         self.pullOrders()
@@ -87,4 +90,26 @@ class OrderListViewController: UIViewController {
                 print("hello marc - \(self.ordersArray)")
             })
     }
+    
+    func socketHandlerDidConnect(connected: Bool) {
+        // handler connect
+    }
+    
+    func socketHandlerDidDisconnect() {
+        // handle disconnect
+    }
+    
+    func socketHandlerDidAuthenticate(authenticated: Bool) {
+        // handle authenticate
+    }
+    
+    func socketHandlerDidRecievePushNotification(push: Push) {
+        // handle push
+        ordersArray.append(push.bodyOrder!) // if Order is bentosArray
+    }
 }
+
+
+
+
+
