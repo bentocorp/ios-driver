@@ -95,6 +95,11 @@ extension SocketHandler {
                             User.currentUser.token = token
                             print("socket authenticated with token: \(token!)")
                             
+                            // save user
+                            NSUserDefaults.standardUserDefaults().setObject(User.currentUser.username, forKey: "username")
+                            NSUserDefaults.standardUserDefaults().setObject(User.currentUser.password, forKey: "password")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            
                             // 3) emit to "loc" channel every 5 seconds
                             self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                             
@@ -180,6 +185,11 @@ extension SocketHandler {
         
         // set delegate method
         self.delegate?.socketHandlerDidDisconnect()
+        
+        //
+        NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
+        NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
+        NSUserDefaults.standardUserDefaults().synchronize()
         
         print("socket closed")
     }

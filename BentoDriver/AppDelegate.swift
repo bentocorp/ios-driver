@@ -70,7 +70,11 @@ extension AppDelegate {
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.distanceFilter = kCLDistanceFilterNone
         self.locationManager.pausesLocationUpdatesAutomatically = false
-        self.locationManager.allowsBackgroundLocationUpdates = true
+        if #available(iOS 9.0, *) {
+            self.locationManager.allowsBackgroundLocationUpdates = true
+        } else {
+            // Fallback on earlier versions
+        }
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.startUpdatingLocation() // TODO: set a 5 second timer for this
     }

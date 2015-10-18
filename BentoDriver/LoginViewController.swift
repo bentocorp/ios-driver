@@ -26,6 +26,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField!.layer.cornerRadius = 3
         self.usernameTextField!.placeholder = "username"
         self.usernameTextField!.backgroundColor = UIColor.whiteColor()
+        self.usernameTextField!.keyboardType = UIKeyboardType.EmailAddress
+        self.usernameTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
+        self.usernameTextField!.delegate = self
         self.view.addSubview(self.usernameTextField!)
         
         // username placeholder padding
@@ -39,6 +42,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.passwordTextField!.placeholder = "password"
         self.passwordTextField!.backgroundColor = UIColor.whiteColor()
         self.passwordTextField!.secureTextEntry = true
+        self.passwordTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
+        self.passwordTextField!.delegate = self
         self.view.addSubview(self.passwordTextField!)
     
         // password placeholder padding
@@ -60,6 +65,16 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         SocketHandler.sharedSocket.delegate = self
         
         self.navigationController?.navigationBarHidden = true
+        
+        //
+        if NSUserDefaults.standardUserDefaults().objectForKey("username") == nil {
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        
+        self.usernameTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
+        self.passwordTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,5 +126,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField?.resignFirstResponder()
         self.passwordTextField?.resignFirstResponder()
         return true;
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
     }
 }
