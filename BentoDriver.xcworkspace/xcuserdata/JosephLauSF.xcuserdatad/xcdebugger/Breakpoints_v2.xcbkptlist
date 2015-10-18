@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BentoDriver/SocketHandler.swift"
-            timestampString = "466816562.806025"
+            timestampString = "466831119.940541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "promptLocalNotification()"
             landmarkType = "5">
          </BreakpointContent>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BentoDriver/LoginViewController.swift"
-            timestampString = "466825321.089182"
+            filePath = "BentoDriver/SocketHandler.swift"
+            timestampString = "466831214.41186"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "onLogin()"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "authenticateUser(_:password:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

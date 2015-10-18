@@ -10,7 +10,7 @@ pod 'PureLayout'
 pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'Alamofire-SwiftyJSON', :podspec => 'https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec'
-pod 'SVProgressHUD'
+pod 'JGProgressHUD'
 pod 'Socket.IO-Client-Swift'
 
 end

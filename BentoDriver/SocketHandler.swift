@@ -49,6 +49,11 @@ extension SocketHandler {
         
         // connect to Node & handle error if any
         self.socket.connect(timeoutAfter: 1) { () -> Void in
+            
+            // remove previous handler to avoid multiple auto attempts to connect
+            self.socket.removeAllHandlers()
+            
+            // call delegate method
             self.delegate?.socketHandlerDidConnect(false)
         }
     }
@@ -57,7 +62,7 @@ extension SocketHandler {
     func authenticateUser(username: String, password: String) {
         
         // authenticate and get token
-        self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 0) {data in
+        self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) {data in
             
             // check data for type String, then cast as String if exists
             if let jsonString = data[0] as? String {
@@ -98,6 +103,9 @@ extension SocketHandler {
                         }
                     }
                     else {
+                        // remove previous handler to avoid multiple auto attempts to connect
+                        self.socket.removeAllHandlers()
+                        
                         // authentication failed
                         self.delegate?.socketHandlerDidAuthenticate(false)
                     }
