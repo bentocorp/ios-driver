@@ -15,17 +15,18 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBarHidden = true
-        
         // background color
         self.view.backgroundColor = UIColor.whiteColor()
         
-        // set as SocketHandler's delegate
-        SocketHandler.sharedSocket.delegate = self
-        
         // username textfield
+        let usernameTextField = UITextField(frame: CGRectMake(20, 100, self.view.frame.width - 40, 40))
+        usernameTextField.layer.cornerRadius = 3
+        usernameTextField.placeholder = "username"
+        usernameTextField.backgroundColor = UIColor.
+        self.view.addSubview(usernameTextField)
         
         // password textfield
+        let
         
         // login button
         let loginButton = UIButton(frame: CGRectMake(100, 100, 100, 100))
@@ -33,6 +34,13 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         loginButton.setTitle("Login", forState: .Normal)
         loginButton.addTarget(self, action: "onLogin", forControlEvents: .TouchUpInside)
         self.view.addSubview(loginButton)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        // set as SocketHandler's delegate -> putting in viewwillappear because delegate methods won't get called again if i log out and try to login again
+        SocketHandler.sharedSocket.delegate = self
+        
+        self.navigationController?.navigationBarHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,7 +81,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
             // go to Order List
             if style == .Default {
-                self.navigationController?.pushViewController(OrderListViewController(), animated: true)
+                let navC = UINavigationController.init(rootViewController: OrderListViewController())
+                self.navigationController?.presentViewController(navC, animated: true, completion: nil)
             }
         }))
         self.presentViewController(alertController, animated: true, completion: nil)

@@ -25,4 +25,19 @@ extension User {
         // connect to Node
         SocketHandler.sharedSocket.connectAndAuthenticateWith(username, password: password)
     }
+    
+    public func logout() {
+        self.username = nil
+        self.password = nil
+        self.token = nil
+    }
+    
+    public func isLoggedin() -> Bool {
+        if self.token != nil {
+            return true
+        }
+        else {
+            return false
+        }
+    }
 }

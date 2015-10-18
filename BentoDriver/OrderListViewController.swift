@@ -20,14 +20,12 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
         super.viewDidLoad()
         
         // Navigation Controller
-        self.navigationController?.navigationBarHidden = false
-        
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         
-        let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
+        let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: self, action: "onLogout")
         navigationItem.rightBarButtonItem = logOutButton
-        
+
         // Background Color
         self.view.backgroundColor = UIColor.whiteColor()
         
@@ -52,10 +50,6 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    func orderModelDidGetOrders(ordersArray: Array<Order>) {
-        self.ordersArray = ordersArray
     }
     
     func pullOrders() {
@@ -87,16 +81,17 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
                     self.ordersArray.append(order)
                 }
                 
-                print("hello marc - \(self.ordersArray)")
+                print("getAllAssigned - \(self.ordersArray)")
             })
     }
     
     func socketHandlerDidConnect(connected: Bool) {
-        // handler connect
+        // handle connect
     }
     
     func socketHandlerDidDisconnect() {
         // handle disconnect
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func socketHandlerDidAuthenticate(authenticated: Bool) {
@@ -105,7 +100,26 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
     
     func socketHandlerDidRecievePushNotification(push: Push) {
         // handle push
-        ordersArray.append(push.bodyOrder!) // if Order is bentosArray
+        ordersArray.append(push.body!) // if Order is bentosArray
+    }
+    
+    func onLogout() {
+        self.confirmLogout()
+    }
+    
+    func confirmLogout() {
+        let alertController = UIAlertController(title: "", message: "Are you sure you want to log out?", preferredStyle: .Alert)
+        
+        // ok
+        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            // close socket
+            SocketHandler.sharedSocket.closeSocket()
+        }))
+        
+        // cancel
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }
 

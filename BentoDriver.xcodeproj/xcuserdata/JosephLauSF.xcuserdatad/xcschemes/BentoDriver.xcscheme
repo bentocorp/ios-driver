@@ -84,7 +84,7 @@
       <AdditionalOptions>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../New York City Marathon.gpx"
+         identifier = "../BentoDriver/gpxgmap_converted.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>

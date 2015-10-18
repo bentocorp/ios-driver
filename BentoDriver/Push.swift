@@ -14,28 +14,21 @@ public class Push {
     public var from: String // don't need to use for now
     public var to: String
     public var subject: String
-    
-    public var itemClass: String
-    // public body: T
-    public var bodyOrder: Order?
-    public var bodyString: String?
-    
+    public var body: Order? // this might be a generic
     public var createdAt: String
     
     init(json: JSON) {
+        
         self.rid = json["rid"].stringValue // don't need to use for now
         self.from = json["from"].stringValue // don't need to use for now
         self.to = json["to"].stringValue
         self.subject = json["subject"].stringValue
-//        self.body = json["body"]
         
-        self.itemClass = json["@class"].stringValue
-        
-        if self.itemClass == "org.bentocorp.Bento" {
-            self.bodyOrder = Order(json: json["item"])
+        if self.subject == "order_action" {
+            self.body = Order(json: json["item"])
         }
-        else if self.itemClass == "java.lang.String" {
-            self.bodyString = json["item"].stringValue
+        else {
+            // if not order action
         }
         
         self.createdAt = json["timeStamp"].stringValue

@@ -20,22 +20,22 @@ protocol SocketHandlerDelegate {
     func socketHandlerDidRecievePushNotification(push: Push)
 }
 
-
-
 //MARK: Properties
 public class SocketHandler: NSObject {
     static let sharedSocket = SocketHandler() // singleton
     var delegate: SocketHandlerDelegate? // delegate
-    let socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // Node API
-    var audioPlayer: AVAudioPlayer!
+    public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // Node API
+    public var audioPlayer: AVAudioPlayer!
+    public var emitLocationTimer: NSTimer?
 }
-
 
 //MARK: Methods
 extension SocketHandler {
     
 //MARK: Connect
     public func connectAndAuthenticateWith(username: String, password: String) {
+        print("connectAndAuthenticate called")
+        
         // 1) connect
         self.socket.on("connect") {data, ack in
             print("socket connected")
@@ -52,8 +52,6 @@ extension SocketHandler {
             self.delegate?.socketHandlerDidConnect(false)
         }
     }
-    
-    
     
 //MARK: Authenticate
     func authenticateUser(username: String, password: String) {
@@ -90,10 +88,10 @@ extension SocketHandler {
                             
                             // retrieve token and set to currentUser
                             User.currentUser.token = token
-                            print(token)
+                            print("socket authenticated with token: \(token!)")
                             
                             // 3) emit to "loc" channel every 5 seconds
-                            NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
+                            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                             
                             // 4) listn to "push" channel
                             self.listenToPushChannel()
@@ -107,8 +105,6 @@ extension SocketHandler {
             }
         }
     }
-    
-    
 
 //MARK: Emit & Listen
     func emitToLocChannel() {
@@ -118,7 +114,7 @@ extension SocketHandler {
         self.socket.emitWithAck("get", "/api/uloc?token=\(User.currentUser.token!)&lat=\(lat)&lng=\(long)")(timeoutAfter: 0) { data in
             // handle error if any
         }
-        
+
         print("\(User.currentUser.token!) and \(lat) and \(long)")
     }
     
@@ -129,12 +125,12 @@ extension SocketHandler {
                 // get data from jsonStr
                 if let dataFromStr = jsonStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                     let json = JSON(data: dataFromStr)
-                    
+
                     let push = Push(json: json)
                     self.delegate?.socketHandlerDidRecievePushNotification(push)
                     
-                    print(push.bodyOrder)
-                    
+                    print(push)
+            
                     // Local Notification & Sound
                     self.promptLocalNotification()
                     
@@ -158,10 +154,27 @@ extension SocketHandler {
                 }
             }
         })
-        
     }
     
-    
+//MARK: Disconnect
+    func closeSocket() {
+        // disconnect socket
+        self.socket.close()
+        
+        // remove previous handler to avoid multiple auto attempts to connect
+        self.socket.removeAllHandlers()
+        
+        // stop timer to stop emiting location
+        self.emitLocationTimer?.invalidate()
+        
+        // logout user
+        User.currentUser.logout()
+        
+        // set delegate method
+        self.delegate?.socketHandlerDidDisconnect()
+        
+        print("socket closed")
+    }
 
 //MARK: Local Notification
     func promptLocalNotification() {

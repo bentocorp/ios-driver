@@ -49,6 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        // reset notification badge
+        application.applicationIconBadgeNumber = 0
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -58,8 +61,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
         application.applicationIconBadgeNumber = 0
     }
-    
-//MARK: LOCATION SERVICES
+}
+
+extension AppDelegate {
+    //MARK: LOCATION SERVICES
     func initiateLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -67,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.locationManager.pausesLocationUpdatesAutomatically = false
         self.locationManager.allowsBackgroundLocationUpdates = true
         self.locationManager.requestAlwaysAuthorization()
-        self.locationManager.startUpdatingLocation()
+        self.locationManager.startUpdatingLocation() // TODO: set a 5 second timer for this
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -86,13 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // save coordinates to device
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "lat")
-        NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "long")
+        NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.longitude, forKey: "long")
         NSUserDefaults.standardUserDefaults().synchronize()
-        
-        // print coordinates
-//        let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
-//        let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
-//        print("lat: \(lat), long: \(long)")
     }
 }
 
