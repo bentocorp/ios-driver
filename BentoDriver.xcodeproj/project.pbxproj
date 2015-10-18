@@ -20,6 +20,8 @@
 		FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */; };
 		FC9CB32E1BBF4409000F4395 /* BentoDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */; };
 		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
+		FCE4268B1BD3C1C800DF3D19 /* JGProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCE4268A1BD3C1B000DF3D19 /* JGProgressHUD.framework */; };
+		FCE4268C1BD3C1C800DF3D19 /* JGProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCE4268A1BD3C1B000DF3D19 /* JGProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FCED93811BCEDF59008C17C8 /* new_order.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCED93801BCEDF59008C17C8 /* new_order.wav */; settings = {ASSET_TAGS = (); }; };
 		FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93911BD174D5008C17C8 /* DishInfo.swift */; settings = {ASSET_TAGS = (); }; };
 		FCED93941BD19046008C17C8 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93931BD19046008C17C8 /* Push.swift */; settings = {ASSET_TAGS = (); }; };
@@ -41,7 +43,49 @@
 			remoteGlobalIDString = FC9CB3141BBF4409000F4395;
 			remoteInfo = BentoDriver;
 		};
+		FCE426851BD3C1B000DF3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6BC01873197B2AA500DA4C49;
+			remoteInfo = JGProgressHUD;
+		};
+		FCE426871BD3C1B000DF3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6B60B24019A3B3C500ED1A4E;
+			remoteInfo = "JGProgressHUD Resources";
+		};
+		FCE426891BD3C1B000DF3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6BF7DC5A1AEFCFD9000A0AE0;
+			remoteInfo = "JGProgressHUD Framework";
+		};
+		FCE4268D1BD3C1C800DF3D19 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6BF7DC591AEFCFD9000A0AE0;
+			remoteInfo = "JGProgressHUD Framework";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FCE4268F1BD3C1C800DF3D19 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FCE4268C1BD3C1C800DF3D19 /* JGProgressHUD.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2FCBD0069580A030FAC2FA9E /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,6 +112,7 @@
 		FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BentoDriverUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BentoDriverUITests.swift; sourceTree = "<group>"; };
 		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JGProgressHUD.xcodeproj; path = "../../Downloads/JGProgressHUD-master 2/JGProgressHUD.xcodeproj"; sourceTree = "<group>"; };
 		FCED93801BCEDF59008C17C8 /* new_order.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = new_order.wav; sourceTree = "<group>"; };
 		FCED93911BD174D5008C17C8 /* DishInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DishInfo.swift; sourceTree = "<group>"; };
 		FCED93931BD19046008C17C8 /* Push.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
@@ -81,6 +126,7 @@
 			files = (
 				D0127E7377702A1924037C9D /* Pods_BentoDriver.framework in Frameworks */,
 				50C2976A2CD66A7A00665C87 /* Pods.framework in Frameworks */,
+				FCE4268B1BD3C1C800DF3D19 /* JGProgressHUD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +150,7 @@
 		5BBB3966997C9820FCBD0B7D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */,
 				5AB591346C85EBAAAA8EC6D0 /* Pods_BentoDriver.framework */,
 				2FCBD0069580A030FAC2FA9E /* Pods.framework */,
 			);
@@ -195,6 +242,16 @@
 			path = BentoDriverUITests;
 			sourceTree = "<group>";
 		};
+		FCE426801BD3C1B000DF3D19 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FCE426861BD3C1B000DF3D19 /* libJGProgressHUD.a */,
+				FCE426881BD3C1B000DF3D19 /* JGProgressHUD Resources.bundle */,
+				FCE4268A1BD3C1B000DF3D19 /* JGProgressHUD.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FCED93861BCEDF88008C17C8 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,10 +341,12 @@
 				FC9CB3131BBF4409000F4395 /* Resources */,
 				4042D430177CFCCB28CECE73 /* Embed Pods Frameworks */,
 				79583C11A1E86808A53DFC43 /* Copy Pods Resources */,
+				FCE4268F1BD3C1C800DF3D19 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FCE4268E1BD3C1C800DF3D19 /* PBXTargetDependency */,
 			);
 			name = BentoDriver;
 			productName = BentoDriver;
@@ -369,6 +428,12 @@
 			mainGroup = FC9CB30C1BBF4409000F4395;
 			productRefGroup = FC9CB3161BBF4409000F4395 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FCE426801BD3C1B000DF3D19 /* Products */;
+					ProjectRef = FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FC9CB3141BBF4409000F4395 /* BentoDriver */,
@@ -377,6 +442,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FCE426861BD3C1B000DF3D19 /* libJGProgressHUD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libJGProgressHUD.a;
+			remoteRef = FCE426851BD3C1B000DF3D19 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FCE426881BD3C1B000DF3D19 /* JGProgressHUD Resources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "JGProgressHUD Resources.bundle";
+			remoteRef = FCE426871BD3C1B000DF3D19 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FCE4268A1BD3C1B000DF3D19 /* JGProgressHUD.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = JGProgressHUD.framework;
+			remoteRef = FCE426891BD3C1B000DF3D19 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FC9CB3131BBF4409000F4395 /* Resources */ = {
@@ -500,6 +589,11 @@
 			target = FC9CB3141BBF4409000F4395 /* BentoDriver */;
 			targetProxy = FC9CB3351BBF4409000F4395 /* PBXContainerItemProxy */;
 		};
+		FCE4268E1BD3C1C800DF3D19 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "JGProgressHUD Framework";
+			targetProxy = FCE4268D1BD3C1C800DF3D19 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -608,6 +702,22 @@
 				INFOPLIST_FILE = BentoDriver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Alamofire_SwiftyJSON\"",
+					"-framework",
+					"\"PureLayout\"",
+					"-framework",
+					"\"Socket_IO_Client_Swift\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"pop\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
@@ -628,6 +738,22 @@
 				INFOPLIST_FILE = BentoDriver/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Alamofire_SwiftyJSON\"",
+					"-framework",
+					"\"PureLayout\"",
+					"-framework",
+					"\"Socket_IO_Client_Swift\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"pop\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";

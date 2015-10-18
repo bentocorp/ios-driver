@@ -8,41 +8,50 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-		</dict>
-		<key>JGProgressHUD.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 		<key>PureLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>5</integer>
 		</dict>
 		<key>Socket.IO-Client-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>6</integer>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>7</integer>
 		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>4</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -52,37 +61,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3909559F179C2DFB60E96CA7083DD08F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>432ECC54282C84882B482CCB4CF227FC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>55CAF8E1E1DA91878EB84A7B61F0BC17</key>
+		<key>97E8378D7CACC3C90B630447E5A4DE35</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5AAB5661D52F70417ECB653B4421FD8E</key>
+		<key>A3F383DD019A2948013468C19FDB81FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>617B0FC57CCB604D47A24E6198763D04</key>
+		<key>A5D88DF7AA0DC7EDACC63AC01F32C32B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B59CD2EE90C0E0034558792E9686D278</key>
+		<key>A6CB3D68D80845D72655D4500B450451</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E85870E8F8C7AD4C43DB0174AA981FAD</key>
+		<key>B639FF6323C69125EA8FA9A0E4D88E09</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -27,10 +27,14 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
         navigationItem.rightBarButtonItem = logOutButton
 
         // Background Color
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.darkGrayColor()
         
         // Title
         self.title = "Order List"
+//        self.navigationBar.barStyle = UIBarStyle.Black
+//        self.navigationBar.tintColor = UIColor.whiteColor()
+        
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         // User Info
         let connectedAsLabel = UILabel(frame: CGRectMake(20, 80, 110, 30))

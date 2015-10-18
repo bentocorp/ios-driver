@@ -86,7 +86,6 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Alamofire_SwiftyJSON.framework"
-  install_framework "Pods/JGProgressHUD.framework"
   install_framework "Pods/PureLayout.framework"
   install_framework "Pods/Socket_IO_Client_Swift.framework"
   install_framework "Pods/SwiftyJSON.framework"
@@ -95,7 +94,6 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Alamofire_SwiftyJSON.framework"
-  install_framework "Pods/JGProgressHUD.framework"
   install_framework "Pods/PureLayout.framework"
   install_framework "Pods/Socket_IO_Client_Swift.framework"
   install_framework "Pods/SwiftyJSON.framework"

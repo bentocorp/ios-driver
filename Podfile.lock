@@ -1,7 +1,6 @@
 PODS:
   - Alamofire (3.0.0)
   - Alamofire-SwiftyJSON (2.0.0-beta.1)
-  - JGProgressHUD (1.3.1)
   - pop (1.0.8)
   - PureLayout (3.0.1)
   - Socket.IO-Client-Swift (3.1.6)
@@ -10,7 +9,6 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Alamofire-SwiftyJSON (from `https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec`)
-  - JGProgressHUD
   - pop
   - PureLayout
   - Socket.IO-Client-Swift
@@ -28,7 +26,6 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: b61782387f81bcc538a0284cf2bb5d7995cd0a80
   Alamofire-SwiftyJSON: e394c54579b41d18d2aa1b88adf9fd6a2351e888
-  JGProgressHUD: 153053a21d81208cb5f659691996bcefce6a9885
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   Socket.IO-Client-Swift: f80e4eec9f067ced71fbcdbfa55bf59ff0248e53

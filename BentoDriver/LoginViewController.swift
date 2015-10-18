@@ -10,10 +10,12 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 
+
 class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHandlerDelegate, UITextFieldDelegate {
     
     var usernameTextField: UITextField?
     var passwordTextField: UITextField?
+    let progressHUD = JGProgressHUD(style: JGProgressHUDStyle.Dark)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +84,15 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
     func onLogin() {
+        if self.usernameTextField!.text == "" || self.passwordTextField!.text == "" {
+            // username and password fields empty
+            self.promptAlertWith("Please enter both your username and password", style: .Cancel)
+            return
+        }
+        
+        self.progressHUD.textLabel.text = "Logging in..."
+        self.progressHUD.showInView(self.view)
+        
         User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
     }
     
@@ -90,6 +101,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         if connected == false {
             self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
+        
+        self.progressHUD.dismiss()
     }
     
     func socketHandlerDidDisconnect() {
@@ -99,7 +112,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     func socketHandlerDidAuthenticate(authenticated: Bool) {
         if authenticated {
             // TODO: check if connected already. if yes, don't prompt alert...
-            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
+//            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
+            let navC = UINavigationController.init(rootViewController: OrderListViewController())
+            self.navigationController?.presentViewController(navC, animated: true, completion: nil)
         }
         else {
             self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
@@ -109,7 +124,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     func socketHandlerDidRecievePushNotification(push: Push) {
         // handle push
     }
-    
+
+//MARK: Alert
     func promptAlertWith(messageString: String, style: UIAlertActionStyle) {
         let alertController = UIAlertController(title: "", message: messageString, preferredStyle: .Alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
@@ -122,6 +138,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
+//MARK: UITextfieldDelegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.usernameTextField?.resignFirstResponder()
         self.passwordTextField?.resignFirstResponder()
