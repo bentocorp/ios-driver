@@ -28,6 +28,7 @@ public enum OrderStatus {
 }
 
 public class Order {
+    public var driverId: Int
     public var id: Int
     public var name: String
     public var phone: String
@@ -48,6 +49,7 @@ public class Order {
 //    public var itemString: String?
     
     init(json: JSON) {
+        self.driverId = json["driverId"].intValue
         self.id = json["id"].intValue
         self.name = json["name"].stringValue
         self.phone = json["phone"].stringValue

@@ -114,7 +114,9 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     
     func socketHandlerDidRecievePushNotification(push: Push) {
         // handle push
-        ordersArray.append(push.body!) // if Order is bentosArray
+//        if push
+        
+        ordersArray.append(push.bodyOrderAction!.order!) // if Order is bentosArray
         self.orderListTableView?.reloadData()
     }
     
@@ -139,7 +141,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     
 //MARK: Table View
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 75
+        return 60
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -159,6 +161,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         
         cell?.textLabel!.font = UIFont.boldSystemFontOfSize(15.0)
         cell?.textLabel!.text = "\(order.street), \(order.city)"
+        cell?.detailTextLabel?.text = order.name
 
         cell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
