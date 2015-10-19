@@ -170,20 +170,16 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cellId = "Cell"
-        
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellId)
+        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? OrderListCell
         
         if cell == nil {
-            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellId)
+            cell = OrderListCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
         }
+        
         let order = self.ordersArray[indexPath.row]
         
-        cell?.textLabel!.font = UIFont.boldSystemFontOfSize(15.0)
-        cell?.textLabel!.text = "\(order.street), \(order.city)"
-        cell?.detailTextLabel?.text = order.name
-
-        cell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        cell!.addressLabel.text = "\(order.street)\n\(order.city)"
+        cell!.nameLabel.text = order.name
         
         return cell!
     }
