@@ -25,14 +25,19 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         // background color
         self.view.backgroundColor = UIColor(red: 0.3176, green: 0.7098, blue: 0.3294, alpha: 1.0)
         
+        // backgroud view
+        let backgroundView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 350))
+        backgroundView.center = self.view.center
+        self.view.addSubview(backgroundView)
+        
         // background image
-        let backgroundImageView = UIImageView(frame: CGRectMake(20, self.view.frame.height / 4, self.view.frame.width - 40, 100))
+        let backgroundImageView = UIImageView(frame: CGRectMake(20, 20, self.view.frame.width - 40, 100))
         backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFit
         backgroundImageView.image = UIImage(named: "logo")
-        self.view.addSubview(backgroundImageView)
+        backgroundView.addSubview(backgroundImageView)
         
         // username textfield
-        self.usernameTextField = UITextField(frame: CGRectMake(20, backgroundImageView.frame.origin.y + 140, self.view.frame.width - 40, 50))
+        self.usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
         self.usernameTextField!.layer.cornerRadius = 3
         self.usernameTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.usernameTextField!.placeholder = "username"
@@ -42,7 +47,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField!.keyboardType = UIKeyboardType.EmailAddress
         self.usernameTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
         self.usernameTextField!.delegate = self
-        self.view.addSubview(self.usernameTextField!)
+        backgroundView.addSubview(self.usernameTextField!)
         
         // username padding
         let paddingView = UIView(frame: CGRectMake(0, 0, 15, usernameTextField!.frame.height))
@@ -59,7 +64,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.passwordTextField!.secureTextEntry = true
         self.passwordTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
         self.passwordTextField!.delegate = self
-        self.view.addSubview(self.passwordTextField!)
+        backgroundView.addSubview(self.passwordTextField!)
     
         // password padding
         let paddingView2 = UIView(frame: CGRectMake(0, 0, 15, passwordTextField!.frame.height))
@@ -72,7 +77,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         loginButton.layer.cornerRadius = 3
         loginButton.setTitle("LOG IN", forState: .Normal)
         loginButton.addTarget(self, action: "onLogin", forControlEvents: .TouchUpInside)
-        self.view.addSubview(loginButton)
+        backgroundView.addSubview(loginButton)
     }
     
     override func viewWillAppear(animated: Bool) {

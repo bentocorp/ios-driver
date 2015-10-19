@@ -47,7 +47,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         self.pullOrders()
         
         // Table View
-        self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
+        self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
         self.orderListTableView!.delegate = self
         self.orderListTableView!.dataSource = self
         
@@ -145,7 +145,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     }
     
     func confirmLogout() {
-        let alertController = UIAlertController(title: "", message: "Are you sure you want to log out?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "", message: "To log out, simply kill the app and your login info will be saved. To log out AND clear your login info, tap 'OK'.", preferredStyle: .Alert)
         
         // ok
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
@@ -170,16 +170,21 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("Cell") as? OrderListCell
+        let cellId = "Cell"
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellId) as? OrderListCell
         
         if cell == nil {
-            cell = OrderListCell(style: UITableViewCellStyle.Default, reuseIdentifier: "Cell")
+            cell = OrderListCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellId)
         }
         
         let order = self.ordersArray[indexPath.row]
         
-        cell!.addressLabel.text = "\(order.street)\n\(order.city)"
-        cell!.nameLabel.text = order.name
+        cell?.addressLabel.text = "\(order.street)\n\(order.city)"
+        cell?.nameLabel.text = order.name
+        cell?.createdAtLabel.text = "0:00 PM"
+        
+        print(cell?.frame.width) // i think the last cell is stuck at 320pt...wtf?
         
         return cell!
     }

@@ -37,13 +37,17 @@ class OrderListCell: UITableViewCell {
         self.nameLabel.font = UIFont.systemFontOfSize(13.0)
         self.addSubview(self.nameLabel!)
         
-        // Timestamp
-        //        self.createdAtLabel = UILabel
-        
-        // Arrow
-        self.arrowImageView = UIImageView(frame: CGRectMake(self.frame.width - 40, self.frame.height / 2 + 10, 20, 20))
+        // Arrow note: using uiscreen to frame this because cell width is stuck at 320 for some reason...
+        self.arrowImageView = UIImageView(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 40, self.frame.height / 2 + 10, 20, 20))
         self.arrowImageView.image = UIImage(named: "gray-arrow-64")
         self.addSubview(self.arrowImageView)
+        
+        // Timestamp
+        self.createdAtLabel = UILabel(frame: CGRectMake(self.arrowImageView.frame.origin.x - 70, self.frame.height / 2 + 10, 60, 20))
+        self.createdAtLabel.font = UIFont.systemFontOfSize(13.0)
+        self.createdAtLabel.textAlignment = .Right
+        self.createdAtLabel.textColor = UIColor.darkGrayColor()
+        self.addSubview(self.createdAtLabel)
     }
 
     required init?(coder aDecoder: NSCoder) {
