@@ -28,7 +28,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         navigationItem.rightBarButtonItem = logOutButton
 
         // Title
-        self.title = "Orders"
+        self.title = "My Tasks"
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         // User Info
@@ -153,11 +153,13 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         var cell = tableView.dequeueReusableCellWithIdentifier(cellId)
         
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: cellId)
+            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellId)
         }
         let order = ordersArray[indexPath.row]
         
-        cell?.textLabel!.text = order.name
+        cell?.textLabel!.font = UIFont.boldSystemFontOfSize(15.0)
+        cell?.textLabel!.text = "\(order.street), \(order.city)"
+
         cell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
         return cell!
@@ -168,7 +170,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         
         // go to detail screen
         let orderDetailViewController = OrderDetailViewController()
-        orderDetailViewController.title = self.ordersArray[indexPath.row].name
+        orderDetailViewController.order = self.ordersArray[indexPath.row]
 
         self.navigationController?.pushViewController(orderDetailViewController, animated: true)
     }
