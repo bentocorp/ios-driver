@@ -28,7 +28,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         navigationItem.rightBarButtonItem = logOutButton
 
         // Title
-        self.title = "My Tasks"
+        self.title = "Tasks"
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         // User Info
@@ -161,7 +161,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     
 //MARK: Table View
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 60
+        return 80
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
