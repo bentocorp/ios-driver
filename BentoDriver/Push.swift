@@ -10,33 +10,33 @@ import Foundation
 import SwiftyJSON
 
 public class Push {
-    public var rid: String // unused for now
-    public var from: String // unused for now
-    public var driverId: Int // unused for now
+    
+    /*-unused for now-*/
+//    public var rid: String
+//    public var from: String
+//    public var driverId: Int
     
     public var to: String
     public var subject: String
     public var createdAt: String
-    public var type: String
-    public var after: Int
     
-    // these two should be generic (body)
-    public var bodyOrder: Order?
+    // body - should be generic
+    public var bodyOrderAction: OrderAction?
     public var bodyString: String?
     
     init(json: JSON) {
-        self.rid = json["rid"].stringValue // unused for now
-        self.from = json["from"].stringValue // unused for now
-        self.driverId = json["driverId"].intValue // unused for now
+        /*-unused for now-*/
+//        self.rid = json["rid"].stringValue
+//        self.from = json["from"].stringValue
+//        self.driverId = json["driverId"].intValue
         
         self.to = json["to"].stringValue
         self.subject = json["subject"].stringValue
         self.createdAt = json["timeStamp"].stringValue
-        self.type = json["type"].stringValue
-        self.after = json["after"].intValue
         
+        // body - should be generic
         if self.subject == "order_action" {
-            self.bodyOrder = Order(json: json["body"]["order"])
+            self.bodyOrderAction = OrderAction(bodyJSON: json["body"])
         }
         else {
             self.bodyString = json["body"]["order"].stringValue
