@@ -20,12 +20,21 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        
         // background color
-        self.view.backgroundColor = UIColor.darkGrayColor()
+        self.view.backgroundColor = UIColor(red: 0.3176, green: 0.7098, blue: 0.3294, alpha: 1.0)
+        
+        // background image
+        let backgroundImageView = UIImageView(frame: CGRectMake(20, self.view.frame.height / 4, self.view.frame.width - 40, 100))
+        backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        backgroundImageView.image = UIImage(named: "logo")
+        self.view.addSubview(backgroundImageView)
         
         // username textfield
-        self.usernameTextField = UITextField(frame: CGRectMake(20, 200, self.view.frame.width - 40, 40))
+        self.usernameTextField = UITextField(frame: CGRectMake(20, backgroundImageView.frame.origin.y + 140, self.view.frame.width - 40, 50))
         self.usernameTextField!.layer.cornerRadius = 3
+        self.usernameTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.usernameTextField!.placeholder = "username"
         self.usernameTextField!.backgroundColor = UIColor.whiteColor()
         self.usernameTextField!.keyboardType = UIKeyboardType.EmailAddress
@@ -33,14 +42,15 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField!.delegate = self
         self.view.addSubview(self.usernameTextField!)
         
-        // username placeholder padding
+        // username padding
         let paddingView = UIView(frame: CGRectMake(0, 0, 15, usernameTextField!.frame.height))
         usernameTextField!.leftView = paddingView
         usernameTextField!.leftViewMode = UITextFieldViewMode.Always
         
         // password textfield
-        self.passwordTextField = UITextField(frame: CGRectMake(20, 200 + 40 + 5, self.view.frame.width - 40, 40))
+        self.passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField!.frame.origin.y + 60, self.view.frame.width - 40, 50))
         self.passwordTextField!.layer.cornerRadius = 3
+        self.passwordTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.passwordTextField!.placeholder = "password"
         self.passwordTextField!.backgroundColor = UIColor.whiteColor()
         self.passwordTextField!.secureTextEntry = true
@@ -48,16 +58,16 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.passwordTextField!.delegate = self
         self.view.addSubview(self.passwordTextField!)
     
-        // password placeholder padding
+        // password padding
         let paddingView2 = UIView(frame: CGRectMake(0, 0, 15, passwordTextField!.frame.height))
         passwordTextField!.leftView = paddingView2
         passwordTextField!.leftViewMode = UITextFieldViewMode.Always
         
         // login button
-        let loginButton = UIButton(frame: CGRectMake(20, 200 + 80 + 10, self.view.frame.width - 40, 40))
-        loginButton.backgroundColor = UIColor.grayColor()
+        let loginButton = UIButton(frame: CGRectMake(20, self.passwordTextField!.frame.origin.y + 80, self.view.frame.width - 40, 50))
+        loginButton.backgroundColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         loginButton.layer.cornerRadius = 3
-        loginButton.setTitle("Login", forState: .Normal)
+        loginButton.setTitle("LOG IN", forState: .Normal)
         loginButton.addTarget(self, action: "onLogin", forControlEvents: .TouchUpInside)
         self.view.addSubview(loginButton)
     }
@@ -68,13 +78,14 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         
         self.navigationController?.navigationBarHidden = true
         
-        //
+        // check if logged in user, if not reset textfields
         if NSUserDefaults.standardUserDefaults().objectForKey("username") == nil {
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
             NSUserDefaults.standardUserDefaults().synchronize()
         }
         
+        // set textfield text -> either empty strings to username and password
         self.usernameTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
         self.passwordTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
     }

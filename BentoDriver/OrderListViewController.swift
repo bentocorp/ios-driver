@@ -12,9 +12,10 @@ import Alamofire
 import Alamofire_SwiftyJSON
 import SwiftyJSON
 
-class OrderListViewController: UIViewController, SocketHandlerDelegate {
+class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableViewDataSource, UITableViewDelegate {
 
     var ordersArray: Array<Order> = []
+    var orderListTableView: UITableView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,30 +27,35 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
         let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: self, action: "onLogout")
         navigationItem.rightBarButtonItem = logOutButton
 
-        // Background Color
-        self.view.backgroundColor = UIColor.darkGrayColor()
-        
         // Title
-        self.title = "Order List"
-//        self.navigationBar.barStyle = UIBarStyle.Black
-//        self.navigationBar.tintColor = UIColor.whiteColor()
-        
+        self.title = "Orders"
         self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
         
         // User Info
-        let connectedAsLabel = UILabel(frame: CGRectMake(20, 80, 110, 30))
-        connectedAsLabel.text = "Logged in as:"
-        self.view.addSubview(connectedAsLabel)
-        
-        let usernameLabel = UILabel(frame: CGRectMake((connectedAsLabel.frame.width + 25), 80, 200, 30))
-        usernameLabel.text = User.currentUser.token
-        self.view.addSubview(usernameLabel)
+//        let connectedAsLabel = UILabel(frame: CGRectMake(20, 80, 110, 30))
+//        connectedAsLabel.text = "Logged in as:"
+//        self.view.addSubview(connectedAsLabel)
+//        
+//        let usernameLabel = UILabel(frame: CGRectMake((connectedAsLabel.frame.width + 25), 80, 200, 30))
+//        usernameLabel.text = User.currentUser.token
+//        self.view.addSubview(usernameLabel)
         
         let socket = SocketHandler.sharedSocket
         socket.delegate = self;
         
         // Get orders
         self.pullOrders()
+        
+        // Table View
+        self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height))
+        self.orderListTableView!.delegate = self
+        self.orderListTableView!.dataSource = self
+        
+        // remove empty cells
+        let backgroundView = UIView(frame: CGRectZero)
+        self.orderListTableView!.tableFooterView = backgroundView
+        
+        self.view.addSubview(self.orderListTableView!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,6 +91,10 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
                     self.ordersArray.append(order)
                 }
                 
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.orderListTableView?.reloadData()
+                })
+                
                 print("getAllAssigned - \(self.ordersArray)")
             })
     }
@@ -105,6 +115,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
     func socketHandlerDidRecievePushNotification(push: Push) {
         // handle push
         ordersArray.append(push.body!) // if Order is bentosArray
+        self.orderListTableView?.reloadData()
     }
     
     func onLogout() {
@@ -124,6 +135,42 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate {
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+//MARK: Table View
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 75
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.ordersArray.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cellId = "Cell"
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellId)
+        
+        if cell == nil {
+            cell = UITableViewCell(style: .Default, reuseIdentifier: cellId)
+        }
+        let order = ordersArray[indexPath.row]
+        
+        cell?.textLabel!.text = order.name
+        cell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        
+        return cell!
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        // go to detail screen
+        let orderDetailViewController = OrderDetailViewController()
+        orderDetailViewController.title = self.ordersArray[indexPath.row].name
+
+        self.navigationController?.pushViewController(orderDetailViewController, animated: true)
     }
 }
 

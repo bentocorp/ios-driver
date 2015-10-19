@@ -18,6 +18,8 @@ public class Push {
     public var createdAt: String
     
     init(json: JSON) {
+
+        print(json)
         
         self.rid = json["rid"].stringValue // don't need to use for now
         self.from = json["from"].stringValue // don't need to use for now
@@ -25,11 +27,13 @@ public class Push {
         self.subject = json["subject"].stringValue
         
         if self.subject == "order_action" {
-            self.body = Order(json: json["item"])
+            self.body = Order(json: json["body"]["order"])
         }
         else {
             // if not order action
         }
+        
+        // todo: body has typ and order
         
         self.createdAt = json["timeStamp"].stringValue
     }

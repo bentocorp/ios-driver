@@ -36,6 +36,11 @@ extension SocketHandler {
     public func connectAndAuthenticateWith(username: String, password: String) {
         print("connectAndAuthenticate called")
         
+        // 0) close and remove any preexisting handlers before trying to connect
+        self.socket.disconnect()
+        self.socket.close()
+        self.socket.removeAllHandlers()
+        
         // 1) connect
         self.socket.on("connect") {data, ack in
             print("socket connected")
@@ -48,7 +53,7 @@ extension SocketHandler {
         }
         
         // connect to Node & handle error if any
-        self.socket.connect(timeoutAfter: 1) { () -> Void in
+        self.socket.connect(timeoutAfter: 10) { () -> Void in
             
             // remove previous handler to avoid multiple auto attempts to connect
             self.socket.removeAllHandlers()
@@ -142,7 +147,7 @@ extension SocketHandler {
                     let push = Push(json: json)
                     self.delegate?.socketHandlerDidRecievePushNotification(push)
                     
-                    print(push)
+                    print(json)
             
                     // Local Notification & Sound
                     self.promptLocalNotification()
