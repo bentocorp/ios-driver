@@ -16,6 +16,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
 
     var ordersArray: Array<Order> = []
     var orderListTableView: UITableView?
+    var noTasksLabel: UILabel = UILabel(frame: CGRectMake(0, 0, 100, 20))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,12 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         self.orderListTableView!.tableFooterView = backgroundView
         
         self.view.addSubview(self.orderListTableView!)
+        
+        // No Tasks Label
+        self.noTasksLabel.text = "No Tasks"
+        self.noTasksLabel.center = self.view.center
+        self.noTasksLabel.textColor = UIColor.lightGrayColor()
+        self.view.addSubview(noTasksLabel)
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,6 +100,14 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.orderListTableView?.reloadData()
+                    
+                    // no tasks - TODO: refactor duplicate
+                    if self.ordersArray.count == 0 {
+                        self.noTasksLabel.hidden = false
+                    }
+                    else {
+                        self.noTasksLabel.hidden = true
+                    }
                 })
                 
                 print("getAllAssigned - \(self.ordersArray)")
@@ -132,6 +147,14 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
                     }
                 }
             }
+            
+            // no tasks - TODO: refactor duplicate
+            if self.ordersArray.count == 0 {
+                self.noTasksLabel.hidden = false
+            }
+            else {
+                self.noTasksLabel.hidden = true
+            }
         }
         else {
             // handle body string...
@@ -145,7 +168,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     }
     
     func confirmLogout() {
-        let alertController = UIAlertController(title: "", message: "To log out, simply kill the app and your login info will be saved. To log out AND clear your login info, tap 'OK'.", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "", message: "To log out and SAVE your login info, simply kill the app.\n\nTo log out and CLEAR your login info, tap 'OK'.", preferredStyle: .Alert)
         
         // ok
         alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in

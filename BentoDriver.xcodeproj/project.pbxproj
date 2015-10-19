@@ -306,13 +306,13 @@
 		FCED93861BCEDF88008C17C8 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				FC169CE11BD49DF600D423D9 /* Font */,
 				FC169CDB1BD49DF600D423D9 /* bento_placeholder.png */,
 				FC169CDC1BD49DF600D423D9 /* empty-main.png */,
 				FC169CDD1BD49DF600D423D9 /* empty-side.png */,
 				FC169CDE1BD49DF600D423D9 /* first_background.png */,
 				FC169CDF1BD49DF600D423D9 /* logo_title.png */,
 				FC169CE01BD49DF600D423D9 /* logo.png */,
-				FC169CE11BD49DF600D423D9 /* Font */,
 				FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */,
 				FCED93801BCEDF59008C17C8 /* new_order.wav */,
 			);

@@ -23,22 +23,29 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         
         // background color
-        self.view.backgroundColor = UIColor(red: 0.3176, green: 0.7098, blue: 0.3294, alpha: 1.0)
+//        self.view.backgroundColor = UIColor(red: 0.3176, green: 0.7098, blue: 0.3294, alpha: 1.0)
+        
+        // background image
+        let backgroundImage = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
+        backgroundImage.image = UIImage(named: "grass")
+        backgroundImage.contentMode = .ScaleAspectFill
+        self.view.addSubview(backgroundImage)
         
         // backgroud view
         let backgroundView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 350))
         backgroundView.center = self.view.center
         self.view.addSubview(backgroundView)
         
-        // background image
-        let backgroundImageView = UIImageView(frame: CGRectMake(20, 20, self.view.frame.width - 40, 100))
-        backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFit
-        backgroundImageView.image = UIImage(named: "logo")
-        backgroundView.addSubview(backgroundImageView)
+        // logo
+        let logoImageView = UIImageView(frame: CGRectMake(20, 20, self.view.frame.width - 40, 100))
+        logoImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        logoImageView.image = UIImage(named: "logo")
+        backgroundView.addSubview(logoImageView)
         
+
         // username textfield
         self.usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
-        self.usernameTextField!.layer.cornerRadius = 3
+        self.usernameTextField!.layer.cornerRadius = 1
         self.usernameTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.usernameTextField!.placeholder = "username"
         self.usernameTextField!.text?.lowercaseString
@@ -55,8 +62,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         usernameTextField!.leftViewMode = UITextFieldViewMode.Always
         
         // password textfield
-        self.passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField!.frame.origin.y + 60, self.view.frame.width - 40, 50))
-        self.passwordTextField!.layer.cornerRadius = 3
+        self.passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField!.frame.origin.y + 51, self.view.frame.width - 40, 50))
+        self.passwordTextField!.layer.cornerRadius = 1
         self.passwordTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.passwordTextField!.placeholder = "password"
         self.passwordTextField!.autocapitalizationType = UITextAutocapitalizationType.None
@@ -73,9 +80,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         
         // login button
         let loginButton = UIButton(frame: CGRectMake(20, self.passwordTextField!.frame.origin.y + 80, self.view.frame.width - 40, 50))
-        loginButton.backgroundColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        loginButton.backgroundColor = UIColor.clearColor()
         loginButton.layer.cornerRadius = 3
-        loginButton.setTitle("LOG IN", forState: .Normal)
+        loginButton.setTitle("LOGIN", forState: .Normal)
         loginButton.addTarget(self, action: "onLogin", forControlEvents: .TouchUpInside)
         backgroundView.addSubview(loginButton)
     }
