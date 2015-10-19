@@ -100,23 +100,43 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     }
     
     func socketHandlerDidConnect(connected: Bool) {
-        // handle connect
+        // handle connect...
     }
     
     func socketHandlerDidDisconnect() {
-        // handle disconnect
+        // handle disconnect...
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func socketHandlerDidAuthenticate(authenticated: Bool) {
-        // handle authenticate
+        // handle authenticate...
     }
     
     func socketHandlerDidRecievePushNotification(push: Push) {
-        // handle push
-//        if push
+        // handle push...
         
-        ordersArray.append(push.bodyOrderAction!.order!) // if Order is bentosArray
+        // check if body order assign or body string
+        if push.bodyOrderAction != nil {
+            // handle body order assign...
+            if push.bodyOrderAction?.type == PushType.ASSIGN {
+                // add Order to ordersArray...
+                self.ordersArray.append(push.bodyOrderAction!.order!)
+            }
+            // handle body order unassign
+            else if push.bodyOrderAction?.type == PushType.UNASSIGN {
+                // loop through all ordersArray to find corresponding Order...
+                for (index, order) in self.ordersArray.enumerate() {
+                    // match found -> remove that order from ordersArray
+                    if order.id == push.bodyOrderAction?.order?.id {
+                        self.ordersArray.removeAtIndex(index)
+                    }
+                }
+            }
+        }
+        else {
+            // handle body string...
+        }
+        
         self.orderListTableView?.reloadData()
     }
     
@@ -157,7 +177,7 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
         if cell == nil {
             cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellId)
         }
-        let order = ordersArray[indexPath.row]
+        let order = self.ordersArray[indexPath.row]
         
         cell?.textLabel!.font = UIFont.boldSystemFontOfSize(15.0)
         cell?.textLabel!.text = "\(order.street), \(order.city)"

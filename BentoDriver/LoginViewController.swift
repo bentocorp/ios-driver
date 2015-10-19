@@ -35,6 +35,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField = UITextField(frame: CGRectMake(20, backgroundImageView.frame.origin.y + 140, self.view.frame.width - 40, 50))
         self.usernameTextField!.layer.cornerRadius = 3
         self.usernameTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        self.usernameTextField!.placeholder = "username"
         self.usernameTextField!.text?.lowercaseString
         self.usernameTextField!.autocapitalizationType = UITextAutocapitalizationType.None
         self.usernameTextField!.backgroundColor = UIColor.whiteColor()
