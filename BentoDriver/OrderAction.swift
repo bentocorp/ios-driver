@@ -29,7 +29,7 @@ public enum PushType {
 }
 
 public class OrderAction {
-    public var order: Order?
+    public var order: Order
     public var type: PushType?
     public var after: Int?
     public var driverId: Int?

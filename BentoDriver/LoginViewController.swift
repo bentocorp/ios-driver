@@ -135,10 +135,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.progressHUD.dismiss()
     }
     
-    func socketHandlerDidDisconnect() {
-        // handler disconnect
-    }
-    
     func socketHandlerDidAuthenticate(authenticated: Bool) {
         if authenticated {
             // TODO: check if connected already. if yes, don't prompt alert...
@@ -149,10 +145,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         else {
             self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
         }
-    }
-    
-    func socketHandlerDidRecievePushNotification(push: Push) {
-        // handle push
     }
 
 //MARK: Alert

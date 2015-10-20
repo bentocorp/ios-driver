@@ -96,8 +96,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                 let ret = json["ret"].arrayValue
                 print("ret: \(ret)")
                 
-                
-                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
                     // add orders to ordersArray
@@ -105,18 +103,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                         let order: Order = Order.init(json: orderJSON)
                         print(order.id)
                         
-                        self.ordersArray.append(order)
-                    }
-                    
-                    // check for rejected orders
-                    var updatedArrayCount = self.ordersArray.count
-                    for var index = 0; index < updatedArrayCount; index++ {
-                        let orderStatus = self.ordersArray[index].status
-                        if orderStatus == .Rejected {
-                            self.ordersArray.removeAtIndex(index)
-                            updatedArrayCount--
+                        // filter out rejected orders
+                        if order.status != .Rejected {
+                            self.ordersArray.append(order)
                         }
                     }
+                    
                     
                     self.orderListTableView?.reloadData()
                     self.showOrHideNoTasksLabel()
@@ -203,47 +195,32 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: SocketHandlerDelegate
-    func socketHandlerDidConnect(connected: Bool) {
-        // handle connect...
-    }
-    
     func socketHandlerDidDisconnect() {
         // handle disconnect...
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func socketHandlerDidAuthenticate(authenticated: Bool) {
-        // handle authenticate...
+    func socketHandlerDidAssignOrder(assignedOrder: Order) {
+        // handler assigned order...
+        self.ordersArray.append(assignedOrder)
+        
+        SocketHandler.sharedSocket.promptLocalNotification("assigned")
+        self.showOrHideNoTasksLabel()
+        self.orderListTableView?.reloadData()
     }
     
-    func socketHandlerDidRecievePushNotification(push: Push) {
-        // handle push...
-        
-        // check if body order assign or body string
-        if push.bodyOrderAction != nil {
-            // handle body order assign...
-            if push.bodyOrderAction?.type == PushType.ASSIGN {
-                // add Order to ordersArray...
-                self.ordersArray.append(push.bodyOrderAction!.order!)
+    func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
+        // handle unassigned order...
+        // loop through all ordersArray to find corresponding Order...
+        for (index, order) in self.ordersArray.enumerate() {
+            // once found, remove
+            if order.id == unassignedOrder.id {
+                self.ordersArray.removeAtIndex(index)
             }
-                // handle body order unassign
-            else if push.bodyOrderAction?.type == PushType.UNASSIGN {
-                // loop through all ordersArray to find corresponding Order...
-                for (index, order) in self.ordersArray.enumerate() {
-                    // match found -> remove that order from ordersArray
-                    if order.id == push.bodyOrderAction?.order?.id {
-                        self.ordersArray.removeAtIndex(index)
-                    }
-                }
-            }
-            
-            // no tasks label...
-            self.showOrHideNoTasksLabel()
-        }
-        else {
-            // handle body string...
         }
         
+        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+        self.showOrHideNoTasksLabel()
         self.orderListTableView?.reloadData()
     }
     

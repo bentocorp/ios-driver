@@ -11,15 +11,18 @@ import CoreLocation
 import SwiftyJSON
 
 public enum OrderStatus {
-    case Pending
+    case Assigned
     case Rejected
     case Completed
     
     static func statusFromString(statusString: String)-> OrderStatus {
-        switch statusString {
-            case "PENDING":
-                return Pending
-            case "REJECTED":
+        
+        let lowerCaseString = statusString.lowercaseString
+        
+        switch lowerCaseString {
+            case "assigned":
+                return Assigned
+            case "rejected":
                 return Rejected
             default:
                 return Completed
@@ -27,7 +30,7 @@ public enum OrderStatus {
     }
 }
 
-public class Order {
+public class Order: NSObject {
     public var driverId: Int
     public var id: Int
     public var name: String

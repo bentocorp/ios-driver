@@ -13,11 +13,12 @@ import Socket_IO_Client_Swift
 import SwiftyJSON
 
 //MARK: Protocol
-protocol SocketHandlerDelegate {
-    func socketHandlerDidConnect(connected: Bool)
-    func socketHandlerDidDisconnect()
-    func socketHandlerDidAuthenticate(authenticated: Bool)
-    func socketHandlerDidRecievePushNotification(push: Push)
+@objc protocol SocketHandlerDelegate {
+    optional func socketHandlerDidConnect(connected: Bool)
+    optional func socketHandlerDidDisconnect()
+    optional func socketHandlerDidAuthenticate(authenticated: Bool)
+    optional func socketHandlerDidAssignOrder(assignedOrder: Order)
+    optional func socketHandlerDidUnassignOrder(unassignedOrder: Order)
 }
 
 //MARK: Properties
@@ -46,7 +47,7 @@ extension SocketHandler {
             print("socket connected")
             
             // call delegate method
-            self.delegate?.socketHandlerDidConnect(true)
+            self.delegate?.socketHandlerDidConnect!(true)
             
             // 2) authenticate
             self.authenticateUser(username, password: password)
@@ -59,7 +60,7 @@ extension SocketHandler {
             self.socket.removeAllHandlers()
             
             // call delegate method
-            self.delegate?.socketHandlerDidConnect(false)
+            self.delegate?.socketHandlerDidConnect!(false)
         }
     }
     
@@ -87,7 +88,7 @@ extension SocketHandler {
                     let code = json["code"]
                     if code == 0 {
                         // authentication succeeded
-                        self.delegate?.socketHandlerDidAuthenticate(true)
+                        self.delegate?.socketHandlerDidAuthenticate!(true)
                         
                         // if authenticated, ret should not be nil, but check anyways
                         let ret: JSON
@@ -117,7 +118,7 @@ extension SocketHandler {
                         self.socket.removeAllHandlers()
                         
                         // authentication failed
-                        self.delegate?.socketHandlerDidAuthenticate(false)
+                        self.delegate?.socketHandlerDidAuthenticate!(false)
                     }
                 }
             }
@@ -143,35 +144,44 @@ extension SocketHandler {
                 // get data from jsonStr
                 if let dataFromStr = jsonStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
                     let json = JSON(data: dataFromStr)
-
-                    let push = Push(json: json)
-                    self.delegate?.socketHandlerDidRecievePushNotification(push)
-                    
                     print(json)
-            
-                    // Local Notification & Sound
-                    self.promptLocalNotification()
                     
-                    let soundPath = NSBundle.mainBundle().pathForResource("new_order.wav", ofType: nil)!
-                    let soundURL = NSURL(fileURLWithPath: soundPath)
+                    let push = Push(json: json)
                     
-                    // play audio
-                    do {
-                        let sound = try AVAudioPlayer(contentsOfURL: soundURL)
-                        self.audioPlayer = sound
-                        sound.play()
-                    } catch {
-                        // couldn't load file, handle error
-                    }
-                    
-                    // stop audio
-//                    if self.audioPlayer != nil {
-//                        self.audioPlayer.stop()
-//                        self.audioPlayer = nil
-//                    }
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        // check if body order or body string
+                        if push.bodyOrderAction != nil {
+                            
+                            // ASSIGNED
+                            if push.bodyOrderAction?.type == PushType.ASSIGN {
+                                self.delegate?.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
+                            }
+                            //  UNASSIGNED
+                            else if push.bodyOrderAction?.type == PushType.UNASSIGN {
+                                self.delegate?.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order)
+                            }
+                        }
+                        else {
+                            // handle body string...
+                        }
+                    })
                 }
             }
         })
+    }
+    
+    func playInAppSound() {
+        let soundPath = NSBundle.mainBundle().pathForResource("new_order.wav", ofType: nil)!
+        let soundURL = NSURL(fileURLWithPath: soundPath)
+        
+        // play audio
+        do {
+            let sound = try AVAudioPlayer(contentsOfURL: soundURL)
+            self.audioPlayer = sound
+            sound.play()
+        } catch {
+            // couldn't load file, handle error
+        }
     }
     
 //MARK: Disconnect
@@ -189,18 +199,29 @@ extension SocketHandler {
         User.currentUser.logout()
         
         // set delegate method
-        self.delegate?.socketHandlerDidDisconnect()
+        self.delegate?.socketHandlerDidDisconnect!()
         
         //
         print("socket closed")
     }
 
 //MARK: Local Notification
-    func promptLocalNotification() {
+    public func promptLocalNotification(sound: String) {
         let localNotification = UILocalNotification()
         localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
-        localNotification.alertBody = "New Order!"
-        localNotification.soundName = "new_order.wav"
+        
+        var alertBody: String
+
+        if sound == "assigned" {
+            alertBody = "You have a new task!"
+            localNotification.soundName = "new_order.wav"
+        }
+        else {
+            alertBody = "Removed a task"
+            localNotification.soundName = UILocalNotificationDefaultSoundName
+        }
+        
+        localNotification.alertBody = alertBody
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
