@@ -43,10 +43,10 @@ public class Order {
     public var coordinates: CLLocationCoordinate2D
     
     public var status: OrderStatus
-//    public var itemClass: String
+    public var itemClass: String
     // public var item: T
     public var itemArray: [BentoBox] = [] // to do
-//    public var itemString: String?
+    public var itemString: String?
     
     init(json: JSON) {
         self.driverId = json["driverId"].intValue
@@ -66,16 +66,16 @@ public class Order {
 
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
         
-//        self.itemClass = json["@class"].stringValue
-//        if self.itemClass == "org.bentocorp.Bento" {
+        self.itemClass = json["@class"].stringValue
+        if self.itemClass == "org.bentocorp.Bento" {
             for items in json["item"].arrayValue {
                 self.itemArray.append(BentoBox(json: items))
             }
-//        }
-//        else if self.itemClass == "java.lang.String" {
-//            self.itemString = json["item"].stringValue
-//        }
-        
+        }
+        else if self.itemClass == "java.lang.String" {
+            self.itemString = json["item"].stringValue
+        }
+    
         // check item type
 //        if self.itemClass == "org.bentocorp.Bento" {
 //            var bentosArray: [BentoBox] = []

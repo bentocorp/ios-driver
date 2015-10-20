@@ -166,16 +166,21 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     }
     
     func confirmLogout() {
-        let alertController = UIAlertController(title: "", message: "To log out and SAVE your login info, simply kill the app.\n\nTo log out and CLEAR your login info, tap 'OK'.", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "", message: "Save login info?", preferredStyle: .Alert)
         
-        // ok
-        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
-            // close socket
+        alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket()
         }))
         
-        // cancel
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: "No", style: .Default, handler: { action in
+            SocketHandler.sharedSocket.closeSocket()
+            
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }

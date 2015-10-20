@@ -192,10 +192,6 @@ extension SocketHandler {
         self.delegate?.socketHandlerDidDisconnect()
         
         //
-        NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
-        NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
         print("socket closed")
     }
 

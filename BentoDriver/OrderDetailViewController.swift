@@ -73,9 +73,22 @@ class OrderDetailViewController: UIViewController {
     }
     
     func onReject() {
+        // prompt reject confirmation
+        let alertController = UIAlertController(title: "", message: "Are you sure you want to reject order?", preferredStyle: .Alert)
         
+        alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: { action in
+            // close socket
+            self.rejectOrder()
+        }))
         
-        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func rejectOrder() {
         // do this to add multiple parameters
         let parameters : [ String : AnyObject] = [
             "token": User.currentUser.token!,
@@ -84,13 +97,13 @@ class OrderDetailViewController: UIViewController {
         
         Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/reject", parameters: parameters)
             .responseSwiftyJSON({ (request, response, json, error) in
-               
+                
                 let code = json["code"]
                 let msg = json["msg"]
-
+                
                 print("code: \(code)")
                 print("msg = \(msg)")
-
+                
                 if code != 0 {
                     print(msg)
                     return
@@ -104,9 +117,4 @@ class OrderDetailViewController: UIViewController {
                 }
             })
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
 }

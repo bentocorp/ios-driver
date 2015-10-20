@@ -21,6 +21,8 @@ class OrderListCell: UITableViewCell {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.backgroundColor = UIColor.clearColor()
+        
         // Circle
         self.circleImageView = UIImageView(frame: CGRectMake(10, self.frame.height / 2 + 10, 20, 20))
         self.circleImageView.image = UIImage(named: "yellow-circle-64")
