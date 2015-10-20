@@ -13,14 +13,17 @@ public enum PushType {
     case CREATE, ASSIGN, REPRIORITIZE, UNASSIGN, UPDATE_STATUS
     
     static func pushTypeFromString(pushTypeString: String) -> PushType {
-        switch pushTypeString {
-        case "CREATE":
+        
+        let lowercaseString = pushTypeString.lowercaseString
+        
+        switch lowercaseString {
+        case "create":
             return CREATE
-        case "ASSIGN":
+        case "assign":
             return ASSIGN
-        case "REPRIORITIZE":
+        case "reprioritize":
             return REPRIORITIZE
-        case "UNASSIGN":
+        case "unassign":
             return UNASSIGN
         default:
             return UPDATE_STATUS
