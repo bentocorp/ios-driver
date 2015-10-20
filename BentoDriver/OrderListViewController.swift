@@ -226,6 +226,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func didAcceptOrder(orderId: Int) {
         // handle accepted order...
         
+        for (index, order) in self.ordersArray.enumerate() {
+            if order.id == orderId {
+                self.ordersArray[index].status = .Accepted
+            }
+        }
+        
         self.orderListTableView?.reloadData()
         self.showOrHideNoTasksLabel()
     }

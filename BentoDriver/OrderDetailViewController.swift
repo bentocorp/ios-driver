@@ -82,11 +82,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         userActionView.addSubview(self.completeButton)
         
-        if order.status == OrderStatus. {
+        // check state of Order
+        if order.status == .Assigned {
             self.rejectButton.hidden = false
             self.acceptButton.hidden = false
             self.completeButton.hidden = true
         }
+        // order has already been accepted
         else {
             self.rejectButton.hidden = true
             self.acceptButton.hidden = true
@@ -209,6 +211,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 if ret == "ok" {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
+                        // change the Order status in ordersArray in parent VC
                         self.delegate?.didAcceptOrder(self.order.id)
                         
                         // change status
