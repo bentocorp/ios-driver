@@ -52,11 +52,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
         self.orderListTableView!.delegate = self
         self.orderListTableView!.dataSource = self
-        
         // remove empty cells
         let backgroundView = UIView(frame: CGRectZero)
         self.orderListTableView!.tableFooterView = backgroundView
-        
         self.view.addSubview(self.orderListTableView!)
         
         // No Tasks Label

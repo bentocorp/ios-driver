@@ -60,10 +60,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         userActionView.addSubview(rejectButton)
         
 // TableView
-        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, self.view.frame.height - 70))
+        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height) ))
         self.bentoTableView.delegate = self
         self.bentoTableView.dataSource = self
-        self.bentoTableView.backgroundColor = UIColor.redColor()
+        let backgroundView = UIView(frame: CGRectZero)
+        self.bentoTableView.tableFooterView = backgroundView
+        self.bentoTableView.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.bentoTableView)
 
 // Line Separators
@@ -154,6 +156,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
         cell?.selectionStyle = .None
+        cell?.textLabel?.text = "* \((order.itemArray[indexPath.section].items[indexPath.row].name)!) (\((order.itemArray[indexPath.section].items[indexPath.row].label)!))"
         
         return cell!
     }
