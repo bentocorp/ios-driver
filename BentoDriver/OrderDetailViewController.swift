@@ -79,8 +79,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         userActionView.addSubview(self.acceptButton)
         
         // Complete
-        self.completeButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width - 10, 50))
-        self.completeButton.backgroundColor = UIColor.greenColor()
+        self.completeButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 70))
+        self.completeButton.backgroundColor = UIColor.grayColor()
         self.completeButton.layer.cornerRadius = 1
         self.completeButton.setTitle("COMPLETE", forState: .Normal)
         self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
@@ -178,7 +178,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         cell?.selectionStyle = .None
         cell?.textLabel?.textColor = UIColor.darkGrayColor()
-        cell?.textLabel?.text = "• (\(itemLabelString)) \(itemNameString)"
+        cell?.textLabel?.text = "• ( \(itemLabelString) ) \(itemNameString)"
         cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
         
         return cell!
@@ -190,10 +190,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // get button title and make it lowercase
         let action = sender.titleLabel?.text?.lowercaseString
         
-        let alertController = UIAlertController(title: "", message: action, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "", message: "Are you sure you want to \(action) order?", preferredStyle: .Alert)
         
-        alertController.addAction(UIAlertAction(title: "Are you sure you want to \(action!.firstCharacterUpperCase()) order?",
-            style: .Default, handler: { action in
+        alertController.addAction(UIAlertAction(title: action!.firstCharacterUpperCase(), style: .Default, handler: { action in
             
             switch action {
             case "reject":
