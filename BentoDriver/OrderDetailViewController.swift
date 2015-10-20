@@ -22,6 +22,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var delegate: OrderDetailViewControllerDelegate?
     var order: Order!
     var bentoTableView: UITableView!
+    var rejectButton: UIButton!
+    var acceptButton: UIButton!
+    var completeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,24 +52,35 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.view.addSubview(userActionView)
         
         // Reject
-        let rejectButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width / 2 - 10, 50))
-        rejectButton.backgroundColor = UIColor.grayColor()
-        rejectButton.layer.cornerRadius = 1
-        rejectButton.setTitle("REJECT", forState: .Normal)
-        rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
-        rejectButton.titleLabel?.textColor = UIColor.whiteColor()
-        rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(rejectButton)
+        self.rejectButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width / 2 - 10, 50))
+        self.rejectButton.backgroundColor = UIColor.grayColor()
+        self.rejectButton.layer.cornerRadius = 1
+        self.rejectButton.setTitle("REJECT", forState: .Normal)
+        self.rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
+        self.rejectButton.titleLabel?.textColor = UIColor.whiteColor()
+        self.rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
+        userActionView.addSubview(self.rejectButton)
         
         // Accept
-        let acceptButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width / 2 - 10, 50))
-        acceptButton.backgroundColor = UIColor.grayColor()
-        acceptButton.layer.cornerRadius = 1
-        acceptButton.setTitle("ACCEPT", forState: .Normal)
-        acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
-        acceptButton.titleLabel?.textColor = UIColor.whiteColor()
-        acceptButton.addTarget(self, action: "onAccept", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(acceptButton)
+        self.acceptButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width / 2 - 10, 50))
+        self.acceptButton.backgroundColor = UIColor.grayColor()
+        self.acceptButton.layer.cornerRadius = 1
+        self.acceptButton.setTitle("ACCEPT", forState: .Normal)
+        self.acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
+        self.acceptButton.titleLabel?.textColor = UIColor.whiteColor()
+        self.acceptButton.addTarget(self, action: "onAccept", forControlEvents: .TouchUpInside)
+        userActionView.addSubview(self.acceptButton)
+        
+        // Complete
+        self.completeButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width - 10, 50))
+        self.completeButton.backgroundColor = UIColor.grayColor()
+        self.completeButton.layer.cornerRadius = 1
+        self.completeButton.setTitle("COMPLETE", forState: .Normal)
+        self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
+        self.completeButton.titleLabel?.textColor = UIColor.whiteColor()
+        self.completeButton.addTarget(self, action: "onComplete", forControlEvents: .TouchUpInside)
+        self.completeButton.hidden = true
+        userActionView.addSubview(self.completeButton)
         
 // TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height)))
@@ -181,14 +195,18 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 let ret = json["ret"].stringValue
                 print("ret: \(ret)")
                 
-//                if ret == "ok" {
-//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                        
-//                        self.navigationController?.popViewControllerAnimated(true)
-//                        
-//                        self.delegate?.didRejectOrder(self.order.id)
-//                    })
-//                }
+                if ret == "ok" {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        self.delegate?.didAcceptOrder(self.order.id)
+                        
+                        // change status
+                        
+                        // change buttons
+                        self.rejectButton.hidden = true
+                        self.acceptButton.hidden = true
+                    })
+                }
             })
     }
     
