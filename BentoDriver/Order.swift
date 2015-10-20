@@ -17,9 +17,9 @@ public enum OrderStatus {
     
     static func statusFromString(statusString: String)-> OrderStatus {
         
-        let lowerCaseString = statusString.lowercaseString
+        let lowercaseString = statusString.lowercaseString
         
-        switch lowerCaseString {
+        switch lowercaseString {
             case "assigned":
                 return Assigned
             case "rejected":

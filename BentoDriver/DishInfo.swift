@@ -15,7 +15,10 @@ public enum Type {
     case AddOn
     
     static func typeFromString(typeString: String) -> Type {
-        switch typeString {
+        
+        var lowercaseString = typeString.lowercaseString
+        
+        switch lowercaseString {
         case "main":
             return Main
         case "side":
