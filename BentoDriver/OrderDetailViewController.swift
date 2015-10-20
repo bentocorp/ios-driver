@@ -135,11 +135,31 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return self.order.itemArray.count // box count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Box \(section + 1)"
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
+    // default header view. for string only
+        func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+            return "this won't be visible, lol"
+        }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        
+        let headerTitleLabel = UILabel(frame: CGRectMake(10, 5, self.view.frame.width - 20, 30))
+        headerTitleLabel.text = "Box \(section + 1)"
+        headerTitleLabel.textColor = UIColor.whiteColor()
+        headerTitleLabel.font = UIFont(name: "OpenSans-Bold", size: 17)
+        headerView.addSubview(headerTitleLabel)
+        
+        headerView.backgroundColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        
+        return headerView
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -164,7 +184,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         cell?.selectionStyle = .None
         cell?.textLabel?.textColor = UIColor.darkGrayColor()
-        cell?.textLabel?.text = "(\(itemLabelString)) \(itemNameString)"
+        cell?.textLabel?.text = "• (\(itemLabelString)) \(itemNameString)"
         cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
         
         return cell!
