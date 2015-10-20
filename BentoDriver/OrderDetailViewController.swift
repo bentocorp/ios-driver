@@ -17,63 +17,65 @@ protocol OrderDetailViewControllerDelegate {
     func didCompleteOrder(orderId: Int)
 }
 
-class OrderDetailViewController: UIViewController {
+class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var delegate: OrderDetailViewControllerDelegate?
     var order: Order!
+    var bentoTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = self.order.name
         self.view.backgroundColor = UIColor.whiteColor()
         
-        self.title = self.order.name
-        
-        // reject button
-//        let rejectButton = UIButton(type: .Custom)
-//        rejectButton.setImage(UIImage(named: "Waste-64"), forState: .Normal)
-//        rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
-//        rejectButton.frame = CGRectMake(0, 0, 20, 20)
-//        
-//        let rejectBarButton = UIBarButtonItem(customView: rejectButton)
-//        self.navigationItem.rightBarButtonItem = rejectBarButton
-        
-        // info view
+// User Info
+        // View
         let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 120))
         self.view.addSubview(infoView)
         
-        // line separator
-        let lineSeparatorView = UIView(frame: CGRectMake(0, 184, self.view.frame.width, 2))
-        lineSeparatorView.backgroundColor = UIColor.lightGrayColor()
-        self.view.addSubview(lineSeparatorView)
+// Actions
+        // View
+        let userActionView = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 70))
+        self.view.addSubview(userActionView)
         
         // Accept
-        let acceptButton = UIButton(frame: CGRectMake(5, self.view.frame.height - 65, self.view.frame.width / 2 - 10, 60))
+        let acceptButton = UIButton(frame: CGRectMake(5, 5, self.view.frame.width / 2 - 10, 60))
         acceptButton.backgroundColor = UIColor.lightGrayColor()
         acceptButton.layer.cornerRadius = 1
         acceptButton.setTitle("ACCEPT", forState: .Normal)
         acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 17)
         acceptButton.titleLabel?.textColor = UIColor.whiteColor()
         acceptButton.addTarget(self, action: "onAccept", forControlEvents: .TouchUpInside)
-        self.view.addSubview(acceptButton)
+        userActionView.addSubview(acceptButton)
         
         // Reject
-        let rejectButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, self.view.frame.height - 65, self.view.frame.width / 2 - 10, 60))
+        let rejectButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 5, self.view.frame.width / 2 - 10, 60))
         rejectButton.backgroundColor = UIColor.lightGrayColor()
         rejectButton.layer.cornerRadius = 1
         rejectButton.setTitle("REJECT", forState: .Normal)
         rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 17)
         rejectButton.titleLabel?.textColor = UIColor.whiteColor()
         rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
-        self.view.addSubview(rejectButton)
+        userActionView.addSubview(rejectButton)
         
+// TableView
+        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, self.view.frame.height - 70))
+        self.bentoTableView.delegate = self
+        self.bentoTableView.dataSource = self
+        self.bentoTableView.backgroundColor = UIColor.redColor()
+        self.view.addSubview(self.bentoTableView)
 
+// Line Separators
+        // 1
+        let lineSeparatorView = UIView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, 1))
+        lineSeparatorView.backgroundColor = UIColor.lightGrayColor()
+        self.view.addSubview(lineSeparatorView)
         
-        // bento box
-        let bentosArray: [BentoBox] = self.order.itemArray
-        let bentoBox: BentoBox = bentosArray[0]
-        let dishInfo: DishInfo = bentoBox.items[0]
-        print(dishInfo.name)
+        // 2
+        let lineSeparatorView2 = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 1))
+        lineSeparatorView2.backgroundColor = UIColor.lightGrayColor()
+        self.view.addSubview(lineSeparatorView2)
     }
     
     func onReject() {
@@ -127,5 +129,32 @@ class OrderDetailViewController: UIViewController {
                     })
                 }
             })
+    }
+    
+//MARK: TableView
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return self.order.itemArray.count // box count
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.order.itemArray[0].items.count // dish count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellId = "Cell"
+        
+        var cell = tableView.dequeueReusableCellWithIdentifier(cellId)
+        
+        if cell == nil {
+            cell = UITableViewCell(style: .Default, reuseIdentifier: cellId)
+        }
+        
+        cell?.selectionStyle = .None
+        
+        return cell!
     }
 }
