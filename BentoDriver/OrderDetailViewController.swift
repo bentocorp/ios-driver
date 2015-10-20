@@ -25,9 +25,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var rejectButton: UIButton!
     var acceptButton: UIButton!
     var completeButton: UIButton!
+    var api: String!
+    var parameters : [ String : AnyObject]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+// API & Parameters
+        self.api = "http://52.11.208.197:8081/api/order"
+        self.parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
+
         
         self.title = self.order.name
         self.view.backgroundColor = UIColor.whiteColor()
@@ -53,7 +60,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Reject
         self.rejectButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width / 2 - 10, 50))
-        self.rejectButton.backgroundColor = UIColor.grayColor()
+        self.rejectButton.backgroundColor = UIColor.redColor()
         self.rejectButton.layer.cornerRadius = 1
         self.rejectButton.setTitle("REJECT", forState: .Normal)
         self.rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
@@ -63,7 +70,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Accept
         self.acceptButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width / 2 - 10, 50))
-        self.acceptButton.backgroundColor = UIColor.grayColor()
+        self.acceptButton.backgroundColor = UIColor.blueColor()
         self.acceptButton.layer.cornerRadius = 1
         self.acceptButton.setTitle("ACCEPT", forState: .Normal)
         self.acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
@@ -73,27 +80,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Complete
         self.completeButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width - 10, 50))
-        self.completeButton.backgroundColor = UIColor.grayColor()
+        self.completeButton.backgroundColor = UIColor.greenColor()
         self.completeButton.layer.cornerRadius = 1
         self.completeButton.setTitle("COMPLETE", forState: .Normal)
         self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.completeButton.titleLabel?.textColor = UIColor.whiteColor()
         self.completeButton.addTarget(self, action: "onComplete", forControlEvents: .TouchUpInside)
-        
         userActionView.addSubview(self.completeButton)
         
-        // check state of Order
-        if order.status == .Assigned {
-            self.rejectButton.hidden = false
-            self.acceptButton.hidden = false
-            self.completeButton.hidden = true
-        }
-        // order has already been accepted
-        else {
-            self.rejectButton.hidden = true
-            self.acceptButton.hidden = true
-            self.completeButton.hidden = false
-        }
+        // check if order is accepted and show/hide buttons accordingly
+        self.showHideButtons()
         
 // TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height)))
@@ -118,111 +114,20 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-//MARK: User Action
-    func onReject() {
-        // prompt reject confirmation
-        let alertController = UIAlertController(title: "", message: "Are you sure you want to reject order?", preferredStyle: .Alert)
-        
-        alertController.addAction(UIAlertAction(title: "Reject", style: .Default, handler: { action in
-            // close socket
-            self.rejectOrder()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
     
-    func rejectOrder() {
-        // do this to add multiple parameters
-        let parameters : [ String : AnyObject] = [
-            "token": User.currentUser.token!,
-            "orderId": self.order.id
-        ]
-        
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/reject", parameters: parameters)
-            .responseSwiftyJSON({ (request, response, json, error) in
-                
-                let code = json["code"]
-                let msg = json["msg"]
-                
-                print("code: \(code)")
-                print("msg = \(msg)")
-                
-                if code != 0 {
-                    print(msg)
-                    return
-                }
-                
-                let ret = json["ret"].stringValue
-                print("ret: \(ret)")
-                
-                if ret == "ok" {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        self.navigationController?.popViewControllerAnimated(true)
-                        
-                        self.delegate?.didRejectOrder(self.order.id)
-                    })
-                }
-            })
-    }
-    
-
-    func onAccept() {
-        // prompt reject confirmation
-        let alertController = UIAlertController(title: "", message: "Are you sure you want to accept order?", preferredStyle: .Alert)
-        
-        alertController.addAction(UIAlertAction(title: "Accept", style: .Default, handler: { action in
-            // close socket
-            self.acceptOrder()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
-    func acceptOrder() {
-        // do this to add multiple parameters
-        let parameters : [ String : AnyObject] = [
-            "token": User.currentUser.token!,
-            "orderId": self.order.id
-        ]
-        
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/accept", parameters: parameters)
-            .responseSwiftyJSON({ (request, response, json, error) in
-                
-                let code = json["code"]
-                let msg = json["msg"]
-                
-                print("code: \(code)")
-                print("msg = \(msg)")
-                
-                if code != 0 {
-                    print(msg)
-                    return
-                }
-                
-                let ret = json["ret"].stringValue
-                print("ret: \(ret)")
-                
-                if ret == "ok" {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        // change the Order status in ordersArray in parent VC
-                        self.delegate?.didAcceptOrder(self.order.id)
-                        
-                        // change status
-                        
-                        // change buttons
-                        self.rejectButton.hidden = true
-                        self.acceptButton.hidden = true
-                        self.completeButton.hidden = false
-                    })
-                }
-            })
+//MARK: Show/Hide Buttons
+    func showHideButtons() {
+        // order has already been accepted
+        if order.status == .Accepted {
+            self.rejectButton.hidden = true
+            self.acceptButton.hidden = true
+            self.completeButton.hidden = false
+        }
+        else {
+            self.rejectButton.hidden = false
+            self.acceptButton.hidden = false
+            self.completeButton.hidden = true
+        }
     }
     
 //MARK: TableView
@@ -242,17 +147,17 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         headerView.alpha = 0.75
         
         // Gradient
-//        let topColor: UIColor = UIColor.lightGrayColor()
-//        let bottomColor: UIColor = UIColor.clearColor()
-//
-//        let gradientColors: [CGColor] = [topColor.CGColor, bottomColor.CGColor]
-//        let gradientLocations: [Float] = [0.0, 1.0]
-//
-//        let gradientLayer: CAGradientLayer = CAGradientLayer()
-//        gradientLayer.colors = gradientColors
-//        gradientLayer.locations = gradientLocations
-//        gradientLayer.frame = CGRectMake(0, 0, self.view.frame.width, 40)
-//        headerView.layer.insertSublayer(gradientLayer, atIndex: 0)
+        //        let topColor: UIColor = UIColor.lightGrayColor()
+        //        let bottomColor: UIColor = UIColor.clearColor()
+        //
+        //        let gradientColors: [CGColor] = [topColor.CGColor, bottomColor.CGColor]
+        //        let gradientLocations: [Float] = [0.0, 1.0]
+        //
+        //        let gradientLayer: CAGradientLayer = CAGradientLayer()
+        //        gradientLayer.colors = gradientColors
+        //        gradientLayer.locations = gradientLocations
+        //        gradientLayer.frame = CGRectMake(0, 0, self.view.frame.width, 40)
+        //        headerView.layer.insertSublayer(gradientLayer, atIndex: 0)
         
         // Title label
         let headerTitleLabel = UILabel(frame: CGRectMake(10, 5, self.view.frame.width - 20, 30))
@@ -260,7 +165,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         headerTitleLabel.textColor = UIColor.whiteColor()
         headerTitleLabel.font = UIFont(name: "OpenSans-SemiBold", size: 21)
         headerView.addSubview(headerTitleLabel)
-    
+        
         return headerView
     }
     
@@ -290,5 +195,111 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
         
         return cell!
+    }
+
+//MARK: User Action
+    func onReject() {
+        self.promptUserActionConfirmation("reject")
+    }
+    
+    func onAccept() {
+        self.promptUserActionConfirmation("accept")
+    }
+    
+    func onComplete() {
+        self.promptUserActionConfirmation("complete")
+    }
+
+//MARK: Confirm Action
+    func promptUserActionConfirmation(action: String) {
+        
+        let alertController = UIAlertController(title: "", message: action, preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Are you sure you want to \(action.firstCharacterUpperCase()) order?",
+            style: .Default, handler: { action in
+            
+            switch action {
+            case "reject":
+                self.rejectOrder()
+            case "accept":
+                self.acceptOrder()
+            default:
+                self.completeOrder()
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+//MARK: Commit Action
+    func rejectOrder() {
+        self.callHouston(self.api + "/reject" , parameters: self.parameters, task: "reject")
+    }
+    
+    func acceptOrder() {
+        self.callHouston(self.api + "/accept" , parameters: self.parameters, task: "accept")
+    }
+    
+    func completeOrder() {
+        self.callHouston(self.api + "/complete" , parameters: self.parameters, task: "complete")
+    }
+    
+// Call Houston
+    func callHouston(apiString: String, parameters: [String: AnyObject], task: String) {
+        
+        Alamofire.request(.GET, apiString, parameters: parameters)
+        .responseSwiftyJSON({ (request, response, json, error) in
+            
+            let code = json["code"]
+            let msg = json["msg"]
+            
+            print("code: \(code)")
+            print("msg = \(msg)")
+            
+            if code != 0 {
+                print(msg)
+                return
+            }
+            
+            let ret = json["ret"].stringValue
+            print("ret: \(ret)")
+            
+            switch task {
+            case "reject":
+                if ret == "ok" {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        self.navigationController?.popViewControllerAnimated(true)
+                        
+                        self.delegate?.didRejectOrder(self.order.id)
+                    })
+                }
+            case "accept":
+                if ret == "ok" {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        // change the Order status in ordersArray in parent VC
+                        self.delegate?.didAcceptOrder(self.order.id)
+                        
+                        // change status
+                        
+                        // change buttons
+                        self.rejectButton.hidden = true
+                        self.acceptButton.hidden = true
+                        self.completeButton.hidden = false
+                    })
+                }
+            default: // complete
+                if ret == "ok" {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        // change the Order status in ordersArray in parent VC
+                        self.delegate?.didCompleteOrder(self.order.id)
+                    })
+                }
+            }
+        })
     }
 }
