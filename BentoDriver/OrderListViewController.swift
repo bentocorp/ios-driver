@@ -255,8 +255,3 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.showOrHideNoTasksLabel()
     }
 }
-
-
-
-
-

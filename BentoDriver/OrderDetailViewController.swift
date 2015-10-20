@@ -65,7 +65,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.rejectButton.setTitle("REJECT", forState: .Normal)
         self.rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.rejectButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
+        self.rejectButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.rejectButton)
         
         // Accept
@@ -75,7 +75,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.acceptButton.setTitle("ACCEPT", forState: .Normal)
         self.acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.acceptButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.acceptButton.addTarget(self, action: "onAccept", forControlEvents: .TouchUpInside)
+        self.acceptButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.acceptButton)
         
         // Complete
@@ -85,7 +85,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.completeButton.setTitle("COMPLETE", forState: .Normal)
         self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.completeButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.completeButton.addTarget(self, action: "onComplete", forControlEvents: .TouchUpInside)
+        self.completeButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.completeButton)
         
         // check if order is accepted and show/hide buttons accordingly
@@ -146,19 +146,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         headerView.backgroundColor = UIColor.grayColor()
         headerView.alpha = 0.75
         
-        // Gradient
-        //        let topColor: UIColor = UIColor.lightGrayColor()
-        //        let bottomColor: UIColor = UIColor.clearColor()
-        //
-        //        let gradientColors: [CGColor] = [topColor.CGColor, bottomColor.CGColor]
-        //        let gradientLocations: [Float] = [0.0, 1.0]
-        //
-        //        let gradientLayer: CAGradientLayer = CAGradientLayer()
-        //        gradientLayer.colors = gradientColors
-        //        gradientLayer.locations = gradientLocations
-        //        gradientLayer.frame = CGRectMake(0, 0, self.view.frame.width, 40)
-        //        headerView.layer.insertSublayer(gradientLayer, atIndex: 0)
-        
         // Title label
         let headerTitleLabel = UILabel(frame: CGRectMake(10, 5, self.view.frame.width - 20, 30))
         headerTitleLabel.text = "Box \(section + 1)"
@@ -197,25 +184,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         return cell!
     }
 
-//MARK: User Action
-    func onReject() {
-        self.promptUserActionConfirmation("reject")
-    }
-    
-    func onAccept() {
-        self.promptUserActionConfirmation("accept")
-    }
-    
-    func onComplete() {
-        self.promptUserActionConfirmation("complete")
-    }
-
-//MARK: Confirm Action
-    func promptUserActionConfirmation(action: String) {
+//MARK: On Action -> Confirm
+    func promptUserActionConfirmation(sender:UIButton) {
+        
+        // get button title and make it lowercase
+        let action = sender.titleLabel?.text?.lowercaseString
         
         let alertController = UIAlertController(title: "", message: action, preferredStyle: .Alert)
         
-        alertController.addAction(UIAlertAction(title: "Are you sure you want to \(action.firstCharacterUpperCase()) order?",
+        alertController.addAction(UIAlertAction(title: "Are you sure you want to \(action!.firstCharacterUpperCase()) order?",
             style: .Default, handler: { action in
             
             switch action {
@@ -246,7 +223,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.callHouston(self.api + "/complete" , parameters: self.parameters, task: "complete")
     }
     
-// Call Houston
+//MARK: Call Houston
     func callHouston(apiString: String, parameters: [String: AnyObject], task: String) {
         
         Alamofire.request(.GET, apiString, parameters: parameters)

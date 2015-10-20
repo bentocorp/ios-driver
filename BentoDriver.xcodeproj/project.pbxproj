@@ -35,6 +35,7 @@
 		FC169CFE1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CEC1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf */; settings = {ASSET_TAGS = (); }; };
 		FC169CFF1BD49DF600D423D9 /* gradient-placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */; settings = {ASSET_TAGS = (); }; };
 		FC4B5E201BD6F37B00C31620 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; settings = {ASSET_TAGS = (); }; };
+		FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */; settings = {ASSET_TAGS = (); }; };
 		FC5EAF5D1BD608E000D66467 /* unassigned.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FC5EAF5C1BD608E000D66467 /* unassigned.mp3 */; settings = {ASSET_TAGS = (); }; };
 		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
 		FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
@@ -140,6 +141,7 @@
 		FC169CEC1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-placeholder2.png"; sourceTree = "<group>"; };
 		FC4B5E1F1BD6F37B00C31620 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableStuff.swift; sourceTree = "<group>"; };
 		FC5EAF5C1BD608E000D66467 /* unassigned.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unassigned.mp3; sourceTree = "<group>"; };
 		FC9CB3151BBF4409000F4395 /* BentoDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BentoDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC9CB3181BBF4409000F4395 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				FC1594471BCC6BD500F532BD /* BentoDriver-Bridging-Header.h */,
+				FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */,
 			);
 			name = "Reusable Elements";
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */,
 				FC1594361BC89C3C00F532BD /* User.swift in Sources */,
 				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
+				FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
