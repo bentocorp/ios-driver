@@ -13,6 +13,7 @@ import SwiftyJSON
 public enum OrderStatus {
     case Assigned
     case Rejected
+    case Accepted
     case Completed
     
     static func statusFromString(statusString: String)-> OrderStatus {
@@ -24,6 +25,8 @@ public enum OrderStatus {
                 return Assigned
             case "rejected":
                 return Rejected
+            case "accepted":
+                return Accepted
             default:
                 return Completed
         }

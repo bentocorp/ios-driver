@@ -72,15 +72,26 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         userActionView.addSubview(self.acceptButton)
         
         // Complete
-        self.completeButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width - 10, 50))
+        self.completeButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width - 10, 50))
         self.completeButton.backgroundColor = UIColor.grayColor()
         self.completeButton.layer.cornerRadius = 1
         self.completeButton.setTitle("COMPLETE", forState: .Normal)
         self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.completeButton.titleLabel?.textColor = UIColor.whiteColor()
         self.completeButton.addTarget(self, action: "onComplete", forControlEvents: .TouchUpInside)
-        self.completeButton.hidden = true
+        
         userActionView.addSubview(self.completeButton)
+        
+        if order.status == OrderStatus. {
+            self.rejectButton.hidden = false
+            self.acceptButton.hidden = false
+            self.completeButton.hidden = true
+        }
+        else {
+            self.rejectButton.hidden = true
+            self.acceptButton.hidden = true
+            self.completeButton.hidden = false
+        }
         
 // TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height)))
@@ -205,6 +216,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         // change buttons
                         self.rejectButton.hidden = true
                         self.acceptButton.hidden = true
+                        self.completeButton.hidden = false
                     })
                 }
             })
