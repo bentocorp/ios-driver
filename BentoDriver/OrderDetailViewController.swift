@@ -30,13 +30,13 @@ class OrderDetailViewController: UIViewController {
         self.title = self.order.name
         
         // reject button
-        let rejectButton = UIButton(type: .Custom)
-        rejectButton.setImage(UIImage(named: "Waste-64"), forState: .Normal)
-        rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
-        rejectButton.frame = CGRectMake(0, 0, 20, 20)
-        
-        let rejectBarButton = UIBarButtonItem(customView: rejectButton)
-        self.navigationItem.rightBarButtonItem = rejectBarButton
+//        let rejectButton = UIButton(type: .Custom)
+//        rejectButton.setImage(UIImage(named: "Waste-64"), forState: .Normal)
+//        rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
+//        rejectButton.frame = CGRectMake(0, 0, 20, 20)
+//        
+//        let rejectBarButton = UIBarButtonItem(customView: rejectButton)
+//        self.navigationItem.rightBarButtonItem = rejectBarButton
         
         // info view
         let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 120))
@@ -48,12 +48,24 @@ class OrderDetailViewController: UIViewController {
         self.view.addSubview(lineSeparatorView)
         
         // Accept
-        let acceptButton = UIButton(frame: CGRectMake(0, self.view.frame.height - 60, self.view.frame.width, 60))
+        let acceptButton = UIButton(frame: CGRectMake(5, self.view.frame.height - 65, self.view.frame.width / 2 - 10, 60))
         acceptButton.backgroundColor = UIColor.lightGrayColor()
+        acceptButton.layer.cornerRadius = 1
         acceptButton.setTitle("ACCEPT", forState: .Normal)
         acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 17)
         acceptButton.titleLabel?.textColor = UIColor.whiteColor()
+        acceptButton.addTarget(self, action: "onAccept", forControlEvents: .TouchUpInside)
         self.view.addSubview(acceptButton)
+        
+        // Reject
+        let rejectButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, self.view.frame.height - 65, self.view.frame.width / 2 - 10, 60))
+        rejectButton.backgroundColor = UIColor.lightGrayColor()
+        rejectButton.layer.cornerRadius = 1
+        rejectButton.setTitle("REJECT", forState: .Normal)
+        rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 17)
+        rejectButton.titleLabel?.textColor = UIColor.whiteColor()
+        rejectButton.addTarget(self, action: "onReject", forControlEvents: .TouchUpInside)
+        self.view.addSubview(rejectButton)
         
 
         

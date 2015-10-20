@@ -16,7 +16,7 @@ public enum Type {
     
     static func typeFromString(typeString: String) -> Type {
         
-        var lowercaseString = typeString.lowercaseString
+        let lowercaseString = typeString.lowercaseString
         
         switch lowercaseString {
         case "main":
