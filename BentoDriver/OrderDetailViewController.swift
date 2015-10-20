@@ -138,6 +138,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         return self.order.itemArray.count // box count
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Box \(section + 1)"
+    }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 40
     }
@@ -155,8 +159,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             cell = UITableViewCell(style: .Default, reuseIdentifier: cellId)
         }
         
+        let itemNameString = (order.itemArray[indexPath.section].items[indexPath.row].name)!
+        let itemLabelString = (order.itemArray[indexPath.section].items[indexPath.row].label)!
+        
         cell?.selectionStyle = .None
-        cell?.textLabel?.text = "* \((order.itemArray[indexPath.section].items[indexPath.row].name)!) (\((order.itemArray[indexPath.section].items[indexPath.row].label)!))"
+        cell?.textLabel?.textColor = UIColor.darkGrayColor()
+        cell?.textLabel?.text = "(\(itemLabelString)) \(itemNameString)"
+        cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
         
         return cell!
     }
