@@ -9,8 +9,8 @@
 import UIKit
 import CoreLocation
 import Alamofire
-import Alamofire_SwiftyJSON
 import SwiftyJSON
+import Alamofire_SwiftyJSON
 
 class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableViewDataSource, UITableViewDelegate {
 
@@ -71,10 +71,8 @@ class OrderListViewController: UIViewController, SocketHandlerDelegate, UITableV
     
     func pullOrders() {
         
-        let token = User.currentUser.token
-        
         // get all assigned orders
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": token!])
+        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
             .responseSwiftyJSON({ (request, response, json, error) in
                 
                 let code = json["code"]

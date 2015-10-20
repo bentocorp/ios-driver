@@ -48,11 +48,13 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField!.layer.cornerRadius = 1
         self.usernameTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.usernameTextField!.placeholder = "username"
+        self.usernameTextField!.font = UIFont(name: "OpenSans-Regular", size: 17)
         self.usernameTextField!.text?.lowercaseString
         self.usernameTextField!.autocapitalizationType = UITextAutocapitalizationType.None
         self.usernameTextField!.backgroundColor = UIColor.whiteColor()
         self.usernameTextField!.keyboardType = UIKeyboardType.EmailAddress
         self.usernameTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
+        self.usernameTextField?.tintColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.usernameTextField!.delegate = self
         backgroundView.addSubview(self.usernameTextField!)
         
@@ -66,10 +68,12 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.passwordTextField!.layer.cornerRadius = 1
         self.passwordTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.passwordTextField!.placeholder = "password"
+        self.passwordTextField!.font = UIFont(name: "OpenSans-Regular", size: 17)
         self.passwordTextField!.autocapitalizationType = UITextAutocapitalizationType.None
         self.passwordTextField!.backgroundColor = UIColor.whiteColor()
         self.passwordTextField!.secureTextEntry = true
         self.passwordTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
+        self.passwordTextField?.tintColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         self.passwordTextField!.delegate = self
         backgroundView.addSubview(self.passwordTextField!)
     
@@ -79,8 +83,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         passwordTextField!.leftViewMode = UITextFieldViewMode.Always
         
         // login button
-        let loginButton = UIButton(frame: CGRectMake(20, self.passwordTextField!.frame.origin.y + 80, self.view.frame.width - 40, 50))
+        let loginButton = UIButton(frame: CGRectMake(20, self.passwordTextField!.frame.origin.y + 70, self.view.frame.width - 40, 50))
         loginButton.backgroundColor = UIColor.clearColor()
+        loginButton.titleLabel!.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         loginButton.layer.cornerRadius = 3
         loginButton.setTitle("LOGIN", forState: .Normal)
         loginButton.addTarget(self, action: "onLogin", forControlEvents: .TouchUpInside)
@@ -173,5 +178,10 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    //
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
 }
