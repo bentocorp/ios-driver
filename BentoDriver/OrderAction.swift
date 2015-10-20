@@ -9,24 +9,6 @@
 import Foundation
 import SwiftyJSON
 
-/*
-case Pending
-case Rejected
-case Completed
-
-static func statusFromString(statusString: String)-> OrderStatus {
-switch statusString {
-case "PENDING":
-return Pending
-case "REJECTED":
-return Rejected
-default:
-return Completed
-}
-}
-
-*/
-
 public enum PushType {
     case CREATE, ASSIGN, REPRIORITIZE, UNASSIGN, UPDATE_STATUS
     
@@ -50,17 +32,13 @@ public class OrderAction {
     public var order: Order?
     public var type: PushType?
     public var after: Int?
-    
-    // unused for now
-//    public var driverId: Int?
+    public var driverId: Int?
     
     init(bodyJSON: JSON) {
         self.order = Order(json: bodyJSON["order"])
         self.type = PushType.pushTypeFromString(bodyJSON["type"].stringValue)
         self.after = bodyJSON["after"].intValue
-        
-        // unused for now
-//        self.driverId = bodyJSON["driverId"].intValue
+        self.driverId = bodyJSON["driverId"].intValue
     }
 }
 

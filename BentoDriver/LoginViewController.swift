@@ -42,7 +42,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         logoImageView.image = UIImage(named: "logo")
         backgroundView.addSubview(logoImageView)
         
-
         // username textfield
         self.usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
         self.usernameTextField!.layer.cornerRadius = 1

@@ -43,10 +43,10 @@ public class Order {
     public var coordinates: CLLocationCoordinate2D
     
     public var status: OrderStatus
-    public var itemClass: String
+//    public var itemClass: String
     // public var item: T
     public var itemArray: [BentoBox] = [] // to do
-    public var itemString: String?
+//    public var itemString: String?
     
     init(json: JSON) {
         self.driverId = json["driverId"].intValue
@@ -66,26 +66,16 @@ public class Order {
 
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
         
-        self.itemClass = json["@class"].stringValue
-        if self.itemClass == "org.bentocorp.Bento" {
+        // check item @class
+//        self.itemClass = json["@class"].stringValue
+//        if self.itemClass == "org.bentocorp.Bento" {
             for items in json["item"].arrayValue {
                 self.itemArray.append(BentoBox(json: items))
             }
-        }
-        else if self.itemClass == "java.lang.String" {
-            self.itemString = json["item"].stringValue
-        }
-    
-        // check item type
-//        if self.itemClass == "org.bentocorp.Bento" {
-//            var bentosArray: [BentoBox] = []
-//            for items in json["item"].arrayValue { // json["item"].arrayValue is the bentosArray in JSON, we need to deserialize it into array first
-//                bentosArray.append(BentoBox(json: items))
-//            }
-//            self.item = bentosArray
 //        }
 //        else if self.itemClass == "java.lang.String" {
-//            self.item = json["item"].stringValue
+//            self.itemString = json["item"].stringValue
 //        }
+    
     }
 }

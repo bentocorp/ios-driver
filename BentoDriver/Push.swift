@@ -11,11 +11,9 @@ import SwiftyJSON
 
 public class Push {
     
-    /*-unused for now-*/
-//    public var rid: String
-//    public var from: String
-//    public var driverId: Int
-    
+    public var rid: String
+    public var from: String
+    public var driverId: Int
     public var to: String
     public var subject: String
     public var createdAt: String
@@ -25,16 +23,13 @@ public class Push {
     public var bodyString: String?
     
     init(json: JSON) {
-        /*-unused for now-*/
-//        self.rid = json["rid"].stringValue
-//        self.from = json["from"].stringValue
-//        self.driverId = json["driverId"].intValue
-        
+        self.rid = json["rid"].stringValue
+        self.from = json["from"].stringValue
+        self.driverId = json["driverId"].intValue
         self.to = json["to"].stringValue
         self.subject = json["subject"].stringValue
         self.createdAt = json["timeStamp"].stringValue
         
-        // body - should be generic
         if self.subject == "order_action" {
             self.bodyOrderAction = OrderAction(bodyJSON: json["body"])
         }

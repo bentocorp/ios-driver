@@ -25,7 +25,6 @@ class OrderListCell: UITableViewCell {
         
         // Circle
         self.circleImageView = UIImageView(frame: CGRectMake(10, self.frame.height / 2 + 10, 20, 20))
-        self.circleImageView.image = UIImage(named: "yellow-circle-64")
         self.addSubview(self.circleImageView)
         
         // Address

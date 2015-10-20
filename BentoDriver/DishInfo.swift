@@ -39,14 +39,3 @@ public class DishInfo {
         self.type = Type.typeFromString(json["type"].stringValue)
     }
 }
-
-/*
-
-{
-"id" : 30,
-"label" : "B",
-"name" : "Kimchi Fried Rice",
-"type" : "main"
-}
-
-*/
