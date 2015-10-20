@@ -190,7 +190,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // get button title and make it lowercase
         let action = sender.titleLabel?.text?.lowercaseString
         
-        let alertController = UIAlertController(title: "", message: "Are you sure you want to \(action) order?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "", message: "Are you sure you want to \(action!) order?", preferredStyle: .Alert)
         
         alertController.addAction(UIAlertAction(title: action!.firstCharacterUpperCase(), style: .Default, handler: { action in
             
