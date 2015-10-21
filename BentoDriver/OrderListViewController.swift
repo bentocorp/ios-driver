@@ -21,20 +21,21 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.lightGrayColor()
+        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+        self.title = "Tasks"
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "OpenSans-Bold", size: 17)!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
         // Navigation Controller
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         
+        // Log out
         let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: self, action: "onLogout")
+        logOutButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans-SemiBold", size: 14)!], forState: .Normal)
         navigationItem.rightBarButtonItem = logOutButton
-
-        // Title
-        self.title = "Tasks"
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
-//        self.navigationController?.navigationBar.barTintColor = UIColor.magentaColor()
-        self.navigationController?.navigationBar.barStyle = .Black
         
         // Delegate
         let socket = SocketHandler.sharedSocket
@@ -47,9 +48,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
         self.orderListTableView!.delegate = self
         self.orderListTableView!.dataSource = self
-        // remove empty cells
-        let backgroundView = UIView(frame: CGRectZero)
-        self.orderListTableView!.tableFooterView = backgroundView
+        let backgroundView = UIView(frame: CGRectZero) // remove empty cells
+        self.orderListTableView!.tableFooterView = backgroundView // remove empty cells
         self.orderListTableView!.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.orderListTableView!)
         
@@ -58,7 +58,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.noTasksLabel.text = "No Tasks"
         self.noTasksLabel.textAlignment = .Center
         self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        self.noTasksLabel.textColor = UIColor.grayColor()
+        self.noTasksLabel.textColor = UIColor.darkGrayColor()
         self.noTasksLabel.hidden = true
         self.view.addSubview(noTasksLabel)
     }
@@ -67,8 +67,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         super.didReceiveMemoryWarning()
     }
     
-    override func viewWillAppear(animated: Bool) {
-//        self.orderListTableView?.reloadData()
+//MARK: Status Bar
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
 
 //MARK: Houston - getAllAssigned
@@ -150,7 +151,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
 //MARK: Table View Datasource
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 80
+        return 100
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -172,7 +173,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         cell?.addressLabel.text = "\(order.street)\n\(order.city)"
         cell?.nameLabel.text = order.name
         cell?.circleImageView.image = UIImage(named: "yellow-circle-64")
-        cell?.createdAtLabel.text = "0:00 PM"
+//        cell?.createdAtLabel.text = "0:00 PM"
         
         print(cell?.frame.width) // i think the last cell is stuck at 320pt...wtf?
         
@@ -224,6 +225,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func didAcceptOrder(orderId: String) {
         // handle accepted order...
         
+        // search for order then reset status
         for (index, order) in self.ordersArray.enumerate() {
             if order.id == orderId {
                 self.ordersArray[index].status = .Accepted
@@ -249,8 +251,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.orderListTableView?.reloadData()
         self.showOrHideNoTasksLabel()
     }
-    
+
+//MARK: Remove Order
     func removeOrder(orderId: String) {
+        // remove a specific order
         for (index, order) in self.ordersArray.enumerate() {
             if order.id == orderId {
                 self.ordersArray.removeAtIndex(index)

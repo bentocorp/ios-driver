@@ -18,15 +18,21 @@ protocol OrderDetailViewControllerDelegate {
 }
 
 class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    var delegate: OrderDetailViewControllerDelegate?
+
+    // Properties
     var order: Order!
-    var bentoTableView: UITableView!
+    
+    var api: String!
+    var parameters : [String : AnyObject]!
+    
     var rejectButton: UIButton!
     var acceptButton: UIButton!
     var completeButton: UIButton!
-    var api: String!
-    var parameters : [ String : AnyObject]!
+    
+    var bentoTableView: UITableView!
+    
+    var delegate: OrderDetailViewControllerDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +41,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.api = "http://52.11.208.197:8081/api/order"
         self.parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
 
-        
+// 
         self.title = self.order.name
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         
 // Customer Info
         // View
@@ -53,7 +59,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         infoView.addSubview(addressLabel)
         
         // phone -> text/call/copy
-        let phoneLabel = UILabel(frame: CGRectMake(20, 10 + addressLabel.frame.height, self.view.frame.width - 80, infoView.frame.height / 2 - 10))
+        let phoneLabel = UILabel(frame: CGRectMake(20, addressLabel.frame.height, self.view.frame.width - 80, infoView.frame.height / 2 - 10))
         phoneLabel.text = "Phone:\n    \(order.phone)"
         phoneLabel.textColor = UIColor.darkGrayColor()
         phoneLabel.numberOfLines = 2
@@ -63,21 +69,21 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // status
         
 // TableView
-        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height - 25))) // height of this +/- from infoView
+        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 80) - (64 + infoView.frame.height - 10)))
         self.bentoTableView.delegate = self
         self.bentoTableView.dataSource = self
         let backgroundView = UIView(frame: CGRectZero)
+        backgroundView.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.bentoTableView.tableFooterView = backgroundView
         self.bentoTableView.backgroundColor = UIColor.clearColor()
         self.bentoTableView.bounces = false
         self.bentoTableView.alwaysBounceVertical = false
         self.view.addSubview(self.bentoTableView)
         
-        
 // Actions
         // View
         let userActionView = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 70))
-        userActionView.backgroundColor = UIColor.lightGrayColor()
+        userActionView.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
         self.view.addSubview(userActionView)
         
         // Reject
@@ -112,17 +118,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // check if order is accepted and show/hide buttons accordingly
         self.showHideButtons()
-    
-
-// Line Separators
-        // 1
-//        let lineSeparatorView = UIView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, 10))
-        
-        
-        // 2
-//        let lineSeparatorView2 = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 1))
-//        lineSeparatorView2.backgroundColor = UIColor.lightGrayColor()
-//        self.view.addSubview(lineSeparatorView2)
     }
 
     override func didReceiveMemoryWarning() {
@@ -146,7 +141,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
         return self.order.itemArray.count // box count
     }
     
@@ -157,8 +151,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // Header view
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.grayColor()
-        headerView.alpha = 0.75
+        headerView.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
         
         // Title label
         let headerTitleLabel = UILabel(frame: CGRectMake(10, 5, self.view.frame.width - 20, 30))
@@ -191,9 +184,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let itemLabelString = (order.itemArray[indexPath.section].items[indexPath.row].label)!
         
         cell?.selectionStyle = .None
-        cell?.textLabel?.textColor = UIColor.darkGrayColor()
-        cell?.textLabel?.text = "• ( \(itemLabelString) ) \(itemNameString)"
+        cell?.textLabel?.textColor = UIColor.whiteColor()
+        cell?.textLabel?.text = "  ( \(itemLabelString) )  \(itemNameString)"
         cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
+        cell?.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         
         return cell!
     }

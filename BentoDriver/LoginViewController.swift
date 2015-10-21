@@ -50,6 +50,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.usernameTextField!.font = UIFont(name: "OpenSans-Regular", size: 17)
         self.usernameTextField!.text?.lowercaseString
         self.usernameTextField!.autocapitalizationType = UITextAutocapitalizationType.None
+        self.usernameTextField!.autocorrectionType = .No
         self.usernameTextField!.backgroundColor = UIColor.whiteColor()
         self.usernameTextField!.keyboardType = UIKeyboardType.EmailAddress
         self.usernameTextField!.clearButtonMode = UITextFieldViewMode.WhileEditing
@@ -171,7 +172,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.view.endEditing(true)
     }
     
-    //
+//MARK: Status Bar
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
