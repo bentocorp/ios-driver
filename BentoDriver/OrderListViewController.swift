@@ -36,10 +36,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         logOutButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans-SemiBold", size: 14)!], forState: .Normal)
         navigationItem.rightBarButtonItem = logOutButton
         
-        // Delegate
-        let socket = SocketHandler.sharedSocket
-        socket.delegate = self;
-        
         // Get orders
         self.pullOrders()
         
@@ -67,6 +63,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
+        // Delegate
+        let socket = SocketHandler.sharedSocket
+        socket.delegate = self;
+        
         self.orderListTableView?.reloadData()
     }
     
