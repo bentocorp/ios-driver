@@ -67,6 +67,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         let socket = SocketHandler.sharedSocket
         socket.delegate = self;
         
+        self.showOrHideNoTasksLabel()
+        
         self.orderListTableView?.reloadData()
     }
     
@@ -219,7 +221,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
-        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
         self.showOrHideNoTasksLabel()
         self.orderListTableView?.reloadData()
     }
