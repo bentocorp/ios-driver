@@ -35,7 +35,7 @@ public enum OrderStatus {
 
 public class Order: NSObject {
     public var driverId: Int
-    public var id: Int
+    public var id: String // either g-424 or b-324, g is generic -> string, b is array for bentos
     public var name: String
     public var phone: String
 
@@ -49,14 +49,13 @@ public class Order: NSObject {
     public var coordinates: CLLocationCoordinate2D
     
     public var status: OrderStatus
-//    public var itemClass: String
     // public var item: T
     public var itemArray: [BentoBox] = [] // to do
-//    public var itemString: String?
+    public var itemString: String?
     
     init(json: JSON) {
         self.driverId = json["driverId"].intValue
-        self.id = json["id"].intValue
+        self.id = json["id"].stringValue
         self.name = json["name"].stringValue
         self.phone = json["phone"].stringValue
         
@@ -72,16 +71,17 @@ public class Order: NSObject {
 
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
         
-        // check item @class
-//        self.itemClass = json["@class"].stringValue
-//        if self.itemClass == "org.bentocorp.Bento" {
+        // check first letter in Order.id
+        let firstCharInString = self.id[self.id.startIndex]
+        
+        if firstCharInString == "b" {
             for items in json["item"].arrayValue {
                 self.itemArray.append(BentoBox(json: items))
             }
-//        }
-//        else if self.itemClass == "java.lang.String" {
-//            self.itemString = json["item"].stringValue
-//        }
+        }
+        else if firstCharInString == "g" {
+            self.itemString = json["item"].stringValue
+        }
     
     }
 }

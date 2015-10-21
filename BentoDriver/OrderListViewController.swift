@@ -16,10 +16,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 
     var ordersArray: Array<Order> = []
     var orderListTableView: UITableView?
-    var noTasksLabel: UILabel = UILabel(frame: CGRectMake(0, 0, 100, 20))
+    var noTasksLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor.lightGrayColor()
         
         // Navigation Controller
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
@@ -30,18 +32,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 
         // Title
         self.title = "Tasks"
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGrayColor()
+        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+//        self.navigationController?.navigationBar.barTintColor = UIColor.magentaColor()
+        self.navigationController?.navigationBar.barStyle = .Black
         
-        // User Info
-//        let connectedAsLabel = UILabel(frame: CGRectMake(20, 80, 110, 30))
-//        connectedAsLabel.text = "Logged in as:"
-//        self.view.addSubview(connectedAsLabel)
-//        
-//        let usernameLabel = UILabel(frame: CGRectMake((connectedAsLabel.frame.width + 25), 80, 200, 30))
-//        usernameLabel.text = User.currentUser.token
-//        self.view.addSubview(usernameLabel)
-        
-        // Delegates
+        // Delegate
         let socket = SocketHandler.sharedSocket
         socket.delegate = self;
         
@@ -55,12 +50,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         // remove empty cells
         let backgroundView = UIView(frame: CGRectZero)
         self.orderListTableView!.tableFooterView = backgroundView
+        self.orderListTableView!.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.orderListTableView!)
         
         // No Tasks Label
+        self.noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width - 50, self.view.frame.height - 10, 100, 20))
         self.noTasksLabel.text = "No Tasks"
-        self.noTasksLabel.center = self.view.center
-        self.noTasksLabel.textColor = UIColor.lightGrayColor()
+        self.noTasksLabel.textColor = UIColor.whiteColor()
         self.noTasksLabel.hidden = true
         self.view.addSubview(noTasksLabel)
     }
@@ -223,7 +219,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: OrderDetailViewControllerDelegate
-    func didAcceptOrder(orderId: Int) {
+    func didAcceptOrder(orderId: String) {
         // handle accepted order...
         
         for (index, order) in self.ordersArray.enumerate() {
@@ -236,22 +232,27 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.showOrHideNoTasksLabel()
     }
     
-    func didCompleteOrder(orderId: Int) {
+    func didCompleteOrder(orderId: String) {
         // handle completed order...
+        self.removeOrder(orderId)
         
         self.orderListTableView?.reloadData()
         self.showOrHideNoTasksLabel()
     }
     
-    func didRejectOrder(orderId: Int) {
+    func didRejectOrder(orderId: String) {
         // handle rejected order...
+        self.removeOrder(orderId)
+        
+        self.orderListTableView?.reloadData()
+        self.showOrHideNoTasksLabel()
+    }
+    
+    func removeOrder(orderId: String) {
         for (index, order) in self.ordersArray.enumerate() {
             if order.id == orderId {
                 self.ordersArray.removeAtIndex(index)
             }
         }
-        
-        self.orderListTableView?.reloadData()
-        self.showOrHideNoTasksLabel()
     }
 }

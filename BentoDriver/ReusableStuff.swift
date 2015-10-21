@@ -18,5 +18,5 @@ import Foundation
 //        let gradientLayer: CAGradientLayer = CAGradientLayer()
 //        gradientLayer.colors = gradientColors
 //        gradientLayer.locations = gradientLocations
-//        gradientLayer.frame = CGRectMake(0, 0, self.view.frame.width, 40)
+//        gradientLayer.frame = CGRectMake(0, 0, self.view.frame.width, 40) <- change here too
 //        [the view to add gradient to].layer.insertSublayer(gradientLayer, atIndex: 0)

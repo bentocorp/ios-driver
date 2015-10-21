@@ -12,9 +12,9 @@ import SwiftyJSON
 import Alamofire_SwiftyJSON
 
 protocol OrderDetailViewControllerDelegate {
-    func didRejectOrder(orderId: Int)
-    func didAcceptOrder(orderId: Int)
-    func didCompleteOrder(orderId: Int)
+    func didRejectOrder(orderId: String)
+    func didAcceptOrder(orderId: String)
+    func didCompleteOrder(orderId: String)
 }
 
 class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -41,16 +41,38 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
 // Customer Info
         // View
-        let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 120))
+        let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 145))
         self.view.addSubview(infoView)
         
-        // name
-        
         // address -> street, city, state, zip code
+        let addressLabel = UILabel(frame: CGRectMake(20, 10, self.view.frame.width - 40, infoView.frame.height / 2 - 10))
+        addressLabel.text = "Address:\n    \(order.street), \(order.city)"
+        addressLabel.textColor = UIColor.darkGrayColor()
+        addressLabel.numberOfLines = 2
+        addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        infoView.addSubview(addressLabel)
         
         // phone -> text/call/copy
+        let phoneLabel = UILabel(frame: CGRectMake(20, 10 + addressLabel.frame.height, self.view.frame.width - 80, infoView.frame.height / 2 - 10))
+        phoneLabel.text = "Phone:\n    \(order.phone)"
+        phoneLabel.textColor = UIColor.darkGrayColor()
+        phoneLabel.numberOfLines = 2
+        phoneLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        infoView.addSubview(phoneLabel)
         
         // status
+        
+// TableView
+        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height - 25))) // height of this +/- from infoView
+        self.bentoTableView.delegate = self
+        self.bentoTableView.dataSource = self
+        let backgroundView = UIView(frame: CGRectZero)
+        self.bentoTableView.tableFooterView = backgroundView
+        self.bentoTableView.backgroundColor = UIColor.clearColor()
+        self.bentoTableView.bounces = false
+        self.bentoTableView.alwaysBounceVertical = false
+        self.view.addSubview(self.bentoTableView)
+        
         
 // Actions
         // View
@@ -80,7 +102,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Complete
         self.completeButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 70))
-        self.completeButton.backgroundColor = UIColor.grayColor()
+        self.completeButton.backgroundColor = UIColor.greenColor()
         self.completeButton.layer.cornerRadius = 1
         self.completeButton.setTitle("COMPLETE", forState: .Normal)
         self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
@@ -90,15 +112,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // check if order is accepted and show/hide buttons accordingly
         self.showHideButtons()
-        
-// TableView
-        self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 70) - (64 + infoView.frame.height)))
-        self.bentoTableView.delegate = self
-        self.bentoTableView.dataSource = self
-        let backgroundView = UIView(frame: CGRectZero)
-        self.bentoTableView.tableFooterView = backgroundView
-        self.bentoTableView.backgroundColor = UIColor.clearColor()
-        self.view.addSubview(self.bentoTableView)
+    
 
 // Line Separators
         // 1
@@ -185,28 +199,31 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
 //MARK: On Action -> Confirm
-    func promptUserActionConfirmation(sender:UIButton) {
+    func promptUserActionConfirmation(sender: UIButton) {
         
         // get button title and make it lowercase
-        let action = sender.titleLabel?.text?.lowercaseString
-        
-        let alertController = UIAlertController(title: "", message: "Are you sure you want to \(action!) order?", preferredStyle: .Alert)
-        
-        alertController.addAction(UIAlertAction(title: action!.firstCharacterUpperCase(), style: .Default, handler: { action in
+        if let action = sender.titleLabel?.text {
             
-            switch action {
-            case "reject":
-                self.rejectOrder()
-            case "accept":
-                self.acceptOrder()
-            default:
-                self.completeOrder()
-            }
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
+            let actionLowercaseString = action.lowercaseString
+            
+            let alertController = UIAlertController(title: "", message: "Are you sure you want to \(actionLowercaseString) order?", preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
+                
+                switch actionLowercaseString {
+                case "reject":
+                    self.rejectOrder()
+                case "accept":
+                    self.acceptOrder()
+                default:
+                    self.completeOrder()
+                }
+            }))
+            
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
     
 //MARK: Commit Action
@@ -270,6 +287,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             default: // complete
                 if ret == "ok" {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        self.navigationController?.popViewControllerAnimated(true)
                         
                         // change the Order status in ordersArray in parent VC
                         self.delegate?.didCompleteOrder(self.order.id)

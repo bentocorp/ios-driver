@@ -31,11 +31,13 @@ class OrderListCell: UITableViewCell {
         self.addressLabel = UILabel(frame: CGRectMake(40, 10, self.frame.size.width - 40 - 20, 40))
         self.addressLabel.numberOfLines = 2
         self.addressLabel.font = UIFont.boldSystemFontOfSize(15.0)
+        self.addressLabel.textColor = UIColor.whiteColor()
         self.addSubview(self.addressLabel)
         
         // Name
         self.nameLabel = UILabel(frame: CGRectMake(40, self.addressLabel.frame.origin.y + 40, self.frame.size.width - 40 - 20, 20))
         self.nameLabel.font = UIFont.systemFontOfSize(13.0)
+        self.nameLabel.textColor = UIColor.whiteColor()
         self.addSubview(self.nameLabel!)
         
         // Arrow note: using uiscreen to frame this because cell width is stuck at 320 for some reason...
