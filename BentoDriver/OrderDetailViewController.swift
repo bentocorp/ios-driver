@@ -47,26 +47,42 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
 // Customer Info
         // View
-        let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 145))
+        let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 80))
         self.view.addSubview(infoView)
         
         // address -> street, city, state, zip code
-        let addressLabel = UILabel(frame: CGRectMake(20, 10, self.view.frame.width - 40, infoView.frame.height / 2 - 10))
-        addressLabel.text = "Address:\n    \(order.street), \(order.city)"
-        addressLabel.textColor = UIColor.darkGrayColor()
-        addressLabel.numberOfLines = 2
-        addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        infoView.addSubview(addressLabel)
+//        let addressLabel = UILabel(frame: CGRectMake(20, 10, self.view.frame.width - 40, infoView.frame.height / 2 - 10))
+//        addressLabel.text = "Address:\n    \(order.street), \(order.city)"
+//        addressLabel.textColor = UIColor.whiteColor()
+//        addressLabel.numberOfLines = 2
+//        addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+//        infoView.addSubview(addressLabel)
         
         // phone -> text/call/copy
-        let phoneLabel = UILabel(frame: CGRectMake(20, addressLabel.frame.height, self.view.frame.width - 80, infoView.frame.height / 2 - 10))
+/*        let phoneLabel = UILabel(frame: CGRectMake(20, addressLabel.frame.height, self.view.frame.width - 80, infoView.frame.height / 2 - 10))
         phoneLabel.text = "Phone:\n    \(order.phone)"
-        phoneLabel.textColor = UIColor.darkGrayColor()
+        phoneLabel.textColor = UIColor.whiteColor()
         phoneLabel.numberOfLines = 2
         phoneLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         infoView.addSubview(phoneLabel)
+*/
         
         // status
+        
+        // location, phone, text
+        let locationButton = UIButton(frame: CGRectMake(self.view.frame.width/4 - 40, 20, 40, 40))
+        locationButton.setImage(UIImage(named: "green-location-64"), forState: .Normal)
+        locationButton.addTarget(self, action: "onLocation", forControlEvents: .TouchUpInside)
+        infoView.addSubview(locationButton)
+        
+        let phoneButton = UIButton(frame: CGRectMake(self.view.frame.width/2 - 20, 20, 40, 40))
+        phoneButton.setImage(UIImage(named: "green-phone-64"), forState: .Normal)
+        infoView.addSubview(phoneButton)
+        
+        let textButton = UIButton(frame: CGRectMake(self.view.frame.width/1.25 - 10, 20, 40, 40))
+        textButton.setImage(UIImage(named: "green-bubble-64"), forState: .Normal)
+        infoView.addSubview(textButton)
+        
         
 // TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 80) - (64 + infoView.frame.height - 10)))
@@ -76,8 +92,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         backgroundView.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.bentoTableView.tableFooterView = backgroundView
         self.bentoTableView.backgroundColor = UIColor.clearColor()
-        self.bentoTableView.bounces = false
-        self.bentoTableView.alwaysBounceVertical = false
         self.view.addSubview(self.bentoTableView)
         
 // Actions
@@ -88,8 +102,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Reject
         self.rejectButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width / 2 - 10, 50))
-        self.rejectButton.backgroundColor = UIColor.redColor()
-        self.rejectButton.layer.cornerRadius = 1
+        self.rejectButton.backgroundColor = UIColor(red: 0.8039, green: 0.2863, blue: 0.2235, alpha: 1.0) /* #cd4939 */
+        self.rejectButton.layer.cornerRadius = 3
         self.rejectButton.setTitle("REJECT", forState: .Normal)
         self.rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.rejectButton.titleLabel?.textColor = UIColor.whiteColor()
@@ -98,8 +112,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Accept
         self.acceptButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width / 2 - 10, 50))
-        self.acceptButton.backgroundColor = UIColor.blueColor()
-        self.acceptButton.layer.cornerRadius = 1
+        self.acceptButton.backgroundColor = UIColor(red: 0.2275, green: 0.5255, blue: 0.8118, alpha: 1.0) /* #3a86cf */
+        self.acceptButton.layer.cornerRadius = 3
         self.acceptButton.setTitle("ACCEPT", forState: .Normal)
         self.acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.acceptButton.titleLabel?.textColor = UIColor.whiteColor()
@@ -107,9 +121,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         userActionView.addSubview(self.acceptButton)
         
         // Complete
-        self.completeButton = UIButton(frame: CGRectMake(0, 0, self.view.frame.width, 70))
-        self.completeButton.backgroundColor = UIColor.greenColor()
-        self.completeButton.layer.cornerRadius = 1
+        self.completeButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width-10, 50))
+        self.completeButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
+        self.completeButton.layer.cornerRadius = 3
         self.completeButton.setTitle("COMPLETE", forState: .Normal)
         self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.completeButton.titleLabel?.textColor = UIColor.whiteColor()
@@ -191,8 +205,34 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         return cell!
     }
+    
+//MARK On Location, Phone, and Text
+    func onLocation() {
+        let alertController = UIAlertController(title: "", message: "\(self.order.street)\n\(self.order.city), \(self.order.region)", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Copy to clipboard", style: .Default, handler: { action in
+            let pasteboard = UIPasteboard.generalPasteboard()
+            pasteboard.string = "\(self.order.street) \(self.order.city), \(self.order.region)"
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Navigate", style: .Default, handler: { action in
+            
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func onPhone() {
 
-//MARK: On Action -> Confirm
+    }
+    
+    func onText() {
+        
+    }
+
+//MARK: On Order Action -> Confirm
     func promptUserActionConfirmation(sender: UIButton) {
         
         // get button title and make it lowercase
