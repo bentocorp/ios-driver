@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
+import MessageUI
 
 protocol OrderDetailViewControllerDelegate {
     func didRejectOrder(orderId: String)
@@ -17,7 +18,7 @@ protocol OrderDetailViewControllerDelegate {
     func didCompleteOrder(orderId: String)
 }
 
-class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMessageComposeViewControllerDelegate {
 
     // Properties
     var order: Order!
@@ -262,15 +263,47 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func onText() {
-        var messageVC = MFMessageComposeViewController()
+        if (!MFMessageComposeViewController.canSendText()) {
+            let warningAlert : UIAlertView = UIAlertView();
+            warningAlert.title = "Error";
+            warningAlert.message = "Your device does not support SMS.";
+            warningAlert.delegate = nil;
+            warningAlert.show();
+            return;
+        }
         
-        messageVC.body = "Enter a message";
-        messageVC.recipients = ["Enter tel-nr"]
-        messageVC.messageComposeDelegate = self;
+        // get only digits from phone string
+        let phoneArray = self.order.phone.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+        let phoneDigitsOnlyString = phoneArray.joinWithSeparator("")
         
-        self.presentViewController(messageVC, animated: false, completion: nil)
+        let recipients: [String] = ["\(phoneDigitsOnlyString)"];
+        
+        let messageController = MFMessageComposeViewController()
+        messageController.messageComposeDelegate = self;
+        messageController.recipients = recipients;
+        
+        self.presentViewController(messageController, animated: true, completion: nil);
     }
+
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
+        if (result.rawValue == MessageComposeResultCancelled.rawValue) {
+            NSLog("Message was cancelled.");
+        }
+        else if (result.rawValue == MessageComposeResultFailed.rawValue) {
+            let warningAlert = UIAlertView();
+            warningAlert.title = "Error";
+            warningAlert.message = "Failed to send SMS!";
+            warningAlert.delegate = nil;
+            warningAlert.show();
+            NSLog("Message failed.");
+        }
+        else {
+            NSLog("Message was sent.");
+        }
+        
+        self.dismissViewControllerAnimated(true, completion: nil);
     }
+
 
 //MARK: On Order Action -> Confirm
     func promptUserActionConfirmation(sender: UIButton) {
