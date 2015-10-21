@@ -33,6 +33,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     var delegate: OrderDetailViewControllerDelegate?
     
+    var messageComposer: MessageComposer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,6 +119,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // check if order is accepted and show/hide buttons accordingly
         self.showHideButtons()
+        
+        //
+        self.messageComposer = MessageComposer(phoneString: self.order.phone)
     }
 
     override func didReceiveMemoryWarning() {
@@ -194,7 +198,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK On Location, Phone, and Text
     func onLocation() {
-        let alertController = UIAlertController(title: "", message: "\(self.order.street)\n\(self.order.city), \(self.order.region)", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Address", message: "\(self.order.street)\n\(self.order.city), \(self.order.region)", preferredStyle: .Alert)
         
         alertController.addAction(UIAlertAction(title: "Let's go!", style: .Default, handler: { action in
             
@@ -238,7 +242,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func onPhone() {
-        let alertController = UIAlertController(title: "", message: "\(self.order.phone)", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Phone Number", message: "\(self.order.phone)", preferredStyle: .Alert)
         
         // get only digits from phone string
         let phoneArray = self.order.phone.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
@@ -262,16 +266,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func onText() {
-        let messageComposer = MessageComposer(phoneString: self.order.phone)
-        
-        // device can send text?
-        if (messageComposer.canSendText()) {
-            // get configured messageCompoer
-            let messageComposeViewController = messageComposer.configuredMessageComposeViewController()
+        if (self.messageComposer.canSendText()) {
+            let messageComposerVC = self.messageComposer.configuredMessageComposeViewController()
             
-            // Present the configured MFMessageComposeViewController instance
-            // dismissal of the controller will be handled by the messageComposer instance, since it implements the appropriate delegate call-back
-            presentViewController(messageComposeViewController, animated: true, completion: nil)
+            // dismissal handled by the messageComposer instance -> contains the delegate call-back
+            presentViewController(messageComposerVC, animated: true, completion: nil)
         }
         else {
             // handle error...

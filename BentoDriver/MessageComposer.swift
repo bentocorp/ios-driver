@@ -29,7 +29,7 @@ public class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
         let messageController = MFMessageComposeViewController()
         messageController.messageComposeDelegate = self
         messageController.recipients = ["\(self.phoneDigitsString)"]
-//        messageController.body = " "
+//        messageController.body = ""
         
         return messageController
     }
