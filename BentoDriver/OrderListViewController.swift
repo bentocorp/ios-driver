@@ -54,9 +54,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.view.addSubview(self.orderListTableView!)
         
         // No Tasks Label
-        self.noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width - 50, self.view.frame.height - 10, 100, 20))
+        self.noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 50, self.view.frame.height/2 - 10, 100, 20))
         self.noTasksLabel.text = "No Tasks"
-        self.noTasksLabel.textColor = UIColor.whiteColor()
+        self.noTasksLabel.textAlignment = .Center
+        self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        self.noTasksLabel.textColor = UIColor.grayColor()
         self.noTasksLabel.hidden = true
         self.view.addSubview(noTasksLabel)
     }
