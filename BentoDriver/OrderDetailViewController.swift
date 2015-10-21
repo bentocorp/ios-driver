@@ -70,18 +70,18 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // status
         
         // location, phone, text
-        let locationButton = UIButton(frame: CGRectMake(self.view.frame.width/4 - 40, 20, 40, 40))
-        locationButton.setImage(UIImage(named: "green-location-64"), forState: .Normal)
-        locationButton.addTarget(self, action: "onLocation", forControlEvents: .TouchUpInside)
-        infoView.addSubview(locationButton)
+        let textButton = UIButton(frame: CGRectMake(self.view.frame.width/4 - 40, 20, 40, 40))
+        textButton.setImage(UIImage(named: "green-bubble-64"), forState: .Normal)
+        infoView.addSubview(textButton)
         
         let phoneButton = UIButton(frame: CGRectMake(self.view.frame.width/2 - 20, 20, 40, 40))
         phoneButton.setImage(UIImage(named: "green-phone-64"), forState: .Normal)
         infoView.addSubview(phoneButton)
         
-        let textButton = UIButton(frame: CGRectMake(self.view.frame.width/1.25 - 10, 20, 40, 40))
-        textButton.setImage(UIImage(named: "green-bubble-64"), forState: .Normal)
-        infoView.addSubview(textButton)
+        let locationButton = UIButton(frame: CGRectMake(self.view.frame.width/1.25 - 10, 20, 40, 40))
+        locationButton.setImage(UIImage(named: "green-map-64"), forState: .Normal)
+        locationButton.addTarget(self, action: "onLocation", forControlEvents: .TouchUpInside)
+        infoView.addSubview(locationButton)
         
         
 // TableView
@@ -210,13 +210,40 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func onLocation() {
         let alertController = UIAlertController(title: "", message: "\(self.order.street)\n\(self.order.city), \(self.order.region)", preferredStyle: .Alert)
         
+        alertController.addAction(UIAlertAction(title: "Let's go!", style: .Default, handler: { action in
+            
+            // street
+            let streetArray = self.order.street.componentsSeparatedByString(" ")
+            var newStreetArray: [String] = []
+            for var i = 0; i < streetArray.count; i++ {
+                newStreetArray.append("\(streetArray[i])%20")
+            }
+            let newStreetString = newStreetArray.joinWithSeparator("")
+            
+            // city
+            let cityArray = self.order.city.componentsSeparatedByString(" ")
+            var newCityArray: [String] = []
+            for var k = 0; k < cityArray.count; k++ {
+                if cityArray[k] != cityArray[cityArray.count-1] {
+                    newCityArray.append("\(cityArray[k])%20")
+                }
+                else {
+                    newCityArray.append("\(cityArray[k])") // don't add %20 at the end
+                }
+            }
+            let newCityString = newCityArray.joinWithSeparator("")
+            
+            // open waze with URL scheme
+            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
+            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
+            if UIApplication.sharedApplication().canOpenURL(url!) == true {
+                UIApplication.sharedApplication().openURL(url!)
+            }
+        }))
+        
         alertController.addAction(UIAlertAction(title: "Copy to clipboard", style: .Default, handler: { action in
             let pasteboard = UIPasteboard.generalPasteboard()
             pasteboard.string = "\(self.order.street) \(self.order.city), \(self.order.region)"
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Navigate", style: .Default, handler: { action in
-            
         }))
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))

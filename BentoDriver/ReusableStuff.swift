@@ -20,3 +20,14 @@ import Foundation
 //        gradientLayer.locations = gradientLocations
 //        gradientLayer.frame = CGRectMake(0, 0, self.view.frame.width, 40) <- change here too
 //        [the view to add gradient to].layer.insertSublayer(gradientLayer, atIndex: 0)
+
+
+/*
+to whitelist an app to open url. open plist sourcode and add
+
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>waze</string>
+</array>
+
+*/
