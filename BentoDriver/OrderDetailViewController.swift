@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
-import MessageUI
 
 protocol OrderDetailViewControllerDelegate {
     func didRejectOrder(orderId: String)
@@ -18,7 +17,7 @@ protocol OrderDetailViewControllerDelegate {
     func didCompleteOrder(orderId: String)
 }
 
-class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMessageComposeViewControllerDelegate {
+class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // Properties
     var order: Order!
@@ -263,45 +262,25 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func onText() {
-        if (!MFMessageComposeViewController.canSendText()) {
-            let warningAlert : UIAlertView = UIAlertView();
-            warningAlert.title = "Error";
-            warningAlert.message = "Your device does not support SMS.";
-            warningAlert.delegate = nil;
-            warningAlert.show();
-            return;
-        }
+        let messageComposer = MessageComposer(phoneString: self.order.phone)
         
-        // get only digits from phone string
-        let phoneArray = self.order.phone.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
-        let phoneDigitsOnlyString = phoneArray.joinWithSeparator("")
-        
-        let recipients: [String] = ["\(phoneDigitsOnlyString)"];
-        
-        let messageController = MFMessageComposeViewController()
-        messageController.messageComposeDelegate = self;
-        messageController.recipients = recipients;
-        
-        self.presentViewController(messageController, animated: true, completion: nil);
-    }
-
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        if (result.rawValue == MessageComposeResultCancelled.rawValue) {
-            NSLog("Message was cancelled.");
-        }
-        else if (result.rawValue == MessageComposeResultFailed.rawValue) {
-            let warningAlert = UIAlertView();
-            warningAlert.title = "Error";
-            warningAlert.message = "Failed to send SMS!";
-            warningAlert.delegate = nil;
-            warningAlert.show();
-            NSLog("Message failed.");
+        // device can send text?
+        if (messageComposer.canSendText()) {
+            // get configured messageCompoer
+            let messageComposeViewController = messageComposer.configuredMessageComposeViewController()
+            
+            // Present the configured MFMessageComposeViewController instance
+            // dismissal of the controller will be handled by the messageComposer instance, since it implements the appropriate delegate call-back
+            presentViewController(messageComposeViewController, animated: true, completion: nil)
         }
         else {
-            NSLog("Message was sent.");
+            // handle error...
+            let alertController = UIAlertController(title: "", message: "Your device is unable to send text messages.", preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
-        
-        self.dismissViewControllerAnimated(true, completion: nil);
     }
 
 
