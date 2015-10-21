@@ -400,15 +400,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         // automatically present and dismiss alertController
-        let alertController = UIAlertController(title: "New Task!", message: "", preferredStyle: .Alert)
-        self.presentViewController(alertController, animated: true) { () -> Void in
-            // Delay the dismissal by...
-            let delay = 2.0 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                alertController.dismissViewControllerAnimated(true, completion: nil)
-            })
-        }
+        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
@@ -422,32 +414,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         
-        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
-        
         // if current order is unassigned
         if unassignedOrder.id == self.order.id {
-        
-            let alertController = UIAlertController(title: "This task has been unassigned!", message: "", preferredStyle: .Alert)
-            
-            alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: { action in
-                
-                self.navigationController?.popViewControllerAnimated(true)
-            }))
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!")
         }
-        // if another order is unassigned
         else {
-            // automatically present and dismiss alertController
-            let alertController = UIAlertController(title: "A task has been unassigned!", message: "", preferredStyle: .Alert)
-            self.presentViewController(alertController, animated: true) { () -> Void in
-                // Delay the dismissal by...
-                let delay = 2.0 * Double(NSEC_PER_SEC)
-                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                dispatch_after(time, dispatch_get_main_queue(), {
-                    alertController.dismissViewControllerAnimated(true, completion: nil)
-                })
-            }
+            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!")
         }
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
@@ -455,5 +427,21 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     func socketHandlerDidDisconnect() {
         // handle disconnect
+    }
+
+//MARK: Auto Alert
+    func taskHasBeenAssignedOrUnassigned(task: String) {
+        
+        // automatically present and dismiss alertController
+        let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
+        
+        self.presentViewController(alertController, animated: true) { () -> Void in
+            // Delay the dismissal by...
+            let delay = 2.0 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue(), {
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+            })
+        }
     }
 }
