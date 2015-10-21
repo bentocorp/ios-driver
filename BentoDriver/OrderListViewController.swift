@@ -13,8 +13,7 @@ import SwiftyJSON
 import Alamofire_SwiftyJSON
 
 class OrderListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate, OrderDetailViewControllerDelegate {
-
-    var ordersArray: Array<Order> = []
+    
     var orderListTableView: UITableView?
     var noTasksLabel: UILabel!
     
@@ -67,6 +66,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         super.didReceiveMemoryWarning()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.orderListTableView?.reloadData()
+    }
+    
 //MARK: Status Bar
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
@@ -102,7 +105,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                         
                         // filter out rejected orders
                         if order.status != .Rejected {
-                            self.ordersArray.append(order)
+                            OrderList.sharedInstance.orderArray.append(order)
                         }
                     }
                     
@@ -111,12 +114,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                     self.showOrHideNoTasksLabel()
                 })
                 
-                print("getAllAssigned - \(self.ordersArray)")
+                print("getAllAssigned - \(OrderList.sharedInstance.orderArray)")
             })
     }
     
     func showOrHideNoTasksLabel() {
-        if self.ordersArray.count == 0 {
+        if OrderList.sharedInstance.orderArray.count == 0 {
             self.noTasksLabel.hidden = false
         }
         else {
@@ -155,7 +158,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.ordersArray.count
+        return OrderList.sharedInstance.orderArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -168,7 +171,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             cell = OrderListCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellId)
         }
         
-        let order = self.ordersArray[indexPath.row]
+        let order = OrderList.sharedInstance.orderArray[indexPath.row]
         
         cell?.addressLabel.text = "\(order.street)\n\(order.city)"
         cell?.nameLabel.text = order.name
@@ -186,7 +189,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         // go to detail screen
         let orderDetailViewController = OrderDetailViewController()
         orderDetailViewController.delegate = self
-        orderDetailViewController.order = self.ordersArray[indexPath.row]
+        orderDetailViewController.order = OrderList.sharedInstance.orderArray[indexPath.row]
 
         self.navigationController?.pushViewController(orderDetailViewController, animated: true)
     }
@@ -199,7 +202,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
         // handler assigned order...
-        self.ordersArray.append(assignedOrder)
+        OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
         self.showOrHideNoTasksLabel()
@@ -209,10 +212,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
         // handle unassigned order...
         // loop through all ordersArray to find corresponding Order...
-        for (index, order) in self.ordersArray.enumerate() {
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             // once found, remove
             if order.id == unassignedOrder.id {
-                self.ordersArray.removeAtIndex(index)
+                OrderList.sharedInstance.orderArray.removeAtIndex(index)
             }
         }
         
@@ -226,9 +229,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         // handle accepted order...
         
         // search for order then reset status
-        for (index, order) in self.ordersArray.enumerate() {
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             if order.id == orderId {
-                self.ordersArray[index].status = .Accepted
+                OrderList.sharedInstance.orderArray[index].status = .Accepted
             }
         }
         
@@ -255,9 +258,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Remove Order
     func removeOrder(orderId: String) {
         // remove a specific order
-        for (index, order) in self.ordersArray.enumerate() {
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             if order.id == orderId {
-                self.ordersArray.removeAtIndex(index)
+                OrderList.sharedInstance.orderArray.removeAtIndex(index)
             }
         }
     }

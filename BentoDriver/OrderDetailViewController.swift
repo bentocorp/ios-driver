@@ -17,7 +17,7 @@ protocol OrderDetailViewControllerDelegate {
     func didCompleteOrder(orderId: String)
 }
 
-class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate {
 
     // Properties
     var order: Order!
@@ -37,14 +37,19 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+        
+        // Navigation Controller
+        self.title = self.order.name
         
 // API & Parameters
         self.api = "http://52.11.208.197:8081/api/order"
         self.parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
-
-// 
-        self.title = self.order.name
-        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+        
+// Socket Handler
+        let socket = SocketHandler.sharedSocket
+        socket.delegate = self;
         
 // Customer Info
         // View
@@ -189,7 +194,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         cell?.selectionStyle = .None
         cell?.textLabel?.textColor = UIColor.whiteColor()
-        cell?.textLabel?.text = "  ( \(itemLabelString) )  \(itemNameString)"
+        cell?.textLabel?.text = "  \(itemLabelString) - \(itemNameString)"
         cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
         cell?.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         
@@ -291,7 +296,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             
             let actionLowercaseString = action.lowercaseString
             
-            let alertController = UIAlertController(title: "", message: "Are you sure you want to \(actionLowercaseString) order?", preferredStyle: .Alert)
+            let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
             
             alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
                 
@@ -381,5 +386,42 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 }
             }
         })
+    }
+    
+//MARK: SocketHandlerDelegate
+    func socketHandlerDidAssignOrder(assignedOrder: Order) {
+        // handler assign...
+    }
+    
+    func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
+        // handler unassign...
+        
+        // remove order from OrderList
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
+            // once found, remove
+            if order.id == unassignedOrder.id {
+                OrderList.sharedInstance.orderArray.removeAtIndex(index)
+            }
+        }
+        
+        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+        
+        if unassignedOrder.id == self.order.id {
+        
+            let alertController = UIAlertController(title: "Unassigned", message: "This task has been unassigned.", preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: { action in
+                
+                self.navigationController?.popViewControllerAnimated(true)
+            }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+        
+        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+    }
+    
+    func socketHandlerDidDisconnect() {
+        // handle disconnect
     }
 }

@@ -74,7 +74,7 @@ public class Order: NSObject {
         // check first letter in Order.id
         let firstCharInString = self.id[self.id.startIndex]
         
-        if firstCharInString == "b" {
+        if firstCharInString == "o" {
             for items in json["item"].arrayValue {
                 self.itemArray.append(BentoBox(json: items))
             }

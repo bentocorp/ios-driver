@@ -43,6 +43,7 @@
 		FC9CB32E1BBF4409000F4395 /* BentoDriverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */; };
 		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
 		FCA840541BD8177D00B67416 /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840531BD8177D00B67416 /* MessageComposer.swift */; settings = {ASSET_TAGS = (); }; };
+		FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840561BD83E5D00B67416 /* OrderList.swift */; settings = {ASSET_TAGS = (); }; };
 		FCE4268B1BD3C1C800DF3D19 /* JGProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCE4268A1BD3C1B000DF3D19 /* JGProgressHUD.framework */; };
 		FCE4268C1BD3C1C800DF3D19 /* JGProgressHUD.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCE4268A1BD3C1B000DF3D19 /* JGProgressHUD.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FCED93811BCEDF59008C17C8 /* new_order.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCED93801BCEDF59008C17C8 /* new_order.wav */; settings = {ASSET_TAGS = (); }; };
@@ -156,6 +157,7 @@
 		FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BentoDriverUITests.swift; sourceTree = "<group>"; };
 		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCA840531BD8177D00B67416 /* MessageComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposer.swift; sourceTree = "<group>"; };
+		FCA840561BD83E5D00B67416 /* OrderList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderList.swift; sourceTree = "<group>"; };
 		FCE4267F1BD3C1B000DF3D19 /* JGProgressHUD.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JGProgressHUD.xcodeproj; path = "../../Downloads/JGProgressHUD-master 2/JGProgressHUD.xcodeproj"; sourceTree = "<group>"; };
 		FCED93801BCEDF59008C17C8 /* new_order.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = new_order.wav; sourceTree = "<group>"; };
 		FCED93911BD174D5008C17C8 /* DishInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DishInfo.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 		FC6FEC9E1BD2CC8700C7F95A /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				FCA840561BD83E5D00B67416 /* OrderList.swift */,
 				FCFC938F1BC73EDF00DB52AC /* Order.swift */,
 				FC15943F1BCC5FB600F532BD /* BentoBox.swift */,
 				FCED93911BD174D5008C17C8 /* DishInfo.swift */,
@@ -640,6 +643,7 @@
 			files = (
 				FC1594301BC89C0500F532BD /* OrderDetailViewController.swift in Sources */,
 				FC4B5E201BD6F37B00C31620 /* String.swift in Sources */,
+				FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */,
 				FC15B5AB1BD56E8F007B7121 /* OrderAction.swift in Sources */,
 				FC15B5AF1BD5805A007B7121 /* OrderListCell.swift in Sources */,
 				FCED93941BD19046008C17C8 /* Push.swift in Sources */,
