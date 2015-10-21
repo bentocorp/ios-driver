@@ -50,39 +50,25 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 80))
         self.view.addSubview(infoView)
         
-        // address -> street, city, state, zip code
-//        let addressLabel = UILabel(frame: CGRectMake(20, 10, self.view.frame.width - 40, infoView.frame.height / 2 - 10))
-//        addressLabel.text = "Address:\n    \(order.street), \(order.city)"
-//        addressLabel.textColor = UIColor.whiteColor()
-//        addressLabel.numberOfLines = 2
-//        addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-//        infoView.addSubview(addressLabel)
-        
-        // phone -> text/call/copy
-/*        let phoneLabel = UILabel(frame: CGRectMake(20, addressLabel.frame.height, self.view.frame.width - 80, infoView.frame.height / 2 - 10))
-        phoneLabel.text = "Phone:\n    \(order.phone)"
-        phoneLabel.textColor = UIColor.whiteColor()
-        phoneLabel.numberOfLines = 2
-        phoneLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        infoView.addSubview(phoneLabel)
-*/
-        
-        // status
-        
-        // location, phone, text
+        // text
         let textButton = UIButton(frame: CGRectMake(self.view.frame.width/4 - 40, 20, 40, 40))
         textButton.setImage(UIImage(named: "green-bubble-64"), forState: .Normal)
+        textButton.addTarget(self, action: "onText", forControlEvents: .TouchUpInside)
         infoView.addSubview(textButton)
         
+        // phone
         let phoneButton = UIButton(frame: CGRectMake(self.view.frame.width/2 - 20, 20, 40, 40))
         phoneButton.setImage(UIImage(named: "green-phone-64"), forState: .Normal)
+        phoneButton.addTarget(self, action: "onPhone", forControlEvents: .TouchUpInside)
         infoView.addSubview(phoneButton)
         
+        // location
         let locationButton = UIButton(frame: CGRectMake(self.view.frame.width/1.25 - 10, 20, 40, 40))
         locationButton.setImage(UIImage(named: "green-map-64"), forState: .Normal)
         locationButton.addTarget(self, action: "onLocation", forControlEvents: .TouchUpInside)
         infoView.addSubview(locationButton)
         
+        // status
         
 // TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 80) - (64 + infoView.frame.height - 10)))
@@ -252,11 +238,38 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func onPhone() {
-
+        let alertController = UIAlertController(title: "", message: "\(self.order.phone)", preferredStyle: .Alert)
+        
+        // get only digits from phone string
+        let phoneArray = self.order.phone.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+        let phoneDigitsOnlyString = phoneArray.joinWithSeparator("")
+        
+        alertController.addAction(UIAlertAction(title: "Call", style: .Default, handler: { action in
+            let url  = NSURL(string: "tel://\(phoneDigitsOnlyString)")
+            if UIApplication.sharedApplication().canOpenURL(url!) == true {
+                UIApplication.sharedApplication().openURL(url!)
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Copy to clipboard", style: .Default, handler: { action in
+            let pasteboard = UIPasteboard.generalPasteboard()
+            pasteboard.string = "\(phoneDigitsOnlyString)"
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     func onText() {
+        var messageVC = MFMessageComposeViewController()
         
+        messageVC.body = "Enter a message";
+        messageVC.recipients = ["Enter tel-nr"]
+        messageVC.messageComposeDelegate = self;
+        
+        self.presentViewController(messageVC, animated: false, completion: nil)
+    }
     }
 
 //MARK: On Order Action -> Confirm
