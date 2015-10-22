@@ -81,7 +81,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         lineSeparator.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
         self.view.addSubview(lineSeparator)
         
-        
 // TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 80) - (64 + infoView.frame.height - 10)))
         self.bentoTableView.delegate = self
@@ -90,7 +89,19 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         backgroundView.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.bentoTableView.tableFooterView = backgroundView
         self.bentoTableView.backgroundColor = UIColor.clearColor()
-        self.view.addSubview(self.bentoTableView)
+        if self.order.itemArray.count != 0 {
+            self.view.addSubview(self.bentoTableView)
+        }
+        
+// Task String
+        
+        let taskStringLabel = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
+        taskStringLabel.textColor = UIColor.whiteColor()
+        taskStringLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        if self.order.itemString != nil {
+            taskStringLabel.text = order.itemString
+            self.view.addSubview(taskStringLabel)
+        }
         
 // Actions
         // View

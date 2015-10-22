@@ -111,6 +111,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                     self.showOrHideNoTasksLabel()
                 })
                 
+                print("getAllAssigned count - \(OrderList.sharedInstance.orderArray.count)")
                 print("getAllAssigned - \(OrderList.sharedInstance.orderArray)")
             })
     }
