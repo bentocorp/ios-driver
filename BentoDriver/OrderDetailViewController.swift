@@ -142,7 +142,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // acceppted
         if self.order.status == .Accepted {
-            var arrivedWasTapped = NSUserDefaults.standardUserDefaults().boolForKey("arrivedWasTapped")
             // flag to check if arrived has been tapped on, reset to nil once order is complete
             if NSUserDefaults.standardUserDefaults().boolForKey("arrivedWasTapped") == false {
                 self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */

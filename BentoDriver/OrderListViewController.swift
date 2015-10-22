@@ -15,11 +15,14 @@ import PKHUD
 
 class OrderListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate, OrderDetailViewControllerDelegate {
     
+    let notification = CWStatusBarNotification()
     var orderListTableView: UITableView?
     var noTasksLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.title = "Tasks"
@@ -255,18 +258,23 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Auto Alert
     func taskHasBeenAssignedOrUnassigned(task: String) {
         
-        let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
+        self.notification.notificationStyle = .NavigationBarNotification
+        self.notification.displayNotificationWithMessage(task, forDuration: 2.0)
         
-        // automatically present and dismiss alertController
-        self.presentViewController(alertController, animated: true) { () -> Void in
-            
-            // Delay the dismissal by...
-            let delay = 2 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                alertController.dismissViewControllerAnimated(true, completion: nil)
-            })
-        }
+        
+        
+//        let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
+//        
+//        // automatically present and dismiss alertController
+//        self.presentViewController(alertController, animated: true) { () -> Void in
+//            
+//            // Delay the dismissal by...
+//            let delay = 2 * Double(NSEC_PER_SEC)
+//            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//            dispatch_after(time, dispatch_get_main_queue(), {
+//                alertController.dismissViewControllerAnimated(true, completion: nil)
+//            })
+//        }
     }
     
 //MARK: Update UI
