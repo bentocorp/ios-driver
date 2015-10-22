@@ -29,7 +29,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     var rejectButton: UIButton!
     var acceptButton: UIButton!
-    var completeButton: UIButton!
+    var arrivedAndCompleteButton: UIButton!
     
     var bentoTableView: UITableView!
     
@@ -46,7 +46,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.title = self.order.name
         
 // API & Parameters
-        self.api = "http://52.11.208.197:8081/api/order"
+        self.api = "http://52.11.208.197:8081/api"
         self.parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
         
 // Socket Handler
@@ -131,15 +131,27 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.acceptButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.acceptButton)
         
-        // Complete
-        self.completeButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width-10, 50))
-        self.completeButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
-        self.completeButton.layer.cornerRadius = 3
-        self.completeButton.setTitle("COMPLETE", forState: .Normal)
-        self.completeButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
-        self.completeButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.completeButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(self.completeButton)
+        // Arrived/Complete
+        self.arrivedAndCompleteButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width-10, 50))
+        self.arrivedAndCompleteButton.layer.cornerRadius = 3
+        self.arrivedAndCompleteButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
+        self.arrivedAndCompleteButton.titleLabel?.textColor = UIColor.whiteColor()
+        self.arrivedAndCompleteButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
+        userActionView.addSubview(self.arrivedAndCompleteButton)
+        
+        if self.order.status == .Accepted {
+            
+            // flag to check if arrived has been tapped on, reset to nil once order is complete
+
+            if NSUserDefaults.standardUserDefaults().boolForKey("arrivedWasTapped") == false {
+                self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */
+                self.arrivedAndCompleteButton.setTitle("ARRIVED", forState: .Normal)
+            }
+            else {
+                self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
+                self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
+            }
+        }
         
         // check if order is accepted and show/hide buttons accordingly
         self.showHideButtons()
@@ -158,12 +170,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         if order.status == .Accepted {
             self.rejectButton.hidden = true
             self.acceptButton.hidden = true
-            self.completeButton.hidden = false
+            self.arrivedAndCompleteButton.hidden = false
         }
         else {
             self.rejectButton.hidden = false
             self.acceptButton.hidden = false
-            self.completeButton.hidden = true
+            self.arrivedAndCompleteButton.hidden = true
         }
     }
     
@@ -346,6 +358,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                             self.rejectOrder()
                         case "accept":
                             self.acceptOrder()
+                        case "arrived":
+                            self.arrivedOrder()
                         default:
                             self.completeOrder()
                         }
@@ -363,15 +377,19 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: Commit Action
     func rejectOrder() {
-        self.callHouston(self.api + "/reject" , parameters: self.parameters, task: "reject")
+        self.callHouston(self.api + "/order/reject" , parameters: self.parameters, task: "reject")
     }
     
     func acceptOrder() {
-        self.callHouston(self.api + "/accept" , parameters: self.parameters, task: "accept")
+        self.callHouston(self.api + "/order/accept" , parameters: self.parameters, task: "accept")
+    }
+    
+    func arrivedOrder() {
+        self.callHouston(self.api + "/sms/bento-here", parameters: self.parameters, task: "arrived")
     }
     
     func completeOrder() {
-        self.callHouston(self.api + "/complete" , parameters: self.parameters, task: "complete")
+        self.callHouston(self.api + "/order/complete" , parameters: self.parameters, task: "complete")
     }
     
 //MARK: Call Houston
@@ -383,7 +401,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         PKHUD.sharedHUD.show()
         
         Alamofire.request(.GET, apiString, parameters: parameters)
-        .responseSwiftyJSON({ (request, response, json, error) in
+            .responseSwiftyJSON({ (request, response, json, error) in
             
             let code = json["code"]
             let msg = json["msg"]
@@ -392,16 +410,29 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             print("msg = \(msg)")
             
             if code != 0 {
-                print(msg)
+
+                // handle error...
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+                    PKHUD.sharedHUD.hide(afterDelay: 0)
+                    
+                    let alertController = UIAlertController(title: "Uh-oh!", message: error.debugDescription, preferredStyle: .Alert)
+                    
+                    alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                })
+                
                 return
             }
             
-            let ret = json["ret"].stringValue
+            let ret = json["ret"].stringValue.lowercaseString // normalize ret string
             print("ret: \(ret)")
             
             switch task {
             case "reject":
                 if ret == "ok" {
+                    
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
                         self.navigationController?.popViewControllerAnimated(true)
@@ -424,7 +455,24 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         // change buttons
                         self.rejectButton.hidden = true
                         self.acceptButton.hidden = true
-                        self.completeButton.hidden = false
+                        self.arrivedAndCompleteButton.hidden = false
+                        self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */
+                        self.arrivedAndCompleteButton.setTitle("ARRIVED", forState: .Normal)
+                    
+                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+                        PKHUD.sharedHUD.hide(afterDelay: 0)
+                    })
+                }
+            case "arrived":
+                if ret == "ok" {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        // change arrived button to complete button
+                        self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
+                        self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
+                        
+                        // flag to check if arrived has been tapped on, reset to nil once order is complete
+                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "arrivedWasTapped")
+                        NSUserDefaults.standardUserDefaults().synchronize()
                         
                         PKHUD.sharedHUD.contentView = PKHUDSuccessView()
                         PKHUD.sharedHUD.hide(afterDelay: 0)
@@ -438,6 +486,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         
                         // change the Order status in ordersArray in parent VC
                         self.delegate?.didCompleteOrder(self.order.id)
+                        
+                        // flag to check if arrived has been tapped on, reset to nil once order is complete
+                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "arrivedWasTapped")
+                        NSUserDefaults.standardUserDefaults().synchronize()
                         
                         PKHUD.sharedHUD.contentView = PKHUDSuccessView()
                         PKHUD.sharedHUD.hide(afterDelay: 0)

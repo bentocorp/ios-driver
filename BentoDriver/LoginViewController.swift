@@ -104,7 +104,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     
 //MARK: SocketHandlerDelegate Method
     func socketHandlerDidConnect(connected: Bool) {
-        if connected == false { //TODO: might want to check for authenticated instead
+        if connected == false { // TODO: figure out why this is trying to reconnect, add breakpoint to connect
             PKHUD.sharedHUD.contentView = PKHUDSuccessView()
             PKHUD.sharedHUD.hide(afterDelay: 0)
             
