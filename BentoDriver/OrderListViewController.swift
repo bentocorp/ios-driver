@@ -80,30 +80,27 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             .responseSwiftyJSON({ (request, response, json, error) in
                 
                 let code = json["code"]
-                let msg = json["msg"]
-                
                 print("code: \(code)")
-                print("msg = \(msg)")
                 
-                if code != 0 {
-                    print(msg)
-                    return
-                }
+                let msg = json["msg"]
+                print("msg = \(msg)")
                 
                 let ret = json["ret"].arrayValue
                 print("ret: \(ret)")
                 
+                // Handle error...
+                if code != 0 {
+                    print(msg)
+                    return
+                }
+        
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
                     // add orders to ordersArray
                     for orderJSON in ret {
                         let order: Order = Order.init(json: orderJSON)
                         print(order.id)
                         
-                        // filter out rejected orders
-                        if order.status != .Rejected {
-                            OrderList.sharedInstance.orderArray.append(order)
-                        }
+                        OrderList.sharedInstance.orderArray.append(order)
                     }
                     
                     self.dismissHUD()

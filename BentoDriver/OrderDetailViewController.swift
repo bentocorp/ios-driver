@@ -27,6 +27,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var api: String!
     var parameters : [String : AnyObject]!
     
+    var userActionView: UIView!
     var rejectButton: UIButton!
     var acceptButton: UIButton!
     var arrivedAndCompleteButton: UIButton!
@@ -111,7 +112,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
 //MARK: Actions
         // View
-        let userActionView = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 70))
+        self.userActionView = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 70))
         userActionView.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
         self.view.addSubview(userActionView)
         
@@ -123,7 +124,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.rejectButton.titleLabel?.textColor = UIColor.whiteColor()
         self.rejectButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(self.rejectButton)
+        self.userActionView.addSubview(self.rejectButton)
         
         // Accept
         self.acceptButton = UIButton(frame: CGRectMake(self.view.frame.width / 2 + 5, 10, self.view.frame.width / 2 - 10, 50))
@@ -133,7 +134,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.acceptButton.titleLabel?.textColor = UIColor.whiteColor()
         self.acceptButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(self.acceptButton)
+        self.userActionView.addSubview(self.acceptButton)
         
         // Arrived/Complete
         self.arrivedAndCompleteButton = UIButton(frame: CGRectMake(5, 10, self.view.frame.width-10, 50))
@@ -141,7 +142,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.arrivedAndCompleteButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.arrivedAndCompleteButton.titleLabel?.textColor = UIColor.whiteColor()
         self.arrivedAndCompleteButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(self.arrivedAndCompleteButton)
+        self.userActionView.addSubview(self.arrivedAndCompleteButton)
         
         // acceppted
         if self.order.status == .Accepted {
@@ -169,8 +170,17 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: Show/Hide Buttons
     func showHideButtons() {
-        // order has already been accepted
-        if order.status == .Accepted {
+        if order.status == .Rejected {
+            self.rejectButton.hidden = true
+            self.acceptButton.hidden = true
+            self.arrivedAndCompleteButton.hidden = true
+            
+            let rejectedLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 100, self.userActionView.frame.height/2 - 20, 200, 40))
+            rejectedLabel.font = UIFont(name: "OpenSans-Bold", size: 21)
+            rejectedLabel.text = "REJECTED"
+            self.userActionView.addSubview(rejectedLabel)
+        }
+        else if order.status == .Accepted {
             self.rejectButton.hidden = true
             self.acceptButton.hidden = true
             self.arrivedAndCompleteButton.hidden = false
