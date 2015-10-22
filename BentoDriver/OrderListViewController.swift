@@ -22,7 +22,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UIApplication.sharedApplication().idleTimerDisabled = true // lock screen once logged in
+        UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
 
 //MARK: Navigation Bar
         self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
@@ -95,6 +95,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                 }
         
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
                     // add orders to ordersArray
                     for orderJSON in ret {
                         let order: Order = Order.init(json: orderJSON)
@@ -162,7 +163,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         switch order.status{
         case .Accepted:
-            cell?.circleImageView.image = UIImage(named: "green-moon-64")
+            cell?.circleImageView.image = UIImage(named: "blue-moon-64")
         case .Rejected:
             cell?.circleImageView.image = UIImage(named: "red-moon-64")
         default:

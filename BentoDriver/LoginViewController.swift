@@ -21,7 +21,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         super.viewDidLoad()
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
-        UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen if not logged in
+        UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
         
 //MARK: Background Image
         let backgroundImage = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))

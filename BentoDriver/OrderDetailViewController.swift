@@ -45,6 +45,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UIApplication.sharedApplication().idleTimerDisabled = true // prevent lock screen only when viewing orders
+        
         self.title = self.order.name
         self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
 
@@ -175,8 +177,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             self.acceptButton.hidden = true
             self.arrivedAndCompleteButton.hidden = true
             
-            let rejectedLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 100, self.userActionView.frame.height/2 - 20, 200, 40))
-            rejectedLabel.font = UIFont(name: "OpenSans-Bold", size: 21)
+            let rejectedLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 100, self.userActionView.frame.height/2 - 25, 200, 50))
+            rejectedLabel.font = UIFont(name: "OpenSans-Bold", size: 30)
+            rejectedLabel.textColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+            rejectedLabel.textAlignment = .Center
             rejectedLabel.text = "REJECTED"
             self.userActionView.addSubview(rejectedLabel)
         }
