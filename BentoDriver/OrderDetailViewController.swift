@@ -21,7 +21,7 @@ import PKHUD
 
 class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate {
 
-    // Properties
+//MARK: Properties
     var order: Order!
     
     var api: String!
@@ -38,26 +38,24 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var messageComposer: MessageComposer!
     
     let notification = CWStatusBarNotification()
-    
+
     var indexOfOrderThatHasAlreadyBeenAccepted: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         
-        // Navigation Controller
         self.title = self.order.name
-        
-// API & Parameters
+        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+
+//MARK: API & Parameters
         self.api = "http://52.11.208.197:8081/api"
         self.parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
         
-// Socket Handler
+//MARK: Socket Handler
         let socket = SocketHandler.sharedSocket
         socket.delegate = self;
         
-// Customer Info
+//MARK: Customer Info
         // View
         let infoView = UIView(frame: CGRectMake(0, 64, self.view.frame.width, 80))
         self.view.addSubview(infoView)
@@ -87,7 +85,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         lineSeparator.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
         self.view.addSubview(lineSeparator)
         
-// TableView
+//MARK: TableView
         self.bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, self.view.frame.width, (self.view.frame.height - 80) - (64 + infoView.frame.height - 10)))
         self.bentoTableView.delegate = self
         self.bentoTableView.dataSource = self
@@ -99,7 +97,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             self.view.addSubview(self.bentoTableView)
         }
         
-// Task
+//MARK: Task
         let itemStringTextView = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
         itemStringTextView.textColor = UIColor.whiteColor()
         itemStringTextView.backgroundColor = UIColor.clearColor()
@@ -110,7 +108,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             self.view.addSubview(itemStringTextView)
         }
         
-// Actions
+//MARK: Actions
         // View
         let userActionView = UIView(frame: CGRectMake(0, self.view.frame.height - 70, self.view.frame.width, 70))
         userActionView.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
@@ -160,7 +158,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // check if order is accepted and show/hide buttons accordingly
         self.showHideButtons()
         
-        //
+//MARK: Message Composer
         self.messageComposer = MessageComposer(phoneString: self.order.phone)
     }
 
@@ -429,119 +427,96 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: Commit By Calling Houston
     func callHouston(apiString: String, parameters: [String: AnyObject], task: String) {
         
-        PKHUD.sharedHUD.contentView = PKHUDProgressView()
-        PKHUD.sharedHUD.dimsBackground = true
-        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
-        PKHUD.sharedHUD.show()
+        self.showHUD()
         
         Alamofire.request(.GET, apiString, parameters: parameters)
             .responseSwiftyJSON({ (request, response, json, error) in
             
             let code = json["code"]
-            let msg = json["msg"]
-            
             print("code: \(code)")
+                
+            let msg = json["msg"]
             print("msg = \(msg)")
+                
+            let ret = json["ret"].stringValue.lowercaseString // normalize ret to lowercase
+            print("ret: \(ret)")
             
+            // Handler error...
             if code != 0 {
-
-                // handle error...
                 let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
                 dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    PKHUD.sharedHUD.contentView = PKHUDErrorView()
-                    PKHUD.sharedHUD.hide(afterDelay: 2.0)
-                    
+                    self.dismissHUDWithSuccess(false)
+                    // show complete button once HUD has been dismissed after 2 seconds...
                     NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: true)
                 }
                 
                 return
             }
             
-            let ret = json["ret"].stringValue.lowercaseString // normalize ret string
-            print("ret: \(ret)")
-            
-            switch task {
-            case "reject":
-                if ret == "ok" {
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        self.navigationController?.popViewControllerAnimated(true)
-                        
+            // No Error~
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                switch task {
+                case "reject":
+                    if ret == "ok" {
                         self.delegate?.didRejectOrder(self.order.id)
-                        
-                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-                        PKHUD.sharedHUD.hide(afterDelay: 0)
-                    })
-                }
-            case "accept":
-                if ret == "ok" {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
+                case "accept":
+                    if ret == "ok" {
                         // change the Order status in ordersArray in parent VC
                         self.delegate?.didAcceptOrder(self.order.id)
-                        
-                        // change status
                         
                         // change buttons
                         self.rejectButton.hidden = true
                         self.acceptButton.hidden = true
                         self.arrivedAndCompleteButton.hidden = false
-                        self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */
-                        self.arrivedAndCompleteButton.setTitle("ARRIVED", forState: .Normal)
+                        self.updateArrivedOrCompleteButtonState("arrived")
                         
-                        // flag to check if arrived has been tapped on, reset to nil once order is complete
-                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "arrivedWasTapped")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                    
-                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-                        PKHUD.sharedHUD.hide(afterDelay: 0)
-                    })
-                }
-            case "arrived":
-                if ret == "ok" {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.setArrivedWasTapped(false)
+                    }
+                case "arrived":
+                    if ret == "ok" {
                         // change arrived button to complete button
                         self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
                         self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
                         
-                        // flag to check if arrived has been tapped on, reset to nil once order is complete
-                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "arrivedWasTapped")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                        
-                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-                        PKHUD.sharedHUD.hide(afterDelay: 0)
-                    })
-                }
-            default: // complete
-                if ret == "ok" {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        self.navigationController?.popViewControllerAnimated(true)
-                        
+                        self.setArrivedWasTapped(true)
+                    }
+                default: // complete
+                    if ret == "ok" {
                         // change the Order status in ordersArray in parent VC
                         self.delegate?.didCompleteOrder(self.order.id)
                         
-                        // flag to check if arrived has been tapped on, reset to nil once order is complete
-                        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "arrivedWasTapped")
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                        
-                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-                        PKHUD.sharedHUD.hide(afterDelay: 0)
-                    })
+                        self.setArrivedWasTapped(false)
+
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 }
-            }
+                
+                self.dismissHUDWithSuccess(true)
+            })
         })
     }
     
     func showCompleteButton() {
-        // change arrived button to complete button
-        self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
-        self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
-        
-        // flag to check if arrived has been tapped on, reset to nil once order is complete
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "arrivedWasTapped")
-        NSUserDefaults.standardUserDefaults().synchronize()
+        self.updateArrivedOrCompleteButtonState("complete")
+        self.setArrivedWasTapped(true)
+    }
+    
+    func setArrivedWasTapped(bool: Bool) {
+        // flag to check if arrived has been tapped on, reset to false once order is complete
+         NSUserDefaults.standardUserDefaults().setBool(bool, forKey: "arrivedWasTapped")
+    }
+    
+    func updateArrivedOrCompleteButtonState(arrivedOrComplete: String) {
+        if arrivedOrComplete == "arrived" {
+            self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */
+            self.arrivedAndCompleteButton.setTitle("ARRIVED", forState: .Normal)
+        }
+        else  if arrivedOrComplete == "complete" {
+            self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
+            self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
+        }
     }
     
 //MARK: SocketHandlerDelegate
@@ -607,6 +582,25 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }))
             
             self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+    
+//MARK: HUD
+    func showHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
+        PKHUD.sharedHUD.show()
+    }
+    
+    func dismissHUDWithSuccess(success: Bool) {
+        if success == true {
+            PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+            PKHUD.sharedHUD.hide(afterDelay: 0)
+        }
+        else {
+            PKHUD.sharedHUD.contentView = PKHUDErrorView()
+            PKHUD.sharedHUD.hide(afterDelay: 2)
         }
     }
 }

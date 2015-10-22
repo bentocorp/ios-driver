@@ -91,10 +91,10 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+        
         // putting in viewwillappear because won't get called again if i log out and try to login again
         SocketHandler.sharedSocket.delegate = self
-        
-        self.navigationController?.navigationBarHidden = true
         
         self.checkLoginInfo()
     }
@@ -106,8 +106,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
 //MARK: SocketHandlerDelegate Method
     func socketHandlerDidConnect(connected: Bool) {
         if connected == false { // TODO: figure out why this is trying to reconnect, add breakpoint to connect
-            PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-            PKHUD.sharedHUD.hide(afterDelay: 0)
+            self.dismissHUD()
             
             self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
@@ -137,26 +136,13 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         }))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-    
-//MARK: UITextfieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.usernameTextField?.resignFirstResponder()
-        self.passwordTextField?.resignFirstResponder()
-        return true;
-    }
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.view.endEditing(true)
-    }
 
-    
 //MARK: Login
     func checkLoginInfo() {
         // check if logged in user, if not reset textfields
         if NSUserDefaults.standardUserDefaults().objectForKey("username") == nil {
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
-            NSUserDefaults.standardUserDefaults().synchronize()
         }
         
         // set textfield text -> either empty strings to username and password
@@ -171,11 +157,30 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             return
         }
         
+        User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
+    }
+    
+//MARK: UITextfieldDelegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.usernameTextField?.resignFirstResponder()
+        self.passwordTextField?.resignFirstResponder()
+        return true;
+    }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+//MARK: HUD
+    func showHUD() {
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
         PKHUD.sharedHUD.dimsBackground = true
         PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
         PKHUD.sharedHUD.show()
-        
-        User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
+    }
+    
+    func dismissHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+        PKHUD.sharedHUD.hide(afterDelay: 0)
     }
 }

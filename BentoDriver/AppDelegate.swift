@@ -99,7 +99,6 @@ extension AppDelegate {
         // save coordinates to device
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "lat")
         NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.longitude, forKey: "long")
-        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }
 

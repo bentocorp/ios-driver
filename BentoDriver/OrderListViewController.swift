@@ -139,7 +139,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
-            NSUserDefaults.standardUserDefaults().synchronize()
         }))
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
