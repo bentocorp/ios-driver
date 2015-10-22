@@ -123,7 +123,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.rejectButton.setTitle("REJECT", forState: .Normal)
         self.rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.rejectButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.rejectButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
+        self.rejectButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.rejectButton)
         
         // Accept
@@ -133,7 +133,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.acceptButton.setTitle("ACCEPT", forState: .Normal)
         self.acceptButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.acceptButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.acceptButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
+        self.acceptButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.acceptButton)
         
         // Arrived/Complete
@@ -141,7 +141,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.arrivedAndCompleteButton.layer.cornerRadius = 3
         self.arrivedAndCompleteButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
         self.arrivedAndCompleteButton.titleLabel?.textColor = UIColor.whiteColor()
-        self.arrivedAndCompleteButton.addTarget(self, action: "promptUserActionConfirmation:", forControlEvents: .TouchUpInside)
+        self.arrivedAndCompleteButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
         userActionView.addSubview(self.arrivedAndCompleteButton)
         
         // acceppted
@@ -323,8 +323,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
 
-//MARK: On Action -> Confirm Action
-    func promptUserActionConfirmation(sender: UIButton) {
+//MARK: On Order Action -> Confirm Order Action
+    func onOrderAction(sender: UIButton) {
         
         // get button title and make it lowercase
         if let action = sender.titleLabel?.text {
@@ -341,27 +341,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 }
             }
             
+            // no order has already been accepted, continue down...
+            
+            // tapped on arrive
             if actionLowercaseString == "arrived" {
                 self.arrivedOrder()
             }
+            // tapped on either reject, accept, or complete
             else {
-                let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
-                
-                alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
-                    
-                    switch actionLowercaseString {
-                    case "reject":
-                        self.rejectOrder()
-                    case "accept":
-                        self.acceptOrder()
-                    default:
-                        self.completeOrder()
-                    }
-                }))
-                
-                alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.showActionConfirmationAlert(actionLowercaseString)
             }
         }
     }
@@ -398,6 +386,26 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         
         // show alert
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func showActionConfirmationAlert(actionString: String) {
+        let alertController = UIAlertController(title: "\(actionString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionString) task?", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: actionString.firstCharacterUpperCase(), style: .Default, handler: { action in
+            
+            switch actionString {
+            case "reject":
+                self.rejectOrder()
+            case "accept":
+                self.acceptOrder()
+            default:
+                self.completeOrder()
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
