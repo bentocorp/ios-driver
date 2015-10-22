@@ -57,7 +57,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.noTasksLabel.textAlignment = .Center
         self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         self.noTasksLabel.textColor = UIColor.darkGrayColor()
-        self.noTasksLabel.hidden = true
         self.view.addSubview(noTasksLabel)
         
 //MARK: Call Pull Orders
@@ -69,7 +68,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
-        SocketHandler.sharedSocket.delegate = self // Delegate
+        SocketHandler.sharedSocket.delegate = self
         self.updateUI()
     }
 
@@ -280,7 +279,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: Go To Accepted Task
-    
     @objc func didTapOnGoToAcceptedTask(orderInSession: Order) {
         // go to task in session...
         let orderDetailViewController = OrderDetailViewController()

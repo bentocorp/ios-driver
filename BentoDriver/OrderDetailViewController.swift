@@ -551,6 +551,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     func socketHandlerDidDisconnect() {
         // handle disconnect
+        
+        // dismiss multiple view (UNTESTED)
+        (self.presentingViewController as! UINavigationController).popToRootViewControllerAnimated(false)
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
 
 //MARK: Status Bar Notification

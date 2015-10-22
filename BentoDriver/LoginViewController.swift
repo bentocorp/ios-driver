@@ -23,24 +23,24 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen if not logged in
         
-        // background image
+//MARK: Background Image
         let backgroundImage = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         backgroundImage.image = UIImage(named: "grass")
         backgroundImage.contentMode = .ScaleAspectFill
         self.view.addSubview(backgroundImage)
         
-        // backgroud view
+//MARK: Background View
         let backgroundView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 350))
         backgroundView.center = self.view.center
         self.view.addSubview(backgroundView)
         
-        // logo
+//MARK: Logo
         let logoImageView = UIImageView(frame: CGRectMake(20, 20, self.view.frame.width - 40, 100))
         logoImageView.contentMode = UIViewContentMode.ScaleAspectFit
         logoImageView.image = UIImage(named: "logo")
         backgroundView.addSubview(logoImageView)
         
-        // username textfield
+//MARK: Username
         self.usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
         self.usernameTextField!.layer.cornerRadius = 1
         self.usernameTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
@@ -61,7 +61,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         usernameTextField!.leftView = paddingView
         usernameTextField!.leftViewMode = UITextFieldViewMode.Always
         
-        // password textfield
+//MARK: Password
         self.passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField!.frame.origin.y + 51, self.view.frame.width - 40, 50))
         self.passwordTextField!.layer.cornerRadius = 1
         self.passwordTextField!.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
@@ -80,7 +80,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         passwordTextField!.leftView = paddingView2
         passwordTextField!.leftViewMode = UITextFieldViewMode.Always
         
-        // login button
+//MARK: Login
         let loginButton = UIButton(frame: CGRectMake(20, self.passwordTextField!.frame.origin.y + 70, self.view.frame.width - 40, 50))
         loginButton.backgroundColor = UIColor.clearColor()
         loginButton.titleLabel!.font = UIFont(name: "OpenSans-SemiBold", size: 17)
@@ -92,10 +92,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = true
-        
-        // putting in viewwillappear because won't get called again if i log out and try to login again
         SocketHandler.sharedSocket.delegate = self
-        
         self.checkLoginInfo()
     }
 
@@ -107,7 +104,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     func socketHandlerDidConnect(connected: Bool) {
         if connected == false { // TODO: figure out why this is trying to reconnect, add breakpoint to connect
             self.dismissHUD()
-            
             self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
     }
@@ -120,6 +116,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             self.navigationController?.presentViewController(navC, animated: true, completion: nil)
         }
         else {
+            self.dismissHUD()
             self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
         }
     }
@@ -157,6 +154,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             return
         }
         
+        self.showHUD()
         User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
     }
     
