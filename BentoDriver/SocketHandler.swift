@@ -199,6 +199,9 @@ extension SocketHandler {
         // logout user
         User.currentUser.logout()
         
+        // clear order list
+        OrderList.sharedInstance.orderArray.removeAll()
+        
         // set delegate method
         self.delegate?.socketHandlerDidDisconnect!()
         
