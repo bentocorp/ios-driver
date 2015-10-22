@@ -222,13 +222,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: OrderDetailViewControllerDelegate
+    func didRejectOrder(orderId: String) {
+        self.changeOrderStatus(orderId, status: .Rejected)
+        self.updateUI()
+    }
+    
     func didAcceptOrder(orderId: String) {
-        // search for order then reset status
-        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
-            if order.id == orderId {
-                OrderList.sharedInstance.orderArray[index].status = .Accepted
-            }
-        }
+        self.changeOrderStatus(orderId, status: .Accepted)
         self.updateUI()
     }
     
@@ -237,9 +237,14 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.updateUI()
     }
     
-    func didRejectOrder(orderId: String) {
-        self.removeOrder(orderId)
-        self.updateUI()
+//MARK:
+    func changeOrderStatus(id: String, status: OrderStatus) {
+        // search for order then reset status
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
+            if order.id == id {
+                OrderList.sharedInstance.orderArray[index].status = status
+            }
+        }
     }
 
 //MARK: Remove Order
