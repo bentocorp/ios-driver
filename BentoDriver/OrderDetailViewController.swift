@@ -396,16 +396,14 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: SocketHandlerDelegate
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
-        // handler assign...
+        // add order to list
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
-        // automatically present and dismiss alertController
+        SocketHandler.sharedSocket.promptLocalNotification("assigned")
         self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
-        // handler unassign...
-        
         // remove order from OrderList
         for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             // once found, remove
@@ -432,16 +430,35 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: Auto Alert
     func taskHasBeenAssignedOrUnassigned(task: String) {
         
-        // automatically present and dismiss alertController
         let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
         
+        let doesTaskRequireAction: Bool
+        
+        if task == "This task has been unassigned!" {
+            doesTaskRequireAction = true
+        }
+        else {
+            doesTaskRequireAction = false
+        }
+        
+        if doesTaskRequireAction == true {
+            alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: { action in
+                
+                self.navigationController?.popViewControllerAnimated(true)
+            }))
+        }
+        
+        // automatically present and dismiss alertController
         self.presentViewController(alertController, animated: true) { () -> Void in
-            // Delay the dismissal by...
-            let delay = 2.0 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue(), {
-                alertController.dismissViewControllerAnimated(true, completion: nil)
-            })
+            
+            if doesTaskRequireAction == false {
+                // Delay the dismissal by...
+                let delay = 2.0 * Double(NSEC_PER_SEC)
+                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                dispatch_after(time, dispatch_get_main_queue(), {
+                    alertController.dismissViewControllerAnimated(true, completion: nil)
+                })
+            }
         }
     }
 }

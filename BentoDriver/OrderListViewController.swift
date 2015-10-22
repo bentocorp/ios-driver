@@ -63,13 +63,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
-        // Delegate
-        let socket = SocketHandler.sharedSocket
-        socket.delegate = self;
-        
-        self.showOrHideNoTasksLabel()
-        
-        self.orderListTableView?.reloadData()
+        SocketHandler.sharedSocket.delegate = self // Delegate
+        self.updateUI()
     }
     
 //MARK: Status Bar
@@ -120,14 +115,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             })
     }
     
-    func showOrHideNoTasksLabel() {
-        if OrderList.sharedInstance.orderArray.count == 0 {
-            self.noTasksLabel.hidden = false
-        }
-        else {
-            self.noTasksLabel.hidden = true
-        }
-    }
+    
 
 //MARK: Log Out
     func onLogout() {
@@ -198,21 +186,20 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
 //MARK: SocketHandlerDelegate
     func socketHandlerDidDisconnect() {
-        // handle disconnect...
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
-        // handler assigned order...
+        // add order to list
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
-        self.showOrHideNoTasksLabel()
-        self.orderListTableView?.reloadData()
+        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
+        
+        self.updateUI()
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
-        // handle unassigned order...
         // loop through all ordersArray to find corresponding Order...
         for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             // once found, remove
@@ -221,39 +208,30 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
-        self.showOrHideNoTasksLabel()
-        self.orderListTableView?.reloadData()
+        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+        self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!")
+        self.updateUI()
     }
     
 //MARK: OrderDetailViewControllerDelegate
     func didAcceptOrder(orderId: String) {
-        // handle accepted order...
-        
         // search for order then reset status
         for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             if order.id == orderId {
                 OrderList.sharedInstance.orderArray[index].status = .Accepted
             }
         }
-        
-        self.orderListTableView?.reloadData()
-        self.showOrHideNoTasksLabel()
+        self.updateUI()
     }
     
     func didCompleteOrder(orderId: String) {
-        // handle completed order...
         self.removeOrder(orderId)
-        
-        self.orderListTableView?.reloadData()
-        self.showOrHideNoTasksLabel()
+        self.updateUI()
     }
     
     func didRejectOrder(orderId: String) {
-        // handle rejected order...
         self.removeOrder(orderId)
-        
-        self.orderListTableView?.reloadData()
-        self.showOrHideNoTasksLabel()
+        self.updateUI()
     }
 
 //MARK: Remove Order
@@ -264,5 +242,37 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                 OrderList.sharedInstance.orderArray.removeAtIndex(index)
             }
         }
+    }
+    
+//MARK: Auto Alert
+    func taskHasBeenAssignedOrUnassigned(task: String) {
+        
+        let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
+        
+        // automatically present and dismiss alertController
+        self.presentViewController(alertController, animated: true) { () -> Void in
+            
+            // Delay the dismissal by...
+            let delay = 2.0 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue(), {
+                alertController.dismissViewControllerAnimated(true, completion: nil)
+            })
+        }
+    }
+    
+//MARK: Update UI
+    func showOrHideNoTasksLabel() {
+        if OrderList.sharedInstance.orderArray.count == 0 {
+            self.noTasksLabel.hidden = false
+        }
+        else {
+            self.noTasksLabel.hidden = true
+        }
+    }
+    
+    func updateUI() {
+        self.showOrHideNoTasksLabel()
+        self.orderListTableView?.reloadData()
     }
 }
