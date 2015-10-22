@@ -9,13 +9,13 @@
 import UIKit
 import CoreLocation
 import SwiftyJSON
+import PKHUD
 
 
 class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHandlerDelegate, UITextFieldDelegate {
     
     var usernameTextField: UITextField?
     var passwordTextField: UITextField?
-    let progressHUD = JGProgressHUD(style: JGProgressHUDStyle.Dark)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,8 +121,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             return
         }
         
-        self.progressHUD.textLabel.text = "Logging in..."
-        self.progressHUD.showInView(self.view)
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.show()
         
         User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
     }
@@ -133,7 +133,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
         
-        self.progressHUD.dismiss()
+        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+        PKHUD.sharedHUD.hide(afterDelay: 0)
     }
     
     func socketHandlerDidAuthenticate(authenticated: Bool) {
