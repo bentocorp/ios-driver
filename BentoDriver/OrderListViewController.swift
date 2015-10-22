@@ -51,6 +51,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         let backgroundView = UIView(frame: CGRectZero) // remove empty cells
         self.orderListTableView!.tableFooterView = backgroundView // remove empty cells
         self.orderListTableView!.backgroundColor = UIColor.clearColor()
+        self.orderListTableView?.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         self.view.addSubview(self.orderListTableView!)
         
         // No Tasks Label
@@ -153,10 +154,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return OrderList.sharedInstance.orderArray.count
-    }
-    
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
