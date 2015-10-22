@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
+import PKHUD
 
 protocol OrderDetailViewControllerDelegate {
     func didRejectOrder(orderId: String)
@@ -97,6 +98,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         let taskStringLabel = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
         taskStringLabel.textColor = UIColor.whiteColor()
+        taskStringLabel.backgroundColor = UIColor.darkGrayColor()
         taskStringLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         if self.order.itemString != nil {
             taskStringLabel.text = order.itemString
@@ -349,6 +351,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: Call Houston
     func callHouston(apiString: String, parameters: [String: AnyObject], task: String) {
         
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
+        PKHUD.sharedHUD.show()
+        
         Alamofire.request(.GET, apiString, parameters: parameters)
         .responseSwiftyJSON({ (request, response, json, error) in
             
@@ -374,6 +381,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         self.navigationController?.popViewControllerAnimated(true)
                         
                         self.delegate?.didRejectOrder(self.order.id)
+                        
+                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+                        PKHUD.sharedHUD.hide(afterDelay: 0)
                     })
                 }
             case "accept":
@@ -389,6 +399,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         self.rejectButton.hidden = true
                         self.acceptButton.hidden = true
                         self.completeButton.hidden = false
+                        
+                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+                        PKHUD.sharedHUD.hide(afterDelay: 0)
                     })
                 }
             default: // complete
@@ -399,6 +412,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         
                         // change the Order status in ordersArray in parent VC
                         self.delegate?.didCompleteOrder(self.order.id)
+                        
+                        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+                        PKHUD.sharedHUD.hide(afterDelay: 0)
                     })
                 }
             }

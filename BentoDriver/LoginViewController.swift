@@ -122,6 +122,8 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         }
         
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
         PKHUD.sharedHUD.show()
         
         User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
