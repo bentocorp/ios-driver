@@ -461,8 +461,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
                 dispatch_after(delayTime, dispatch_get_main_queue()) {
                     self.dismissHUDWithSuccess(false)
+                    
+                    // error message
+                    self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number.")
+                    
                     // show complete button once HUD has been dismissed after 2 seconds...
                     NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: true)
+
                 }
                 
                 return
