@@ -412,16 +412,17 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             if code != 0 {
 
                 // handle error...
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-                    PKHUD.sharedHUD.hide(afterDelay: 0)
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
+                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                    PKHUD.sharedHUD.contentView = PKHUDErrorView()
+                    PKHUD.sharedHUD.hide(afterDelay: 2.0)
                     
                     let alertController = UIAlertController(title: "Uh-oh!", message: error.debugDescription, preferredStyle: .Alert)
                     
                     alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
                     
                     self.presentViewController(alertController, animated: true, completion: nil)
-                })
+                }
                 
                 return
             }
