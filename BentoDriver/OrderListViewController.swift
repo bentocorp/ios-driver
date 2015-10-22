@@ -64,7 +64,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(animated: Bool) {
         SocketHandler.sharedSocket.delegate = self // Delegate
-        self.updateUI()
+//        self.updateUI()
     }
     
 //MARK: Status Bar
@@ -114,8 +114,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                 print("getAllAssigned - \(OrderList.sharedInstance.orderArray)")
             })
     }
-    
-    
 
 //MARK: Log Out
     func onLogout() {
@@ -151,6 +149,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         return OrderList.sharedInstance.orderArray.count
     }
     
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellId = "Cell"
@@ -165,8 +167,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         cell?.addressLabel.text = "\(order.street)\n\(order.city)"
         cell?.nameLabel.text = order.name
-        cell?.circleImageView.image = UIImage(named: "yellow-circle-64")
-//        cell?.createdAtLabel.text = "0:00 PM"
+        cell?.circleImageView.image = UIImage(named: "green-circle-64")
+        
+        // fade in cell
+        cell?.alpha = 0
+        UIView.animateWithDuration(2, animations: { cell?.alpha = 1 })
         
         print(cell?.frame.width) // i think the last cell is stuck at 320pt...wtf?
         
