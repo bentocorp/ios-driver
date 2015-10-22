@@ -258,8 +258,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Status Bar Notification
     func taskHasBeenAssignedOrUnassigned(task: String) {
         self.notification.notificationStyle = .NavigationBarNotification
-        self.notification.notificationAnimationInStyle = .Top
-        self.notification.notificationAnimationOutStyle = .Top
+        self.notification.notificationAnimationInStyle = .Left
+        self.notification.notificationAnimationOutStyle = .Right
         self.notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
         self.notification.notificationLabelTextColor = UIColor.whiteColor()
         self.notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
