@@ -348,26 +348,28 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     return
                 }
                 else {
-                    
-                    let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
-                    
-                    alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
+                    if actionLowercaseString == "arrived" {
+                        self.arrivedOrder()
+                    }
+                    else {
+                        let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
                         
-                        switch actionLowercaseString {
-                        case "reject":
-                            self.rejectOrder()
-                        case "accept":
-                            self.acceptOrder()
-                        case "arrived":
-                            self.arrivedOrder()
-                        default:
-                            self.completeOrder()
-                        }
-                    }))
-                    
-                    alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                        alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
+                            
+                            switch actionLowercaseString {
+                            case "reject":
+                                self.rejectOrder()
+                            case "accept":
+                                self.acceptOrder()
+                            default:
+                                self.completeOrder()
+                            }
+                        }))
+                        
+                        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+                        
+                        self.presentViewController(alertController, animated: true, completion: nil)
+                    }
                     
                     return
                 }
@@ -417,11 +419,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     PKHUD.sharedHUD.contentView = PKHUDErrorView()
                     PKHUD.sharedHUD.hide(afterDelay: 2.0)
                     
-                    let alertController = UIAlertController(title: "Uh-oh!", message: error.debugDescription, preferredStyle: .Alert)
-                    
-                    alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: true)
                 }
                 
                 return
@@ -498,6 +496,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 }
             }
         })
+    }
+    
+    func showCompleteButton() {
+        // change arrived button to complete button
+        self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
+        self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
+        
+        // flag to check if arrived has been tapped on, reset to nil once order is complete
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "arrivedWasTapped")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
 //MARK: SocketHandlerDelegate
