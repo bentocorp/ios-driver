@@ -39,6 +39,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     let notification = CWStatusBarNotification()
     
+    var indexOfOrderThatHasAlreadyBeenAccepted: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -234,7 +236,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         return cell!
     }
     
-//MARK On Location, Phone, and Text
+//MARK: On Location, Phone, and Text
     func onLocation() {
         let alertController = UIAlertController(title: "Address", message: "\(self.order.street)\n\(self.order.city), \(self.order.region)", preferredStyle: .Alert)
         
@@ -321,62 +323,82 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
 
-//MARK: On Order Action -> Confirm
+//MARK: On Action -> Confirm Action
     func promptUserActionConfirmation(sender: UIButton) {
         
         // get button title and make it lowercase
         if let action = sender.titleLabel?.text {
             let actionLowercaseString = action.lowercaseString
             
-            // check if there are any other accepted order already
-            for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
-                
-                // if accetped was tapped and another order is already in session...
-                if actionLowercaseString == "accept" && OrderList.sharedInstance.orderArray[i].status == .Accepted {
-                    // already has an accepted order...
-                    let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. Please finish that first, then try again later.", preferredStyle: .Alert)
+            // tapped on accepted
+            if actionLowercaseString == "accept" {
+                // there's already an accepted order
+                if self.isThereAlreadyAnAcceptedOrder() == true {
                     
-                    alertController.addAction(UIAlertAction(title: "Go to task", style: .Default, handler: { action in
-                        
-                        self.navigationController?.popViewControllerAnimated(true)
-                        
-                        self.delegate?.didTapOnGoToAcceptedTask!(OrderList.sharedInstance.orderArray[i])
-                    }))
-                    
-                    alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                    
-                    self.presentViewController(alertController, animated: true, completion: nil)
-                    
-                    return
-                }
-                else {
-                    if actionLowercaseString == "arrived" {
-                        self.arrivedOrder()
-                    }
-                    else {
-                        let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
-                        
-                        alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
-                            
-                            switch actionLowercaseString {
-                            case "reject":
-                                self.rejectOrder()
-                            case "accept":
-                                self.acceptOrder()
-                            default:
-                                self.completeOrder()
-                            }
-                        }))
-                        
-                        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                        
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                    }
+                    self.showHoldYourHorsesAlert()
                     
                     return
                 }
             }
+            
+            if actionLowercaseString == "arrived" {
+                self.arrivedOrder()
+            }
+            else {
+                let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
+                
+                alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
+                    
+                    switch actionLowercaseString {
+                    case "reject":
+                        self.rejectOrder()
+                    case "accept":
+                        self.acceptOrder()
+                    default:
+                        self.completeOrder()
+                    }
+                }))
+                
+                alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+                
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
         }
+    }
+    
+    func isThereAlreadyAnAcceptedOrder() -> Bool {
+        // check if there are any other accepted order already
+        for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
+            
+            // already has an accepted order...
+            if OrderList.sharedInstance.orderArray[i].status == .Accepted {
+                
+                self.indexOfOrderThatHasAlreadyBeenAccepted = i
+                
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func showHoldYourHorsesAlert() {
+        // prevent accepting
+        let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. Please finish that first, then try again later.", preferredStyle: .Alert)
+        
+        // action 1
+        alertController.addAction(UIAlertAction(title: "Go to task", style: .Default, handler: { action in
+            
+            self.navigationController?.popViewControllerAnimated(true)
+            
+            self.delegate?.didTapOnGoToAcceptedTask!(OrderList.sharedInstance.orderArray[self.indexOfOrderThatHasAlreadyBeenAccepted!])
+        }))
+        
+        // action 2
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        
+        // show alert
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
 //MARK: Commit Action
@@ -396,7 +418,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.callHouston(self.api + "/order/complete" , parameters: self.parameters, task: "complete")
     }
     
-//MARK: Call Houston
+//MARK: Commit By Calling Houston
     func callHouston(apiString: String, parameters: [String: AnyObject], task: String) {
         
         PKHUD.sharedHUD.contentView = PKHUDProgressView()
@@ -547,7 +569,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // handle disconnect
     }
 
-//MARK: Auto Alert
+//MARK: Status Bar Notification
     func taskHasBeenAssignedOrUnassigned(task: String) {
         
         let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
@@ -578,18 +600,5 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             
             self.presentViewController(alertController, animated: true, completion: nil)
         }
-        
-        // automatically present and dismiss alertController (commented out to use status bar notification instead)
-//        self.presentViewController(alertController, animated: true) { () -> Void in
-        
-//            if doesTaskRequireAction == false {
-//                // Delay the dismissal by...
-//                let delay = 2.0 * Double(NSEC_PER_SEC)
-//                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//                dispatch_after(time, dispatch_get_main_queue(), {
-//                    alertController.dismissViewControllerAnimated(true, completion: nil)
-//                })
-//            }
-//        }
     }
 }

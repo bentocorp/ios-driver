@@ -22,8 +22,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        UIApplication.sharedApplication().idleTimerDisabled = true // lock screen once logged in
 
+        // Navigation Bar
         self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.title = "Tasks"
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
@@ -31,7 +32,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        // Navigation Controller
+        // Navigation Bar Item
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         
@@ -173,7 +174,15 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         cell?.addressLabel.text = "\(order.street)\n\(order.city)"
         cell?.nameLabel.text = order.name
-        cell?.circleImageView.image = UIImage(named: "green-circle-64")
+        
+        switch order.status{
+        case .Accepted:
+            cell?.circleImageView.image = UIImage(named: "green-moon-64")
+        case .Rejected:
+            cell?.circleImageView.image = UIImage(named: "red-moon-64")
+        default:
+            cell?.circleImageView.image = UIImage(named: "yellow-moon-64")
+        }
         
         // fade in cell
         cell?.alpha = 0
