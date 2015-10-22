@@ -22,9 +22,6 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         
-        // background color
-//        self.view.backgroundColor = UIColor(red: 0.3176, green: 0.7098, blue: 0.3294, alpha: 1.0)
-        
         // background image
         let backgroundImage = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         backgroundImage.image = UIImage(named: "grass")
@@ -93,45 +90,21 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
     override func viewWillAppear(animated: Bool) {
-        // set as SocketHandler's delegate -> putting in viewwillappear because delegate methods won't get called again if i log out and try to login again
+        // putting in viewwillappear because won't get called again if i log out and try to login again
         SocketHandler.sharedSocket.delegate = self
         
         self.navigationController?.navigationBarHidden = true
         
-        // check if logged in user, if not reset textfields
-        if NSUserDefaults.standardUserDefaults().objectForKey("username") == nil {
-            NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
-            NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
-        
-        // set textfield text -> either empty strings to username and password
-        self.usernameTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
-        self.passwordTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
+        self.checkLoginInfo()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func onLogin() {
-        if self.usernameTextField!.text == "" || self.passwordTextField!.text == "" {
-            // username and password fields empty
-            self.promptAlertWith("Please enter both your username and password", style: .Cancel)
-            return
-        }
-        
-        PKHUD.sharedHUD.contentView = PKHUDProgressView()
-        PKHUD.sharedHUD.dimsBackground = true
-        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
-        PKHUD.sharedHUD.show()
-        
-        User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
-    }
-    
 //MARK: SocketHandlerDelegate Method
     func socketHandlerDidConnect(connected: Bool) {
-        if connected == false {
+        if connected == false { //TODO: might want to check for authenticated instead
             PKHUD.sharedHUD.contentView = PKHUDSuccessView()
             PKHUD.sharedHUD.hide(afterDelay: 0)
             
@@ -174,9 +147,34 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
+
     
-//MARK: Status Bar
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
+//MARK: Login
+    func checkLoginInfo() {
+        // check if logged in user, if not reset textfields
+        if NSUserDefaults.standardUserDefaults().objectForKey("username") == nil {
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
+            NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
+            NSUserDefaults.standardUserDefaults().synchronize()
+        }
+        
+        // set textfield text -> either empty strings to username and password
+        self.usernameTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
+        self.passwordTextField!.text = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
+    }
+    
+    func onLogin() {
+        if self.usernameTextField!.text == "" || self.passwordTextField!.text == "" {
+            // username and password fields empty
+            self.promptAlertWith("Please enter both your username and password", style: .Cancel)
+            return
+        }
+        
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
+        PKHUD.sharedHUD.show()
+        
+        User.currentUser.login(self.usernameTextField!.text!, password: self.passwordTextField!.text!)
     }
 }

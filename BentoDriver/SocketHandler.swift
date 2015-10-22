@@ -188,6 +188,7 @@ extension SocketHandler {
     func closeSocket() {
         // disconnect socket
         self.socket.close()
+        self.socket.disconnect()
         
         // remove previous handler to avoid multiple auto attempts to connect
         self.socket.removeAllHandlers()

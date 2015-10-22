@@ -11,10 +11,7 @@ import CoreLocation
 import SwiftyJSON
 
 public enum OrderStatus {
-    case Assigned
-    case Rejected
-    case Accepted
-    case Completed
+    case Assigned, Rejected, Accepted, Completed
     
     static func statusFromString(statusString: String)-> OrderStatus {
         

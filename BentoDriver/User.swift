@@ -16,9 +16,9 @@ public class User {
 }
 
 extension User {
+    
     public func login(username: String, password: String) {
         
-        // set username and password
         self.username = username
         self.password = password
         
@@ -30,14 +30,5 @@ extension User {
         self.username = nil
         self.password = nil
         self.token = nil
-    }
-    
-    public func isLoggedin() -> Bool {
-        if self.token != nil {
-            return true
-        }
-        else {
-            return false
-        }
     }
 }

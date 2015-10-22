@@ -12,7 +12,6 @@ import Foundation
 public class OrderList {
     static let sharedInstance = OrderList() // singleton
     public var orderArray: [Order] = []
-    public var taskInSession: Bool?
 //    
 //    init() {
 //        // Set delegates
@@ -30,7 +29,7 @@ public class OrderList {
 //    
 //    @objc func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
 //        // loop through all ordersArray to find corresponding Order...
-//        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
+//        for (index, order) in OOrderListrderList.sharedInstance.orderArray.enumerate() {
 //            // once found, remove
 //            if order.id == unassignedOrder.id {
 //                OrderList.sharedInstance.orderArray.removeAtIndex(index)

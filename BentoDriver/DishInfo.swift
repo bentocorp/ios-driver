@@ -10,9 +10,7 @@ import Foundation
 import SwiftyJSON
 
 public enum Type {
-    case Main
-    case Side
-    case AddOn
+    case Main, Side, AddOn
     
     static func typeFromString(typeString: String) -> Type {
         
