@@ -37,6 +37,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     var messageComposer: MessageComposer!
     
+    let notification = CWStatusBarNotification()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -557,6 +559,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         else {
             doesTaskRequireAction = false
+            
+            // status bar notification
+            self.notification.notificationStyle = .NavigationBarNotification
+            self.notification.notificationAnimationInStyle = .Top
+            self.notification.notificationAnimationOutStyle = .Top
+            self.notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+            self.notification.notificationLabelTextColor = UIColor.whiteColor()
+            self.notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+            self.notification.displayNotificationWithMessage(task, forDuration: 2.0)
         }
         
         if doesTaskRequireAction == true {
@@ -564,19 +575,21 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 
                 self.navigationController?.popViewControllerAnimated(true)
             }))
+            
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
         
-        // automatically present and dismiss alertController
-        self.presentViewController(alertController, animated: true) { () -> Void in
-            
-            if doesTaskRequireAction == false {
-                // Delay the dismissal by...
-                let delay = 2.0 * Double(NSEC_PER_SEC)
-                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                dispatch_after(time, dispatch_get_main_queue(), {
-                    alertController.dismissViewControllerAnimated(true, completion: nil)
-                })
-            }
-        }
+        // automatically present and dismiss alertController (commented out to use status bar notification instead)
+//        self.presentViewController(alertController, animated: true) { () -> Void in
+        
+//            if doesTaskRequireAction == false {
+//                // Delay the dismissal by...
+//                let delay = 2.0 * Double(NSEC_PER_SEC)
+//                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+//                dispatch_after(time, dispatch_get_main_queue(), {
+//                    alertController.dismissViewControllerAnimated(true, completion: nil)
+//                })
+//            }
+//        }
     }
 }

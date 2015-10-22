@@ -255,26 +255,15 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-//MARK: Auto Alert
+//MARK: Status Bar Notification
     func taskHasBeenAssignedOrUnassigned(task: String) {
-        
         self.notification.notificationStyle = .NavigationBarNotification
+        self.notification.notificationAnimationInStyle = .Top
+        self.notification.notificationAnimationOutStyle = .Top
+        self.notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+        self.notification.notificationLabelTextColor = UIColor.whiteColor()
+        self.notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
         self.notification.displayNotificationWithMessage(task, forDuration: 2.0)
-        
-        
-        
-//        let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
-//        
-//        // automatically present and dismiss alertController
-//        self.presentViewController(alertController, animated: true) { () -> Void in
-//            
-//            // Delay the dismissal by...
-//            let delay = 2 * Double(NSEC_PER_SEC)
-//            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-//            dispatch_after(time, dispatch_get_main_queue(), {
-//                alertController.dismissViewControllerAnimated(true, completion: nil)
-//            })
-//        }
     }
     
 //MARK: Update UI
