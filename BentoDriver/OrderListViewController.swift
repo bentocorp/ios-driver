@@ -16,7 +16,7 @@ import PKHUD
 class OrderListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate, OrderDetailViewControllerDelegate {
     
     let notification = CWStatusBarNotification()
-    var orderListTableView: UITableView?
+    var orderListTableView: UITableView!
     var noTasksLabel: UILabel!
     
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         UIApplication.sharedApplication().idleTimerDisabled = true // lock screen once logged in
 
-        // Navigation Bar
+//MARK: Navigation Bar
         self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.title = "Tasks"
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
@@ -32,29 +32,26 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-        // Navigation Bar Item
+//MARK: Bar Item
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         
-        // Log out
+//MARK: Log out
         let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: self, action: "onLogout")
         logOutButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans-SemiBold", size: 14)!], forState: .Normal)
         navigationItem.rightBarButtonItem = logOutButton
         
-        // Get orders
-        self.pullOrders()
-        
-        // Table View
+//MARK: Table View
         self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
-        self.orderListTableView!.delegate = self
-        self.orderListTableView!.dataSource = self
+        self.orderListTableView.delegate = self
+        self.orderListTableView.dataSource = self
         let backgroundView = UIView(frame: CGRectZero) // remove empty cells
-        self.orderListTableView!.tableFooterView = backgroundView // remove empty cells
-        self.orderListTableView!.backgroundColor = UIColor.clearColor()
-        self.orderListTableView?.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
-        self.view.addSubview(self.orderListTableView!)
+        self.orderListTableView.tableFooterView = backgroundView // remove empty cells
+        self.orderListTableView.backgroundColor = UIColor.clearColor()
+        self.orderListTableView.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
+        self.view.addSubview(self.orderListTableView)
         
-        // No Tasks Label
+//MARK: No Tasks Label
         self.noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 50, self.view.frame.height/2 - 10, 100, 20))
         self.noTasksLabel.text = "No Tasks"
         self.noTasksLabel.textAlignment = .Center
@@ -62,6 +59,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.noTasksLabel.textColor = UIColor.darkGrayColor()
         self.noTasksLabel.hidden = true
         self.view.addSubview(noTasksLabel)
+        
+//MARK: Call Pull Orders
+        self.pullOrders()
     }
 
     override func didReceiveMemoryWarning() {
@@ -72,13 +72,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         SocketHandler.sharedSocket.delegate = self // Delegate
         self.updateUI()
     }
-    
-//MARK: Status Bar
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
 
-//MARK: Houston - getAllAssigned
+//MARK: Pull Orders
     func pullOrders() {
         
         // get all assigned orders
@@ -112,9 +107,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                         }
                     }
                     
-                    PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-                    PKHUD.sharedHUD.hide(afterDelay: 0)
-                    
+                    self.dismissHUD()
                     self.updateUI()
                 })
                 
@@ -283,7 +276,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func updateUI() {
         self.showOrHideNoTasksLabel()
-        self.orderListTableView?.reloadData()
+        self.orderListTableView.reloadData()
     }
     
 //MARK: Go To Accepted Task
@@ -295,5 +288,16 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         orderDetailViewController.order = orderInSession
         
         self.navigationController?.pushViewController(orderDetailViewController, animated: true)
+    }
+    
+//MARK: HUD
+    func dismissHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+        PKHUD.sharedHUD.hide(afterDelay: 0)
+    }
+    
+//MARK: Status Bar
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
     }
 }

@@ -93,6 +93,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         backgroundView.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         self.bentoTableView.tableFooterView = backgroundView
         self.bentoTableView.backgroundColor = UIColor.clearColor()
+        self.bentoTableView.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         if self.order.itemArray.count != 0 {
             self.view.addSubview(self.bentoTableView)
         }
