@@ -132,11 +132,11 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
 //MARK: SocketHandlerDelegate Method
     func socketHandlerDidConnect(connected: Bool) {
         if connected == false {
+            PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+            PKHUD.sharedHUD.hide(afterDelay: 0)
+            
             self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
         }
-        
-        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-        PKHUD.sharedHUD.hide(afterDelay: 0)
     }
     
     func socketHandlerDidAuthenticate(authenticated: Bool) {

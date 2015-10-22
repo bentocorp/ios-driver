@@ -12,10 +12,11 @@ import SwiftyJSON
 import Alamofire_SwiftyJSON
 import PKHUD
 
-protocol OrderDetailViewControllerDelegate {
+@objc protocol OrderDetailViewControllerDelegate {
     func didRejectOrder(orderId: String)
     func didAcceptOrder(orderId: String)
     func didCompleteOrder(orderId: String)
+    optional func didTapOnGoToAcceptedTask(orderInSession: Order)
 }
 
 class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate {
@@ -94,15 +95,14 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             self.view.addSubview(self.bentoTableView)
         }
         
-// Task String
-        
-        let taskStringLabel = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
-        taskStringLabel.textColor = UIColor.whiteColor()
-        taskStringLabel.backgroundColor = UIColor.darkGrayColor()
-        taskStringLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+// Task
+        let itemStringTextView = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
+        itemStringTextView.textColor = UIColor.whiteColor()
+        itemStringTextView.backgroundColor = UIColor.clearColor()
+        itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         if self.order.itemString != nil {
-            taskStringLabel.text = order.itemString
-            self.view.addSubview(taskStringLabel)
+            itemStringTextView.text = order.itemString
+            self.view.addSubview(itemStringTextView)
         }
         
 // Actions
@@ -312,26 +312,52 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // get button title and make it lowercase
         if let action = sender.titleLabel?.text {
-            
             let actionLowercaseString = action.lowercaseString
             
-            let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
-            
-            alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
+            // check if there are any other accepted order already
+            for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
                 
-                switch actionLowercaseString {
-                case "reject":
-                    self.rejectOrder()
-                case "accept":
-                    self.acceptOrder()
-                default:
-                    self.completeOrder()
+                // if accetped was tapped and another order is already in session...
+                if actionLowercaseString == "accept" && OrderList.sharedInstance.orderArray[i].status == .Accepted {
+                    // already has an accepted order...
+                    let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. Please finish that first, then try again later.", preferredStyle: .Alert)
+                    
+                    alertController.addAction(UIAlertAction(title: "Go to task", style: .Default, handler: { action in
+                        
+                        self.navigationController?.popViewControllerAnimated(true)
+                        
+                        self.delegate?.didTapOnGoToAcceptedTask!(OrderList.sharedInstance.orderArray[i])
+                    }))
+                    
+                    alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                    return
                 }
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            
-            self.presentViewController(alertController, animated: true, completion: nil)
+                else {
+                    
+                    let alertController = UIAlertController(title: "\(actionLowercaseString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionLowercaseString) task?", preferredStyle: .Alert)
+                    
+                    alertController.addAction(UIAlertAction(title: actionLowercaseString.firstCharacterUpperCase(), style: .Default, handler: { action in
+                        
+                        switch actionLowercaseString {
+                        case "reject":
+                            self.rejectOrder()
+                        case "accept":
+                            self.acceptOrder()
+                        default:
+                            self.completeOrder()
+                        }
+                    }))
+                    
+                    alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                    return
+                }
+            }
         }
     }
     

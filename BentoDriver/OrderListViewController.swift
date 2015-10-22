@@ -11,6 +11,7 @@ import CoreLocation
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
+import PKHUD
 
 class OrderListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate, OrderDetailViewControllerDelegate {
     
@@ -64,7 +65,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewWillAppear(animated: Bool) {
         SocketHandler.sharedSocket.delegate = self // Delegate
-//        self.updateUI()
+        self.updateUI()
     }
     
 //MARK: Status Bar
@@ -106,9 +107,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                         }
                     }
                     
+                    PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+                    PKHUD.sharedHUD.hide(afterDelay: 0)
                     
-                    self.orderListTableView?.reloadData()
-                    self.showOrHideNoTasksLabel()
+                    self.updateUI()
                 })
                 
                 print("getAllAssigned count - \(OrderList.sharedInstance.orderArray.count)")
@@ -172,9 +174,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         // fade in cell
         cell?.alpha = 0
-        UIView.animateWithDuration(2, animations: { cell?.alpha = 1 })
+        UIView.animateWithDuration(0.5, animations: { cell?.alpha = 1 })
         
-        print(cell?.frame.width) // i think the last cell is stuck at 320pt...wtf?
+        print(cell?.frame.width) // cell is stuck at 320pt...wtf?
         
         return cell!
     }
@@ -259,7 +261,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.presentViewController(alertController, animated: true) { () -> Void in
             
             // Delay the dismissal by...
-            let delay = 2.0 * Double(NSEC_PER_SEC)
+            let delay = 2 * Double(NSEC_PER_SEC)
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
             dispatch_after(time, dispatch_get_main_queue(), {
                 alertController.dismissViewControllerAnimated(true, completion: nil)
@@ -280,5 +282,16 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func updateUI() {
         self.showOrHideNoTasksLabel()
         self.orderListTableView?.reloadData()
+    }
+    
+//MARK: Go To Accepted Task
+    
+    @objc func didTapOnGoToAcceptedTask(orderInSession: Order) {
+        // go to task in session...
+        let orderDetailViewController = OrderDetailViewController()
+        orderDetailViewController.delegate = self
+        orderDetailViewController.order = orderInSession
+        
+        self.navigationController?.pushViewController(orderDetailViewController, animated: true)
     }
 }

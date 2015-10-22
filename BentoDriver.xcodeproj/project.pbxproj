@@ -37,6 +37,7 @@
 		FC4B5E201BD6F37B00C31620 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; settings = {ASSET_TAGS = (); }; };
 		FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */; settings = {ASSET_TAGS = (); }; };
 		FC5EAF5D1BD608E000D66467 /* unassigned.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FC5EAF5C1BD608E000D66467 /* unassigned.mp3 */; settings = {ASSET_TAGS = (); }; };
+		FC9B8FB21BD8752500E2F404 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
 		FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
 		FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */; };
@@ -74,6 +75,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FC9B8FB21BD8752500E2F404 /* Pods.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,7 +548,7 @@
 		};
 		79583C11A1E86808A53DFC43 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -554,10 +556,9 @@
 			name = "Copy Pods Resources";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

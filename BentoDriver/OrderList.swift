@@ -12,6 +12,7 @@ import Foundation
 public class OrderList {
     static let sharedInstance = OrderList() // singleton
     public var orderArray: [Order] = []
+    public var taskInSession: Bool?
 //    
 //    init() {
 //        // Set delegates
