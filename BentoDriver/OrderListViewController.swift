@@ -283,6 +283,31 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.orderListTableView.reloadData()
     }
     
+    func sortList() {
+        var acceptedList: [Order] = []
+        var pendingList: [Order] = []
+        var rejectedList: [Order] = []
+        
+        // loop through order list
+        for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
+            
+            let status = OrderList.sharedInstance.orderArray[i].status
+            let order = OrderList.sharedInstance.orderArray[i]
+            
+            switch status {
+            case .Accepted:
+                acceptedList.append(order)
+            case .Pending:
+                pendingList.append(order)
+            case .Rejected:
+                rejectedList.append(order)
+            default: ()
+            }
+        }
+        
+        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
+    }
+    
 //MARK: Go To Accepted Task
     @objc func didTapOnGoToAcceptedTask(orderInSession: Order) {
         // go to task in session...
@@ -303,38 +328,5 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
-    
-//MARK: Sort List
-    func sortList() {
-        var acceptedList: [Order] = []
-        var pendingList: [Order] = []
-        var rejectedList: [Order] = []
-        
-        // loop through order list
-        for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
-        
-            let status = OrderList.sharedInstance.orderArray[i].status
-            let order = OrderList.sharedInstance.orderArray[i]
-
-            switch status {
-            case .Accepted:
-                acceptedList.append(order)
-            case .Pending:
-                pendingList.append(order)
-            case .Rejected:
-                rejectedList.append(order)
-            default: ()
-            }
-        }
-        
-        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
-    }
 }
-
-
-
-
-
-
-
 

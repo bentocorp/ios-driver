@@ -217,14 +217,13 @@ extension SocketHandler {
         var alertBody: String
 
         if sound == "assigned" {
-            alertBody = "You have a new task!"
-            localNotification.soundName = "new_order.wav"
+            alertBody = "A new task has been assigned!"
         }
         else {
-            alertBody = "Removed a task"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
+            alertBody = "A task has been unassigned!"
         }
         
+        localNotification.soundName = UILocalNotificationDefaultSoundName
         localNotification.alertBody = alertBody
         localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
