@@ -56,11 +56,11 @@ extension SocketHandler {
         // connect to Node & handle error if any
         self.socket.connect(timeoutAfter: 10) { () -> Void in
             
-            // remove previous handler to avoid multiple auto attempts to connect
-            self.socket.removeAllHandlers()
-            
             // call delegate method
-            self.delegate?.socketHandlerDidConnect!(false)
+//            self.delegate?.socketHandlerDidConnect!(false)
+            
+            // remove previous handler to avoid multiple auto attempts to connect
+//            self.socket.removeAllHandlers()
         }
     }
     

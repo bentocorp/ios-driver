@@ -37,6 +37,7 @@
 		FC4B5E201BD6F37B00C31620 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; settings = {ASSET_TAGS = (); }; };
 		FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */; settings = {ASSET_TAGS = (); }; };
 		FC5EAF5D1BD608E000D66467 /* unassigned.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FC5EAF5C1BD608E000D66467 /* unassigned.mp3 */; settings = {ASSET_TAGS = (); }; };
+		FC92208C1BDA091300050D1A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC92208B1BDA091300050D1A /* Reachability.swift */; settings = {ASSET_TAGS = (); }; };
 		FC9B8FB21BD8752500E2F404 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FC9B8FB61BD8BD4300E2F404 /* CWStatusBarNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */; settings = {ASSET_TAGS = (); }; };
 		FC9B8FB71BD8BD4300E2F404 /* CWStatusBarNotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B8FB51BD8BD4300E2F404 /* CWStatusBarNotificationUtils.swift */; settings = {ASSET_TAGS = (); }; };
@@ -118,6 +119,7 @@
 		FC4B5E1F1BD6F37B00C31620 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableStuff.swift; sourceTree = "<group>"; };
 		FC5EAF5C1BD608E000D66467 /* unassigned.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = unassigned.mp3; sourceTree = "<group>"; };
+		FC92208B1BDA091300050D1A /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CWStatusBarNotification.swift; sourceTree = "<group>"; };
 		FC9B8FB51BD8BD4300E2F404 /* CWStatusBarNotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CWStatusBarNotificationUtils.swift; sourceTree = "<group>"; };
 		FC9CB3151BBF4409000F4395 /* BentoDriver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BentoDriver.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,9 +222,18 @@
 			name = Push;
 			sourceTree = "<group>";
 		};
+		FC92208D1BDA096B00050D1A /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				FC92208B1BDA091300050D1A /* Reachability.swift */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		FC9B8FB31BD8BD3600E2F404 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FC92208D1BDA096B00050D1A /* Reachability */,
 				FC9B8FB81BD8BD4D00E2F404 /* Status Bar Notification */,
 			);
 			name = Libraries;
@@ -591,6 +602,7 @@
 			files = (
 				FC1594301BC89C0500F532BD /* OrderDetailViewController.swift in Sources */,
 				FC4B5E201BD6F37B00C31620 /* String.swift in Sources */,
+				FC92208C1BDA091300050D1A /* Reachability.swift in Sources */,
 				FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */,
 				FC15B5AB1BD56E8F007B7121 /* OrderAction.swift in Sources */,
 				FC9B8FB71BD8BD4300E2F404 /* CWStatusBarNotificationUtils.swift in Sources */,

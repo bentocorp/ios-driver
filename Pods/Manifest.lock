@@ -2,8 +2,8 @@ PODS:
   - Alamofire (3.0.0)
   - Alamofire-SwiftyJSON (2.0.0-beta.1)
   - PKHUD (2.2.3)
+  - pop (1.0.8)
   - PureLayout (3.0.1)
-  - ReachabilitySwift (2.1)
   - Socket.IO-Client-Swift (3.1.6)
   - SwiftyJSON (2.3.0)
 
@@ -11,31 +11,26 @@ DEPENDENCIES:
   - Alamofire
   - Alamofire-SwiftyJSON (from `https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec`)
   - PKHUD
+  - pop
   - PureLayout
-  - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
   - Socket.IO-Client-Swift
   - SwiftyJSON
 
 EXTERNAL SOURCES:
   Alamofire-SwiftyJSON:
     :podspec: https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec
-  ReachabilitySwift:
-    :git: https://github.com/ashleymills/Reachability.swift
 
 CHECKOUT OPTIONS:
   Alamofire-SwiftyJSON:
     :commit: edee0486d60489807c6488e5f0d08b32c1985d92
     :git: https://github.com/SwiftyJSON/Alamofire-SwiftyJSON.git
-  ReachabilitySwift:
-    :commit: 311eed81e3c6dba6073576430ac39f5f4de1cc70
-    :git: https://github.com/ashleymills/Reachability.swift
 
 SPEC CHECKSUMS:
   Alamofire: b61782387f81bcc538a0284cf2bb5d7995cd0a80
   Alamofire-SwiftyJSON: e394c54579b41d18d2aa1b88adf9fd6a2351e888
   PKHUD: 47339a6fdb917015ce79b1a0480e31ea6955c11d
+  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
-  ReachabilitySwift: 99bb7acceebb90b2048b4a8fd6539be96454dcb2
   Socket.IO-Client-Swift: f80e4eec9f067ced71fbcdbfa55bf59ff0248e53
   SwiftyJSON: 8d6b61a70277ef2a5d710d372e06e7e2d87fb9e4
 
