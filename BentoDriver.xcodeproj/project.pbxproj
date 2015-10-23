@@ -48,7 +48,14 @@
 		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
 		FCA840541BD8177D00B67416 /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840531BD8177D00B67416 /* MessageComposer.swift */; settings = {ASSET_TAGS = (); }; };
 		FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840561BD83E5D00B67416 /* OrderList.swift */; settings = {ASSET_TAGS = (); }; };
-		FCED93811BCEDF59008C17C8 /* new_order.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCED93801BCEDF59008C17C8 /* new_order.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE207FF1BDA3B9D006D8554 /* invalid_phone.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE208001BDA3B9D006D8554 /* good_job.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FC1BDA3B9D006D8554 /* good_job.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE208011BDA3B9D006D8554 /* horses.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FD1BDA3B9D006D8554 /* horses.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE208021BDA3B9D006D8554 /* new_task.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FE1BDA3B9D006D8554 /* new_task.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE208041BDA3BD0006D8554 /* SoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE208031BDA3BD0006D8554 /* SoundEffect.swift */; settings = {ASSET_TAGS = (); }; };
+		FCE208061BDA4249006D8554 /* lets_drive.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208051BDA4249006D8554 /* lets_drive.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE208081BDA4376006D8554 /* task_removed.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208071BDA4376006D8554 /* task_removed.wav */; settings = {ASSET_TAGS = (); }; };
+		FCE2080A1BDA465C006D8554 /* notified.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208091BDA465C006D8554 /* notified.wav */; settings = {ASSET_TAGS = (); }; };
 		FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93911BD174D5008C17C8 /* DishInfo.swift */; settings = {ASSET_TAGS = (); }; };
 		FCED93941BD19046008C17C8 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93931BD19046008C17C8 /* Push.swift */; settings = {ASSET_TAGS = (); }; };
 		FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFC938F1BC73EDF00DB52AC /* Order.swift */; settings = {ASSET_TAGS = (); }; };
@@ -135,7 +142,14 @@
 		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCA840531BD8177D00B67416 /* MessageComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposer.swift; sourceTree = "<group>"; };
 		FCA840561BD83E5D00B67416 /* OrderList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderList.swift; sourceTree = "<group>"; };
-		FCED93801BCEDF59008C17C8 /* new_order.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = new_order.wav; sourceTree = "<group>"; };
+		FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = invalid_phone.wav; sourceTree = "<group>"; };
+		FCE207FC1BDA3B9D006D8554 /* good_job.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = good_job.wav; sourceTree = "<group>"; };
+		FCE207FD1BDA3B9D006D8554 /* horses.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horses.wav; sourceTree = "<group>"; };
+		FCE207FE1BDA3B9D006D8554 /* new_task.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = new_task.wav; sourceTree = "<group>"; };
+		FCE208031BDA3BD0006D8554 /* SoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffect.swift; sourceTree = "<group>"; };
+		FCE208051BDA4249006D8554 /* lets_drive.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lets_drive.wav; sourceTree = "<group>"; };
+		FCE208071BDA4376006D8554 /* task_removed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = task_removed.wav; sourceTree = "<group>"; };
+		FCE208091BDA465C006D8554 /* notified.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notified.wav; sourceTree = "<group>"; };
 		FCED93911BD174D5008C17C8 /* DishInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DishInfo.swift; sourceTree = "<group>"; };
 		FCED93931BD19046008C17C8 /* Push.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
 		FCFC938F1BC73EDF00DB52AC /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
@@ -308,8 +322,14 @@
 		FCED93861BCEDF88008C17C8 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
+				FCE208091BDA465C006D8554 /* notified.wav */,
+				FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */,
+				FCE208071BDA4376006D8554 /* task_removed.wav */,
+				FCE208051BDA4249006D8554 /* lets_drive.wav */,
+				FCE207FC1BDA3B9D006D8554 /* good_job.wav */,
+				FCE207FD1BDA3B9D006D8554 /* horses.wav */,
+				FCE207FE1BDA3B9D006D8554 /* new_task.wav */,
 				FC169CE11BD49DF600D423D9 /* Font */,
-				FCED93801BCEDF59008C17C8 /* new_order.wav */,
 				FC5EAF5C1BD608E000D66467 /* unassigned.mp3 */,
 				FC169CDB1BD49DF600D423D9 /* bento_placeholder.png */,
 				FC169CDC1BD49DF600D423D9 /* empty-main.png */,
@@ -356,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				FCA840531BD8177D00B67416 /* MessageComposer.swift */,
+				FCE208031BDA3BD0006D8554 /* SoundEffect.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -512,21 +533,27 @@
 				FC169CF81BD49DF600D423D9 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				FC169CF11BD49DF600D423D9 /* first_background.png in Resources */,
 				FC169CF91BD49DF600D423D9 /* OpenSans-Italic.ttf in Resources */,
+				FCE207FF1BDA3B9D006D8554 /* invalid_phone.wav in Resources */,
 				FC169CF01BD49DF600D423D9 /* empty-side.png in Resources */,
 				FC169CF31BD49DF600D423D9 /* logo.png in Resources */,
 				FC9CB3231BBF4409000F4395 /* LaunchScreen.storyboard in Resources */,
 				FC169CF21BD49DF600D423D9 /* logo_title.png in Resources */,
 				FC169CFB1BD49DF600D423D9 /* OpenSans-LightItalic.ttf in Resources */,
+				FCE208021BDA3B9D006D8554 /* new_task.wav in Resources */,
 				FC169CF61BD49DF600D423D9 /* OpenSans-BoldItalic.ttf in Resources */,
 				FC5EAF5D1BD608E000D66467 /* unassigned.mp3 in Resources */,
 				FC9CB3201BBF4409000F4395 /* Assets.xcassets in Resources */,
 				FC169CFD1BD49DF600D423D9 /* OpenSans-Semibold.ttf in Resources */,
 				FC169CFA1BD49DF600D423D9 /* OpenSans-Light.ttf in Resources */,
 				FC169CF41BD49DF600D423D9 /* open-sans.zip in Resources */,
+				FCE2080A1BDA465C006D8554 /* notified.wav in Resources */,
+				FCE208001BDA3B9D006D8554 /* good_job.wav in Resources */,
+				FCE208011BDA3B9D006D8554 /* horses.wav in Resources */,
 				FC169CEE1BD49DF600D423D9 /* bento_placeholder.png in Resources */,
+				FCE208061BDA4249006D8554 /* lets_drive.wav in Resources */,
 				FC169CEF1BD49DF600D423D9 /* empty-main.png in Resources */,
 				FC169CFE1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf in Resources */,
-				FCED93811BCEDF59008C17C8 /* new_order.wav in Resources */,
+				FCE208081BDA4376006D8554 /* task_removed.wav in Resources */,
 				FC169CFC1BD49DF600D423D9 /* OpenSans-Regular.ttf in Resources */,
 				FC169CF71BD49DF600D423D9 /* OpenSans-ExtraBold.ttf in Resources */,
 			);
@@ -602,6 +629,7 @@
 			files = (
 				FC1594301BC89C0500F532BD /* OrderDetailViewController.swift in Sources */,
 				FC4B5E201BD6F37B00C31620 /* String.swift in Sources */,
+				FCE208041BDA3BD0006D8554 /* SoundEffect.swift in Sources */,
 				FC92208C1BDA091300050D1A /* Reachability.swift in Sources */,
 				FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */,
 				FC15B5AB1BD56E8F007B7121 /* OrderAction.swift in Sources */,

@@ -56,7 +56,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.noTasksLabel.text = "No Tasks"
         self.noTasksLabel.textAlignment = .Center
         self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        self.noTasksLabel.textColor = UIColor.darkGrayColor()
+        self.noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         self.view.addSubview(noTasksLabel)
         
 //MARK: Call Pull Orders
@@ -201,6 +201,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
+        SoundEffect.sharedPlayer.playSound("new_task")
+        
         self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
         
         self.updateUI()
@@ -216,6 +218,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+        SoundEffect.sharedPlayer.playSound("task_removed")
         self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!")
         self.updateUI()
     }

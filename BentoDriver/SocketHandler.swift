@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreLocation
-import AVFoundation
 import Socket_IO_Client_Swift
 import SwiftyJSON
 import PKHUD
@@ -27,7 +26,6 @@ public class SocketHandler: NSObject {
     static let sharedSocket = SocketHandler() // singleton
     var delegate: SocketHandlerDelegate? // delegate
     public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // Node API
-    public var audioPlayer: AVAudioPlayer!
     public var emitLocationTimer: NSTimer?
 }
 
@@ -71,7 +69,7 @@ extension SocketHandler {
             notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
             notification.notificationLabelTextColor = UIColor.whiteColor()
             notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
-            notification.displayNotificationWithMessage("Socket connection failed", forDuration: 2.0)
+            notification.displayNotificationWithMessage("Failed to connect", forDuration: 2.0)
             
             // call delegate method
 //            self.delegate?.socketHandlerDidConnect!(false)
@@ -187,20 +185,6 @@ extension SocketHandler {
         })
     }
     
-    func playInAppSound() {
-        let soundPath = NSBundle.mainBundle().pathForResource("new_order.wav", ofType: nil)!
-        let soundURL = NSURL(fileURLWithPath: soundPath)
-        
-        // play audio
-        do {
-            let sound = try AVAudioPlayer(contentsOfURL: soundURL)
-            self.audioPlayer = sound
-            sound.play()
-        } catch {
-            // couldn't load file, handle error
-        }
-    }
-    
 //MARK: Disconnect
     func closeSocket() {
         // disconnect socket
@@ -227,19 +211,19 @@ extension SocketHandler {
     }
 
 //MARK: Local Notification
-    public func promptLocalNotification(sound: String) {
+    public func promptLocalNotification(task: String) {
         let localNotification = UILocalNotification()
         localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
         
         var alertBody: String
 
-        if sound == "assigned" {
+        if task == "assigned" {
             alertBody = "A new task has been assigned!"
-            localNotification.soundName = "new_order.wav"
+            localNotification.soundName = "new_task"
         }
         else {
             alertBody = "A task has been unassigned!"
-            localNotification.soundName = UILocalNotificationDefaultSoundName
+            localNotification.soundName = "task_removed"
         }
         
         localNotification.alertBody = alertBody

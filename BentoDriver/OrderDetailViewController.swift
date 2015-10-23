@@ -384,8 +384,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func showHoldYourHorsesAlert() {
+        SoundEffect.sharedPlayer.playSound("horses")
+        
         // prevent accepting
-        let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. Please finish that first, then try again later.", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. You must finish that first before accepting a new task.", preferredStyle: .Alert)
         
         // action 1
         alertController.addAction(UIAlertAction(title: "Go to task", style: .Default, handler: { action in
@@ -463,10 +465,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     self.dismissHUDWithSuccess(false)
                     
                     // error message
+                    SoundEffect.sharedPlayer.playSound("invalid_phone")
                     self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number")
                     
                     // show complete button once HUD has been dismissed after 2 seconds...
-                    NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: true)
+                    NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: false)
                 }
                 
                 return
@@ -492,20 +495,26 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         self.updateArrivedOrCompleteButtonState("arrived")
                         
                         self.setArrivedWasTapped(false)
+                        
+                        SoundEffect.sharedPlayer.playSound("lets_drive")
                     }
                 case "arrived":
                     if ret == "ok" {
                         self.updateArrivedOrCompleteButtonState("complete")
                         
                         self.setArrivedWasTapped(true)
+                        
+                        SoundEffect.sharedPlayer.playSound("notified")
                     }
                 default: // complete
                     if ret == "ok" {
                         self.delegate?.didCompleteOrder(self.order.id)
                         
                         self.setArrivedWasTapped(false)
-
-                         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
+                        
+                        SoundEffect.sharedPlayer.playSound("good_job")
+                        
+                        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
                     }
                 }
                 
@@ -545,6 +554,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
+        SoundEffect.sharedPlayer.playSound("new_task")
+        
         self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
     }
     
@@ -566,6 +577,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+        SoundEffect.sharedPlayer.playSound("task_removed")
     }
     
     func socketHandlerDidDisconnect() {
@@ -602,7 +614,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         if doesTaskRequireAction == true {
             alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: { action in
-                
                 self.navigationController?.popViewControllerAnimated(true)
             }))
             
