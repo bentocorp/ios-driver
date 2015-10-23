@@ -102,6 +102,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                         print(order.id)
                         
                         OrderList.sharedInstance.orderArray.append(order)
+                        print(order.status)
                     }
                     
                     self.dismissHUD()
@@ -305,20 +306,28 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
 //MARK: Sort List
     func sortList() {
+        var acceptedList: [Order] = []
+        var pendingList: [Order] = []
+        var rejectedList: [Order] = []
+        
+        // loop through order list
         for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
+        
             let status = OrderList.sharedInstance.orderArray[i].status
-            
-            if status == OrderStatus.Accepted {
-                let acceptedOrder = OrderList.sharedInstance.orderArray.removeAtIndex(i)
-                OrderList.sharedInstance.orderArray.insert(acceptedOrder, atIndex: 0)
-            }
-            else if status == .Rejected {
-                
-            }
-            else {
-                
+            let order = OrderList.sharedInstance.orderArray[i]
+
+            switch status {
+            case .Accepted:
+                acceptedList.append(order)
+            case .Pending:
+                pendingList.append(order)
+            case .Rejected:
+                rejectedList.append(order)
+            default: ()
             }
         }
+        
+        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
     }
 }
 
