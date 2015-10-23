@@ -48,9 +48,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
             dispatch_async(dispatch_get_main_queue()) {
+                
+                let username = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
+                let password = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
+                
                 if reachability.isReachableViaWiFi() {
+                    
+                    if username != nil {
+                        User.currentUser.login(username!, password: password!)
+                    }
+                    
                     print("Reachable via WiFi")
                 } else {
+                    
+                    if NSUserDefaults.standardUserDefaults().objectForKey("username") != nil {
+                        User.currentUser.login(username!, password: password!)
+                    }
+                    
                     print("Reachable via Cellular")
                 }
             }

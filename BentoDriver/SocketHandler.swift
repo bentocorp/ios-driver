@@ -219,11 +219,11 @@ extension SocketHandler {
 
         if task == "assigned" {
             alertBody = "A new task has been assigned!"
-            localNotification.soundName = "new_task"
+            localNotification.soundName = "new_task.wav"
         }
         else {
             alertBody = "A task has been unassigned!"
-            localNotification.soundName = "task_removed"
+            localNotification.soundName = "task_removed.wav"
         }
         
         localNotification.alertBody = alertBody
