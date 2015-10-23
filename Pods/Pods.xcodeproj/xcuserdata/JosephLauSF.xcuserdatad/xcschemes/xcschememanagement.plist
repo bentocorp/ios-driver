@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ReachabilitySwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Socket.IO-Client-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -39,30 +44,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>pop.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1F8EB7AF964805C736B1E106DA4E6EEC</key>
+		<key>0C66C30381F86C3D642FC983CCADEBB6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3DA374BB5346C86BB9E37D7D8A3F9705</key>
+		<key>189ED0AB664E693A146AE7F2377017A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5C2F8B8E5FFBAE3750CE132209D4A004</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>758478CF71960D202F051F79722C29FF</key>
+		<key>43713D9CB80870669FE44EFBF85BAE7B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,12 +72,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B864B4010F0819049A210E833C2E76F9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B9A04D3C9B208813656510FDA8ADAE02</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D83871796AB5958A304C3ADBEF652280</key>
+		<key>D47DC717485D7D69395F6471C823CCC9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
