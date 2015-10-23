@@ -463,11 +463,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     self.dismissHUDWithSuccess(false)
                     
                     // error message
-                    self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number.")
+                    self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number")
                     
                     // show complete button once HUD has been dismissed after 2 seconds...
                     NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: true)
-
                 }
                 
                 return
@@ -479,43 +478,44 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 case "reject":
                     if ret == "ok" {
                         self.delegate?.didRejectOrder(self.order.id)
-                        self.navigationController?.popViewControllerAnimated(true)
+                        
+                        self.showHideButtons()
+                        
+                        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
                     }
                 case "accept":
                     if ret == "ok" {
-                        // change the Order status in ordersArray in parent VC
                         self.delegate?.didAcceptOrder(self.order.id)
                         
-                        // change buttons
-                        self.rejectButton.hidden = true
-                        self.acceptButton.hidden = true
-                        self.arrivedAndCompleteButton.hidden = false
+                        self.showHideButtons()
+                        
                         self.updateArrivedOrCompleteButtonState("arrived")
                         
                         self.setArrivedWasTapped(false)
                     }
                 case "arrived":
                     if ret == "ok" {
-                        // change arrived button to complete button
-                        self.arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
-                        self.arrivedAndCompleteButton.setTitle("COMPLETE", forState: .Normal)
+                        self.updateArrivedOrCompleteButtonState("complete")
                         
                         self.setArrivedWasTapped(true)
                     }
                 default: // complete
                     if ret == "ok" {
-                        // change the Order status in ordersArray in parent VC
                         self.delegate?.didCompleteOrder(self.order.id)
                         
                         self.setArrivedWasTapped(false)
 
-                        self.navigationController?.popViewControllerAnimated(true)
+                         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
                     }
                 }
                 
                 self.dismissHUDWithSuccess(true)
             })
         })
+    }
+    
+    func popViewController() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func showCompleteButton() {
@@ -621,7 +621,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func dismissHUDWithSuccess(success: Bool) {
         if success == true {
             PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-            PKHUD.sharedHUD.hide(afterDelay: 0)
+            PKHUD.sharedHUD.hide(afterDelay: 1)
         }
         else {
             PKHUD.sharedHUD.contentView = PKHUDErrorView()

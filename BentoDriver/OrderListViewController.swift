@@ -278,6 +278,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func updateUI() {
         self.showOrHideNoTasksLabel()
+        self.sortList()
         self.orderListTableView.reloadData()
     }
     
@@ -301,4 +302,30 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
     }
+    
+//MARK: Sort List
+    func sortList() {
+        for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
+            let status = OrderList.sharedInstance.orderArray[i].status
+            
+            if status == OrderStatus.Accepted {
+                let acceptedOrder = OrderList.sharedInstance.orderArray.removeAtIndex(i)
+                OrderList.sharedInstance.orderArray.insert(acceptedOrder, atIndex: 0)
+            }
+            else if status == .Rejected {
+                
+            }
+            else {
+                
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
