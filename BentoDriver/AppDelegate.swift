@@ -20,11 +20,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        self.startReachability()
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        let orderListVC = LoginViewController()
+        let navC = UINavigationController(rootViewController: orderListVC)
+        
+        self.window?.rootViewController = navC
+        self.window?.makeKeyAndVisible()
+        
+        // Location Services
+        self.initiateLocationManager()
+    
+        return true
+    }
+    
+    func startReachability() {
         do {
             self.reachability = try Reachability.reachabilityForInternetConnection()
         } catch {
             print("Unable to create Reachability")
-//            return
+            //            return
         }
         
         self.reachability.whenReachable = { reachability in
@@ -51,19 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         } catch {
             print("Unable to start notifier")
         }
-        
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        
-        let orderListVC = LoginViewController()
-        let navC = UINavigationController(rootViewController: orderListVC)
-        
-        self.window?.rootViewController = navC
-        self.window?.makeKeyAndVisible()
-        
-        // Location Services
-        self.initiateLocationManager()
-    
-        return true
     }
 
     func applicationWillResignActive(application: UIApplication) {

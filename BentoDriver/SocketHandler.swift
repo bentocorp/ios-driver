@@ -11,6 +11,7 @@ import CoreLocation
 import AVFoundation
 import Socket_IO_Client_Swift
 import SwiftyJSON
+import PKHUD
 
 //MARK: Protocol
 @objc protocol SocketHandlerDelegate {
@@ -55,6 +56,22 @@ extension SocketHandler {
         
         // connect to Node & handle error if any
         self.socket.connect(timeoutAfter: 10) { () -> Void in
+            
+            
+            print("socket timed out")
+            
+            PKHUD.sharedHUD.contentView = PKHUDErrorView()
+            PKHUD.sharedHUD.hide(afterDelay: 0)
+            
+            // status bar notification
+            let notification = CWStatusBarNotification()
+            notification.notificationStyle = .NavigationBarNotification
+            notification.notificationAnimationInStyle = .Left
+            notification.notificationAnimationOutStyle = .Right
+            notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+            notification.notificationLabelTextColor = UIColor.whiteColor()
+            notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+            notification.displayNotificationWithMessage("Socket connection failed", forDuration: 2.0)
             
             // call delegate method
 //            self.delegate?.socketHandlerDidConnect!(false)
