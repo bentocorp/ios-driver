@@ -192,6 +192,14 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: SocketHandlerDelegate
+    func socketHandlerDidConnect(connected: Bool) {
+        print("socketHandlerDidConnect was called in OrderListViewController")
+    }
+
+    func socketHandlerDidAuthenticate(authenticated: Bool) {
+        print("socketHandlerDidAuthenticate was called in OrderListViewController")
+    }
+    
     func socketHandlerDidDisconnect() {
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }

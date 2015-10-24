@@ -24,7 +24,7 @@ import PKHUD
 //MARK: Properties
 public class SocketHandler: NSObject {
     static let sharedSocket = SocketHandler() // singleton
-    var delegate: SocketHandlerDelegate? // delegate
+    var delegate: SocketHandlerDelegate! // delegate
     public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // Node API
     public var emitLocationTimer: NSTimer?
 }
@@ -46,7 +46,7 @@ extension SocketHandler {
             print("socket connected")
             
             // call delegate method
-            self.delegate?.socketHandlerDidConnect!(true)
+            self.delegate.socketHandlerDidConnect!(true)
             
             // 2) authenticate
             self.authenticateUser(username, password: password)
@@ -72,10 +72,10 @@ extension SocketHandler {
             notification.displayNotificationWithMessage("Failed to connect", forDuration: 2.0)
             
             // call delegate method
-//            self.delegate?.socketHandlerDidConnect!(false)
+            self.delegate.socketHandlerDidConnect!(false)
             
             // remove previous handler to avoid multiple auto attempts to connect
-//            self.socket.removeAllHandlers()
+            self.socket.removeAllHandlers()
         }
     }
     
@@ -103,7 +103,7 @@ extension SocketHandler {
                     let code = json["code"]
                     if code == 0 {
                         // authentication succeeded
-                        self.delegate?.socketHandlerDidAuthenticate!(true)
+                        self.delegate.socketHandlerDidAuthenticate!(true)
                         
                         // if authenticated, ret should not be nil, but check anyways
                         let ret: JSON
@@ -119,10 +119,9 @@ extension SocketHandler {
                             // save user
                             NSUserDefaults.standardUserDefaults().setObject(User.currentUser.username, forKey: "username")
                             NSUserDefaults.standardUserDefaults().setObject(User.currentUser.password, forKey: "password")
-                            NSUserDefaults.standardUserDefaults().synchronize()
                             
                             // 3) emit to "loc" channel every 5 seconds
-                            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
+                            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                             
                             // 4) listn to "push" channel
                             self.listenToPushChannel()
@@ -133,7 +132,7 @@ extension SocketHandler {
                         self.socket.removeAllHandlers()
                         
                         // authentication failed
-                        self.delegate?.socketHandlerDidAuthenticate!(false)
+                        self.delegate.socketHandlerDidAuthenticate!(false)
                     }
                 }
             }
@@ -169,11 +168,11 @@ extension SocketHandler {
                             
                             // ASSIGNED
                             if push.bodyOrderAction?.type == PushType.ASSIGN {
-                                self.delegate?.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
+                                self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
                             }
                             //  UNASSIGNED
                             else if push.bodyOrderAction?.type == PushType.UNASSIGN {
-                                self.delegate?.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order)
+                                self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order)
                             }
                         }
                         else {
@@ -204,7 +203,7 @@ extension SocketHandler {
         OrderList.sharedInstance.orderArray.removeAll()
         
         // set delegate method
-        self.delegate?.socketHandlerDidDisconnect!()
+        self.delegate.socketHandlerDidDisconnect!()
         
         //
         print("socket closed")

@@ -98,6 +98,9 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+}
+
+extension LoginViewController {
     
 //MARK: SocketHandlerDelegate Method
     func socketHandlerDidConnect(connected: Bool) {
@@ -110,7 +113,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     func socketHandlerDidAuthenticate(authenticated: Bool) {
         if authenticated {
             // TODO: check if connected already. if yes, don't prompt alert...
-//            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
+            //            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
             
             self.dismissHUD()
             NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "presentVCAfter2Seconds", userInfo: nil, repeats: false)
@@ -125,7 +128,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         let navC = UINavigationController.init(rootViewController: OrderListViewController())
         self.navigationController?.presentViewController(navC, animated: true, completion: nil)
     }
-
+    
 //MARK: Alert
     func promptAlertWith(messageString: String, style: UIAlertActionStyle) {
         let alertController = UIAlertController(title: "", message: messageString, preferredStyle: .Alert)
@@ -138,7 +141,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         }))
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-
+    
 //MARK: Login
     func checkLoginInfo() {
         // check if logged in user, if not reset textfields
