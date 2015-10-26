@@ -106,7 +106,7 @@ extension AppDelegate {
             self.reachability = try Reachability.reachabilityForInternetConnection()
         } catch {
             print("Unable to create Reachability")
-            //            return
+//            return
         }
         
         self.reachability.whenReachable = { reachability in

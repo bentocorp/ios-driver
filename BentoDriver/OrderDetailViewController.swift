@@ -549,6 +549,32 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
 //MARK: SocketHandlerDelegate
+    
+    func socketHandlerDidConnect() {
+        
+    }
+    
+    func socketHandlerDidFailToConnect() {
+        
+    }
+    
+    func socketHandlerDidAuthenticate() {
+        
+    }
+    
+    func socketHandlerDidFailToAuthenticate() {
+        
+    }
+    
+    func socketHandlerDidDisconnect() {
+        // handle disconnect
+        
+        // dismiss multiple view (UNTESTED)
+        (self.presentingViewController as! UINavigationController).popToRootViewControllerAnimated(false)
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popToRootViewControllerAnimated(true)
+    }
+    
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
         // add order to list
         OrderList.sharedInstance.orderArray.append(assignedOrder)
@@ -578,15 +604,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
         SoundEffect.sharedPlayer.playSound("task_removed")
-    }
-    
-    func socketHandlerDidDisconnect() {
-        // handle disconnect
-        
-        // dismiss multiple view (UNTESTED)
-        (self.presentingViewController as! UINavigationController).popToRootViewControllerAnimated(false)
-        self.dismissViewControllerAnimated(true, completion: nil)
-        self.navigationController?.popToRootViewControllerAnimated(true)
     }
 
 //MARK: Status Bar Notification

@@ -192,12 +192,20 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: SocketHandlerDelegate
-    func socketHandlerDidConnect(connected: Bool) {
-        print("socketHandlerDidConnect was called in OrderListViewController")
+    func socketHandlerDidConnect() {
+        
     }
-
-    func socketHandlerDidAuthenticate(authenticated: Bool) {
-        print("socketHandlerDidAuthenticate was called in OrderListViewController")
+    
+    func socketHandlerDidFailToConnect() {
+        
+    }
+    
+    func socketHandlerDidAuthenticate() {
+        
+    }
+    
+    func socketHandlerDidFailToAuthenticate() {
+        
     }
     
     func socketHandlerDidDisconnect() {

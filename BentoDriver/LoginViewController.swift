@@ -103,32 +103,37 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
 extension LoginViewController {
     
 //MARK: SocketHandlerDelegate Method
-    func socketHandlerDidConnect(connected: Bool) {
-        if connected == false { // TODO: figure out why this is trying to reconnect, add breakpoint to connect
-            self.dismissHUD()
-            self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
-        }
+    func socketHandlerDidConnect() {
+        
     }
     
-    func socketHandlerDidAuthenticate(authenticated: Bool) {
-        if authenticated {
-            // TODO: check if connected already. if yes, don't prompt alert...
-            //            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
+    func socketHandlerDidFailToConnect() {
+        self.dismissHUD(false)
+        self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
+    }
+    
+    func socketHandlerDidAuthenticate() {
+// TODO: check if connected already. if yes, don't prompt alert...
+//            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
             
-            self.dismissHUD()
-            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "presentVCAfter2Seconds", userInfo: nil, repeats: false)
-        }
-        else {
-            self.dismissHUD()
-            self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
-        }
+        self.dismissHUD(true)
+        NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "presentHomepageWithDelay", userInfo: nil, repeats: false)
+    }
+
+    func socketHandlerDidFailToAuthenticate() {
+        self.dismissHUD(false)
+        NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "promptAlertWithDelay", userInfo: nil, repeats: false)
     }
     
     func socketHandlerDidDisconnect() {
         
     }
     
-    func presentVCAfter2Seconds() {
+    func promptAlertWithDelay() {
+        self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
+    }
+    
+    func presentHomepageWithDelay() {
         let navC = UINavigationController.init(rootViewController: OrderListViewController())
         self.navigationController?.presentViewController(navC, animated: true, completion: nil)
     }
@@ -190,8 +195,14 @@ extension LoginViewController {
         PKHUD.sharedHUD.show()
     }
     
-    func dismissHUD() {
-        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+    func dismissHUD(success: Bool) {
+        if success == true {
+            PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+        }
+        else {
+            PKHUD.sharedHUD.contentView = PKHUDErrorView()
+        }
+        
         PKHUD.sharedHUD.hide(afterDelay: 1)
     }
 }

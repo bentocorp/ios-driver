@@ -340,8 +340,8 @@
 			isa = PBXGroup;
 			children = (
 				FC1594351BC89C3C00F532BD /* User.swift */,
-				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
 				FCA840561BD83E5D00B67416 /* OrderList.swift */,
+				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
 			);
 			name = Singletons;
 			sourceTree = "<group>";

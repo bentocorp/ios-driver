@@ -14,9 +14,15 @@ import PKHUD
 
 //MARK: Protocol
 @objc protocol SocketHandlerDelegate {
-    optional func socketHandlerDidConnect(connected: Bool)
+    // connect
+    optional func socketHandlerDidConnect()
+    optional func socketHandlerDidFailToConnect()
+    // authenticate
+    optional func socketHandlerDidAuthenticate()
+    optional func socketHandlerDidFailToAuthenticate()
+    // disconnect
     optional func socketHandlerDidDisconnect()
-    optional func socketHandlerDidAuthenticate(authenticated: Bool)
+    // assign/unassign
     optional func socketHandlerDidAssignOrder(assignedOrder: Order)
     optional func socketHandlerDidUnassignOrder(unassignedOrder: Order)
 }
@@ -48,9 +54,9 @@ extension SocketHandler {
     func connectUser(username: String, password: String) {
         // 1) connect
         self.socket.on("connect") {data, ack in
-            print("socket connected")
 
-            self.delegate.socketHandlerDidConnect!(true)
+            self.delegate.socketHandlerDidConnect!()
+            print("socket did connect")
             
             // 2) authenticate
             self.authenticateUser(username, password: password)
@@ -59,30 +65,26 @@ extension SocketHandler {
         // connect to Node & handle error if any
         self.socket.connect(timeoutAfter: 0) { () -> Void in
             
-            print("socket timed out")
-            
-            // remove previous handler to avoid multiple auto attempts to connect
-            //            self.socket.removeAllHandlers()
-            // testing...
-            self.closeSocket()
-            
-        /*refactor this*/
-            PKHUD.sharedHUD.contentView = PKHUDErrorView()
-            PKHUD.sharedHUD.hide(afterDelay: 0)
-            
-            // status bar notification
-            let notification = CWStatusBarNotification()
-            notification.notificationStyle = .NavigationBarNotification
-            notification.notificationAnimationInStyle = .Left
-            notification.notificationAnimationOutStyle = .Right
-            notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-            notification.notificationLabelTextColor = UIColor.whiteColor()
-            notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
-            notification.displayNotificationWithMessage("Failed to connect", forDuration: 2.0)
-        /*------------------------*/
-            
-            // call delegate method
-            self.delegate.socketHandlerDidConnect!(false)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.delegate.socketHandlerDidFailToConnect!()
+                print("socket did fail to connect")
+                
+                self.closeSocket()
+                
+                PKHUD.sharedHUD.contentView = PKHUDErrorView()
+                PKHUD.sharedHUD.hide(afterDelay: 0)
+                
+                // status bar notification
+                let notification = CWStatusBarNotification()
+                notification.notificationStyle = .NavigationBarNotification
+                notification.notificationAnimationInStyle = .Left
+                notification.notificationAnimationOutStyle = .Right
+                notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+                notification.notificationLabelTextColor = UIColor.whiteColor()
+                notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+                notification.displayNotificationWithMessage("Failed to connect", forDuration: 2.0)
+            })
         }
     }
     
@@ -101,47 +103,45 @@ extension SocketHandler {
                     var json = JSON(data: dataFromString)
                     
                     /*
-                    ‘{“code”:1,”msg”:”Bad authentication credentials”,”ret”:null}’
-                    ‘{“code”:0,”msg”:”OK”,”ret”:{“uid”:”d-8”,”token”:”123ABC”}}’
+                        ‘{“code”:1,”msg”:”Bad authentication credentials”,”ret”:null}’
+                        ‘{“code”:0,”msg”:”OK”,”ret”:{“uid”:”d-8”,”token”:”123ABC”}}’
                     */
                     
                     // check code (0 or 1), then call delegate method to let app know if authenticated
-                    let token: String?
                     let code = json["code"]
+                    
                     if code == 0 {
-                        // authentication succeeded
-                        self.delegate.socketHandlerDidAuthenticate!(true)
+                        
+                        self.delegate.socketHandlerDidAuthenticate!()
+                        print("socket did authenticate")
                         
                         // if authenticated, ret should not be nil, but check anyways
                         let ret: JSON
                         if json["ret"] != nil {
+                            
                             ret = json["ret"]
                             
-                            token = ret["token"].stringValue
-                            
                             // retrieve token and set to currentUser
+                            let token = ret["token"].stringValue
                             User.currentUser.token = token
-                            print("socket authenticated with token: \(token!)")
                             
-                            // save user
+                            // save user info
                             NSUserDefaults.standardUserDefaults().setObject(User.currentUser.username, forKey: "username")
                             NSUserDefaults.standardUserDefaults().setObject(User.currentUser.password, forKey: "password")
                             
-                            // 3) emit to "loc" channel every 5 seconds
+                            // 3) emit to "loc"
                             self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                             
-                            // 4) listn to "push" channel
+                            // 4) listn to "push"
                             self.listenToPushChannel()
                         }
                     }
                     else {
-                        // remove previous handler to avoid multiple auto attempts to connect
-//                        self.socket.removeAllHandlers()
+                        self.delegate.socketHandlerDidFailToAuthenticate!()
+                        print("socket did fail to authenticate")
+                        
                         //testing...
                         self.closeSocket()
-                        
-                        // authentication failed
-                        self.delegate.socketHandlerDidAuthenticate!(false)
                     }
                 }
             }
@@ -159,7 +159,7 @@ extension SocketHandler {
             // handle error if needed...
         }
 
-        print("emitting: \(token) and \(lat) and \(long)")
+        print("emitting coordinates: \(token) and \(lat) and \(long)")
     }
     
 //MARK: Listen To
@@ -193,7 +193,7 @@ extension SocketHandler {
                             }
                         }
                         else {
-                            // handle body string...
+                            // handle body string...?
                         }
                     })
                 }
