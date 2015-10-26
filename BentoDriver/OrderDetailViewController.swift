@@ -570,17 +570,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         self.showHUD()
         
-        // check unassigned order first
-        if OrderList.sharedInstance.orderArray.contains(self.order) {
-            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
-        }
-        
-        // then clear array and pullOrders
-        
         OrderList.sharedInstance.orderArray.removeAll()
         
         OrderList.sharedInstance.pullOrders { (result) -> Void in
             print("result: \(result)")
+            
+            // unassigned
+            if OrderList.sharedInstance.orderArray.contains(self.order) == false {
+                self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
+            }
             
             self.dismissHUDWithSuccess(true)
         }
