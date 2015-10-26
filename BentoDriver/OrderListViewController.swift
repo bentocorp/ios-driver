@@ -58,6 +58,15 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         self.noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         self.view.addSubview(noTasksLabel)
+        
+        
+//MARK: Pull Orders
+        OrderList.sharedInstance.pullOrders { (result) -> Void in
+            
+            print("result: \(result)")
+            self.dismissHUD()
+            self.updateUI()
+        }
     }
 
     override func didReceiveMemoryWarning() {

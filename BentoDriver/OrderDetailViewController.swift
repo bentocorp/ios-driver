@@ -567,9 +567,22 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     // this would only be called if internet had disconnected and reconnected again. in that case, check if any Orders were unassigned while disconnected
     func socketHandlerDidAuthenticate() {
+        
+        self.showHUD()
+        
+        // check unassigned order first
         if OrderList.sharedInstance.orderArray.contains(self.order) {
             self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
-            SoundEffect.sharedPlayer.playSound("task_removed")
+        }
+        
+        // then clear array and pullOrders
+        
+        OrderList.sharedInstance.orderArray.removeAll()
+        
+        OrderList.sharedInstance.pullOrders { (result) -> Void in
+            print("result: \(result)")
+            
+            self.dismissHUDWithSuccess(true)
         }
     }
     
@@ -590,9 +603,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // add order to list
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
-        SocketHandler.sharedSocket.promptLocalNotification("assigned")
-        SoundEffect.sharedPlayer.playSound("new_task")
-        
         self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!", success: true)
     }
     
@@ -612,9 +622,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         else {
             self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", success: true)
         }
-        
-        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
-        SoundEffect.sharedPlayer.playSound("task_removed")
     }
 
 //MARK: Status Bar Notification
@@ -626,9 +633,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         if task == "This task has been unassigned!" {
             doesTaskRequireAction = true
+            SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+            SoundEffect.sharedPlayer.playSound("task_removed")
         }
         else {
             doesTaskRequireAction = false
+            SocketHandler.sharedSocket.promptLocalNotification("assigned")
+            SoundEffect.sharedPlayer.playSound("new_task")
             
             // status bar notification
             self.notification.notificationStyle = .NavigationBarNotification

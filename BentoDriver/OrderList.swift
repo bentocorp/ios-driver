@@ -18,7 +18,7 @@ public class OrderList {
 }
 
 extension OrderList {
-    func pullOrders(completion: () -> Void) {
+    public func pullOrders(completion: (result: JSON) -> Void) {
         
         // get all assigned orders
         Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
@@ -49,6 +49,8 @@ extension OrderList {
                         self.orderArray.append(order)
                         print(order.status)
                     }
+                    
+                    completion(result: json)
                 })
                 
                 print("getAllAssigned count - \(self.orderArray.count)")
