@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import Foundation
 
 @UIApplicationMain
 
@@ -114,24 +115,18 @@ extension AppDelegate {
             // be on the main thread, like this:
             dispatch_async(dispatch_get_main_queue()) {
                 
-                let username = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
-                let password = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
+                // TODO: should probably put this is a new class
+                let notification = CWStatusBarNotification()
+                notification.notificationStyle = .NavigationBarNotification
+                notification.notificationAnimationInStyle = .Left
+                notification.notificationAnimationOutStyle = .Right
+                notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+                notification.notificationLabelTextColor = UIColor.whiteColor()
+                notification.notificationLabelBackgroundColor = UIColor(red: 0.1804, green: 0.8, blue: 0.4431, alpha: 1.0) /* #2ecc71 green */
+                notification.displayNotificationWithMessage("Established Connection", forDuration: 1)
                 
-                if reachability.isReachableViaWiFi() {
-                    
-                    if username != nil {
-                        User.currentUser.login(username!, password: password!)
-                    }
-                    
-                    print("Reachable via WiFi")
-                } else {
-                    
-                    if NSUserDefaults.standardUserDefaults().objectForKey("username") != nil {
-                        User.currentUser.login(username!, password: password!)
-                    }
-                    
-                    print("Reachable via Cellular")
-                }
+                // reconnect
+                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "delayReconnect", userInfo: nil, repeats: false)
             }
         }
         self.reachability.whenUnreachable = { reachability in
@@ -148,7 +143,7 @@ extension AppDelegate {
                 notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
                 notification.notificationLabelTextColor = UIColor.whiteColor()
                 notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c red */
-                notification.displayNotificationWithMessage("Lost Connection", forDuration: 1.0)
+                notification.displayNotificationWithMessage("Lost Connection", forDuration: 2.0)
                 
                 SocketHandler.sharedSocket.closeSocket(true) // to prevent multi handlers when reconnected to internet
             }
@@ -158,6 +153,27 @@ extension AppDelegate {
             try self.reachability.startNotifier()
         } catch {
             print("Unable to start notifier")
+        }
+    }
+    
+    func delayReconnect() {
+        let username = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
+        let password = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
+        
+        if reachability.isReachableViaWiFi() {
+            
+            if username != nil {
+                User.currentUser.login(username!, password: password!)
+            }
+            
+            print("Reachable via WiFi")
+        } else {
+            
+            if NSUserDefaults.standardUserDefaults().objectForKey("username") != nil {
+                User.currentUser.login(username!, password: password!)
+            }
+            
+            print("Reachable via Cellular")
         }
     }
 }
