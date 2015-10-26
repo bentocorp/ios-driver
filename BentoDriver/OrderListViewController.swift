@@ -60,7 +60,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.view.addSubview(noTasksLabel)
         
 //MARK: Call Pull Orders
-        self.pullOrders()
+//        self.pullOrders()
     }
 
     override func didReceiveMemoryWarning() {
@@ -202,7 +202,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func socketHandlerDidAuthenticate() {
+        // remove any preexisting orders
+        if OrderList.sharedInstance.orderArray.count != 0 {
+            OrderList.sharedInstance.orderArray.removeAll()
+        }
         
+        // pull orders from houston
+        self.pullOrders()
     }
     
     func socketHandlerDidFailToAuthenticate() {
