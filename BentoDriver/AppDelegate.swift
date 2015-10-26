@@ -96,9 +96,8 @@ extension AppDelegate {
             }
         }
         
-        // save coordinates to device
-        NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.latitude, forKey: "lat")
-        NSUserDefaults.standardUserDefaults().setObject(manager.location?.coordinate.longitude, forKey: "long")
+        // set coordinates to User
+        User.currentUser.coordinates = manager.location?.coordinate
     }
     
 //MARK: Reachability

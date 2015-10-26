@@ -124,6 +124,10 @@ extension LoginViewController {
         }
     }
     
+    func socketHandlerDidDisconnect() {
+        
+    }
+    
     func presentVCAfter2Seconds() {
         let navC = UINavigationController.init(rootViewController: OrderListViewController())
         self.navigationController?.presentViewController(navC, animated: true, completion: nil)

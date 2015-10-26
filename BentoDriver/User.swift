@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import CoreLocation
 
 public class User {
     static let currentUser = User() // singleton
     public var username: String?
     public var password: String?
     public var token: String?
+    public var coordinates: CLLocationCoordinate2D?
 }
 
 extension User {

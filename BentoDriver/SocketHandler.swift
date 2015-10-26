@@ -32,20 +32,24 @@ public class SocketHandler: NSObject {
 //MARK: Methods
 extension SocketHandler {
     
-//MARK: Connect
     public func connectAndAuthenticateWith(username: String, password: String) {
         print("connectAndAuthenticate called")
         
-        // 0) close and remove any preexisting handlers before trying to connect
+        // close and remove any preexisting handlers before trying to connect
         self.socket.disconnect()
         self.socket.close()
         self.socket.removeAllHandlers()
         
+        // connect
+        self.connectUser(username, password: password)
+    }
+    
+//MARK: Connect
+    func connectUser(username: String, password: String) {
         // 1) connect
         self.socket.on("connect") {data, ack in
             print("socket connected")
-            
-            // call delegate method
+
             self.delegate.socketHandlerDidConnect!(true)
             
             // 2) authenticate
@@ -53,11 +57,16 @@ extension SocketHandler {
         }
         
         // connect to Node & handle error if any
-        self.socket.connect(timeoutAfter: 10) { () -> Void in
-            
+        self.socket.connect(timeoutAfter: 0) { () -> Void in
             
             print("socket timed out")
             
+            // remove previous handler to avoid multiple auto attempts to connect
+            //            self.socket.removeAllHandlers()
+            // testing...
+            self.closeSocket()
+            
+        /*refactor this*/
             PKHUD.sharedHUD.contentView = PKHUDErrorView()
             PKHUD.sharedHUD.hide(afterDelay: 0)
             
@@ -70,12 +79,10 @@ extension SocketHandler {
             notification.notificationLabelTextColor = UIColor.whiteColor()
             notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
             notification.displayNotificationWithMessage("Failed to connect", forDuration: 2.0)
+        /*------------------------*/
             
             // call delegate method
             self.delegate.socketHandlerDidConnect!(false)
-            
-            // remove previous handler to avoid multiple auto attempts to connect
-            self.socket.removeAllHandlers()
         }
     }
     
@@ -129,7 +136,9 @@ extension SocketHandler {
                     }
                     else {
                         // remove previous handler to avoid multiple auto attempts to connect
-                        self.socket.removeAllHandlers()
+//                        self.socket.removeAllHandlers()
+                        //testing...
+                        self.closeSocket()
                         
                         // authentication failed
                         self.delegate.socketHandlerDidAuthenticate!(false)
@@ -139,30 +148,38 @@ extension SocketHandler {
         }
     }
 
-//MARK: Emit & Listen
+//MARK: Emit
     func emitToLocChannel() {
-        let lat = NSUserDefaults.standardUserDefaults().objectForKey("lat")!
-        let long = NSUserDefaults.standardUserDefaults().objectForKey("long")!
         
-        self.socket.emitWithAck("get", "/api/uloc?token=\(User.currentUser.token!)&lat=\(lat)&lng=\(long)")(timeoutAfter: 0) { data in
-            // handle error if any
+        let token = User.currentUser.token!
+        let lat = User.currentUser.coordinates!.latitude
+        let long = User.currentUser.coordinates!.longitude
+        
+        self.socket.emitWithAck("get", "/api/uloc?token=\(token)&lat=\(lat)&lng=\(long)")(timeoutAfter: 0) { data in
+            // handle error if needed...
         }
 
-        print("\(User.currentUser.token!) and \(lat) and \(long)")
+        print("emitting: \(token) and \(lat) and \(long)")
     }
     
+//MARK: Listen To
     func listenToPushChannel() {
+        
         self.socket.on("push", callback: { (data, ack) -> Void in
+            
             // check data for type String, then cast as String if exists
             if let jsonStr = data[0] as? String {
+                
                 // get data from jsonStr
                 if let dataFromStr = jsonStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                    
                     let json = JSON(data: dataFromStr)
                     print(json)
                     
                     let push = Push(json: json)
                     
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
                         // check if body order or body string
                         if push.bodyOrderAction != nil {
                             
@@ -186,26 +203,23 @@ extension SocketHandler {
     
 //MARK: Disconnect
     func closeSocket() {
-        // disconnect socket
+
         self.socket.close()
         self.socket.disconnect()
-        
-        // remove previous handler to avoid multiple auto attempts to connect
         self.socket.removeAllHandlers()
         
         // stop timer to stop emiting location
         self.emitLocationTimer?.invalidate()
         
-        // logout user
-        User.currentUser.logout()
-        
         // clear order list
         OrderList.sharedInstance.orderArray.removeAll()
+        
+        // logout user
+        User.currentUser.logout()
         
         // set delegate method
         self.delegate.socketHandlerDidDisconnect!()
         
-        //
         print("socket closed")
     }
 
