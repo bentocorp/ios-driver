@@ -33,6 +33,7 @@ public class SocketHandler: NSObject {
     var delegate: SocketHandlerDelegate! // delegate
     public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // Node API
     public var emitLocationTimer: NSTimer?
+    let notification = CWStatusBarNotification()
 }
 
 //MARK: Methods
@@ -40,6 +41,8 @@ extension SocketHandler {
     
     public func connectAndAuthenticateWith(username: String, password: String) {
         print("connectAndAuthenticate called")
+        
+        self.showHUD()
         
         // close and remove any preexisting handlers before trying to connect
         self.socket.disconnect()
@@ -54,36 +57,26 @@ extension SocketHandler {
     func connectUser(username: String, password: String) {
         // 1) connect
         self.socket.on("connect") {data, ack in
-
-            self.delegate.socketHandlerDidConnect!()
-            print("socket did connect")
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegate.socketHandlerDidConnect!()
+                print("socket did connect")
+            })
             
             // 2) authenticate
             self.authenticateUser(username, password: password)
         }
         
         // connect to Node & handle error if any
-        self.socket.connect(timeoutAfter: 0) { () -> Void in
+        self.socket.connect(timeoutAfter: 5) { () -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.dismissHUD(false, message: "Failed to connect!")
                 
                 self.delegate.socketHandlerDidFailToConnect!()
                 print("socket did fail to connect")
                 
                 self.closeSocket()
-                
-                PKHUD.sharedHUD.contentView = PKHUDErrorView()
-                PKHUD.sharedHUD.hide(afterDelay: 0)
-                
-                // status bar notification
-                let notification = CWStatusBarNotification()
-                notification.notificationStyle = .NavigationBarNotification
-                notification.notificationAnimationInStyle = .Left
-                notification.notificationAnimationOutStyle = .Right
-                notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-                notification.notificationLabelTextColor = UIColor.whiteColor()
-                notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
-                notification.displayNotificationWithMessage("Failed to connect", forDuration: 2.0)
             })
         }
     }
@@ -111,9 +104,12 @@ extension SocketHandler {
                     let code = json["code"]
                     
                     if code == 0 {
-                        
-                        self.delegate.socketHandlerDidAuthenticate!()
-                        print("socket did authenticate")
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.dismissHUD(true, message: "Authenticated")
+                            
+                            self.delegate.socketHandlerDidAuthenticate!()
+                            print("socket did authenticate")
+                        })
                         
                         // if authenticated, ret should not be nil, but check anyways
                         let ret: JSON
@@ -137,8 +133,12 @@ extension SocketHandler {
                         }
                     }
                     else {
-                        self.delegate.socketHandlerDidFailToAuthenticate!()
-                        print("socket did fail to authenticate")
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.dismissHUD(false, message: "Failed to authenticate")
+                            
+                            self.delegate.socketHandlerDidFailToAuthenticate!()
+                            print("socket did fail to authenticate")
+                        })
                         
                         //testing...
                         self.closeSocket()
@@ -159,7 +159,7 @@ extension SocketHandler {
             // handle error if needed...
         }
 
-        print("emitting coordinates: \(token) and \(lat) and \(long)")
+        print("emitting user \(token) coordinates: \(lat) and \(long)")
     }
     
 //MARK: Listen To
@@ -221,6 +221,34 @@ extension SocketHandler {
         self.delegate.socketHandlerDidDisconnect!()
         
         print("socket closed")
+    }
+    
+//MARK: HUD
+    func showHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
+        PKHUD.sharedHUD.show()
+    }
+    
+    func dismissHUD(success: Bool, message: String) {
+        let notification = CWStatusBarNotification()
+        notification.notificationStyle = .NavigationBarNotification
+        notification.notificationAnimationInStyle = .Left
+        notification.notificationAnimationOutStyle = .Right
+        notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+        notification.notificationLabelTextColor = UIColor.whiteColor()
+        notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+        notification.displayNotificationWithMessage(message, forDuration: 2.0)
+        
+        if success == true {
+            PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+        }
+        else {
+            PKHUD.sharedHUD.contentView = PKHUDErrorView()
+        }
+        
+        PKHUD.sharedHUD.hide(afterDelay: 1)
     }
 
 //MARK: Local Notification

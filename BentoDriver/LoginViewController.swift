@@ -108,29 +108,19 @@ extension LoginViewController {
     }
     
     func socketHandlerDidFailToConnect() {
-        self.dismissHUD(false)
-        self.promptAlertWith("Could not connect to Node server", style: UIAlertActionStyle.Cancel)
+
     }
     
     func socketHandlerDidAuthenticate() {
-// TODO: check if connected already. if yes, don't prompt alert...
-//            self.promptAlertWith("Authentication Succeeded", style: UIAlertActionStyle.Default)
-            
-        self.dismissHUD(true)
         NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "presentHomepageWithDelay", userInfo: nil, repeats: false)
     }
 
     func socketHandlerDidFailToAuthenticate() {
-        self.dismissHUD(false)
-        NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "promptAlertWithDelay", userInfo: nil, repeats: false)
+
     }
     
     func socketHandlerDidDisconnect() {
         
-    }
-    
-    func promptAlertWithDelay() {
-        self.promptAlertWith("Authentication Failed", style: UIAlertActionStyle.Cancel)
     }
     
     func presentHomepageWithDelay() {
@@ -171,8 +161,6 @@ extension LoginViewController {
             return
         }
         
-        self.showHUD()
-        
         User.currentUser.login(self.usernameTextField.text!, password: self.passwordTextField.text!)
     }
     
@@ -185,24 +173,5 @@ extension LoginViewController {
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
-    }
-    
-//MARK: HUD
-    func showHUD() {
-        PKHUD.sharedHUD.contentView = PKHUDProgressView()
-        PKHUD.sharedHUD.dimsBackground = true
-        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
-        PKHUD.sharedHUD.show()
-    }
-    
-    func dismissHUD(success: Bool) {
-        if success == true {
-            PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-        }
-        else {
-            PKHUD.sharedHUD.contentView = PKHUDErrorView()
-        }
-        
-        PKHUD.sharedHUD.hide(afterDelay: 1)
     }
 }
