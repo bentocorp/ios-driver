@@ -140,6 +140,16 @@ extension AppDelegate {
             dispatch_async(dispatch_get_main_queue()) {
                 print("Not reachable")
                 
+                // TODO: should probably put this is a new class
+                let notification = CWStatusBarNotification()
+                notification.notificationStyle = .NavigationBarNotification
+                notification.notificationAnimationInStyle = .Left
+                notification.notificationAnimationOutStyle = .Right
+                notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+                notification.notificationLabelTextColor = UIColor.whiteColor()
+                notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c red */
+                notification.displayNotificationWithMessage("Lost Connection", forDuration: 1.0)
+                
                 SocketHandler.sharedSocket.closeSocket(true) // to prevent multi handlers when reconnected to internet
             }
         }

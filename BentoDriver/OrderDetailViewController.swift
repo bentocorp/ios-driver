@@ -468,11 +468,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     if msg != nil {
                     // error message
                         SoundEffect.sharedPlayer.playSound("invalid_phone")
-                        self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number", success: true)
+                        self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number", taskMessage: "", success: true)
                     }
                     // error from something else...ie. no internet
                     else {
-                        self.taskHasBeenAssignedOrUnassigned("Connection failed", success: false)
+                        self.taskHasBeenAssignedOrUnassigned("Connection failed", taskMessage: "", success: false)
                     }
                     
                     // show complete button once HUD has been dismissed after 2 seconds...
@@ -575,13 +575,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         OrderList.sharedInstance.pullOrders { (result) -> Void in
             print("result: \(result)")
             
-            // unassigned
-            if OrderList.sharedInstance.orderArray.contains(self.order) == false {
-                self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
-            }
+            // for now, just pop back... can think of a better UX in future
+            NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "delayReconnectedAlert", userInfo: nil, repeats: false)
             
             self.dismissHUDWithSuccess(true)
         }
+    }
+    
+    func delayReconnectedAlert() {
+        // for now, just pop back... can think of a better UX in future
+        self.taskHasBeenAssignedOrUnassigned("Established Connection", taskMessage: "You'll be returned to 'Tasks' page.", success: true)
     }
     
     func socketHandlerDidFailToAuthenticate() {
@@ -601,7 +604,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         // add order to list
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
-        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!", success: true)
+        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!", taskMessage: "", success: true)
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
@@ -615,26 +618,26 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // if current order is unassigned
         if unassignedOrder.id == self.order.id {
-            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
+            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", taskMessage: "", success: true)
         }
         else {
-            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", success: true)
+            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", taskMessage: "", success: true)
         }
     }
 
 //MARK: Status Bar Notification
-    func taskHasBeenAssignedOrUnassigned(task: String, success: Bool) {
+    func taskHasBeenAssignedOrUnassigned(taskTitle: String, taskMessage: String, success: Bool) {
         
-        let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: taskTitle, message: taskMessage, preferredStyle: .Alert)
         
         let doesTaskRequireAction: Bool
         
-        if task == "This task has been unassigned!" {
+        if taskTitle == "This task has been unassigned!" {
             doesTaskRequireAction = true
             SocketHandler.sharedSocket.promptLocalNotification("unassigned")
             SoundEffect.sharedPlayer.playSound("task_removed")
         }
-        else {
+        else if taskTitle == "A new task has been assigned!" {
             doesTaskRequireAction = false
             SocketHandler.sharedSocket.promptLocalNotification("assigned")
             SoundEffect.sharedPlayer.playSound("new_task")
@@ -651,7 +654,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             else {
                 self.notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c */
             }
-            self.notification.displayNotificationWithMessage(task, forDuration: 2.0)
+            self.notification.displayNotificationWithMessage(taskTitle, forDuration: 2.0)
+        }
+        else {
+            doesTaskRequireAction = true
         }
         
         if doesTaskRequireAction == true {
