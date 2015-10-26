@@ -565,8 +565,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
     }
     
+    // this would only be called if internet had disconnected and reconnected again. in that case, check if any Orders were unassigned while disconnected
     func socketHandlerDidAuthenticate() {
-        
+        if OrderList.sharedInstance.orderArray.contains(self.order) {
+            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
+            SoundEffect.sharedPlayer.playSound("task_removed")
+        }
     }
     
     func socketHandlerDidFailToAuthenticate() {

@@ -58,9 +58,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         self.noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         self.view.addSubview(noTasksLabel)
-        
-//MARK: Call Pull Orders
-//        self.pullOrders()
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,48 +68,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn")
         SocketHandler.sharedSocket.delegate = self
         self.updateUI()
-    }
-
-//MARK: Pull Orders
-    func pullOrders() {
-        
-        // get all assigned orders
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
-            .responseSwiftyJSON({ (request, response, json, error) in
-                
-                let code = json["code"]
-                print("code: \(code)")
-                
-                let msg = json["msg"]
-                print("msg = \(msg)")
-                
-                let ret = json["ret"].arrayValue
-                print("ret: \(ret)")
-                
-                // Handle error...
-                if code != 0 {
-                    print(msg)
-                    return
-                }
-        
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
-                    // add orders to ordersArray
-                    for orderJSON in ret {
-                        let order: Order = Order.init(json: orderJSON)
-                        print(order.id)
-                        
-                        OrderList.sharedInstance.orderArray.append(order)
-                        print(order.status)
-                    }
-                    
-                    self.dismissHUD()
-                    self.updateUI()
-                })
-                
-                print("getAllAssigned count - \(OrderList.sharedInstance.orderArray.count)")
-                print("getAllAssigned - \(OrderList.sharedInstance.orderArray)")
-            })
     }
 
 //MARK: Log Out
@@ -208,7 +163,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         // pull orders from houston
-        self.pullOrders()
+        OrderList.sharedInstance.pullOrders { (result) -> Void in
+            
+            print("result: \(result)")
+            self.dismissHUD()
+            self.updateUI()
+        }
     }
     
     func socketHandlerDidFailToAuthenticate() {
