@@ -68,6 +68,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn")
         SocketHandler.sharedSocket.delegate = self
         self.updateUI()
     }
@@ -123,11 +124,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         let alertController = UIAlertController(title: "", message: "Save login info?", preferredStyle: .Alert)
         
         alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
-            SocketHandler.sharedSocket.closeSocket()
+            SocketHandler.sharedSocket.closeSocket(false)
         }))
         
         alertController.addAction(UIAlertAction(title: "No", style: .Default, handler: { action in
-            SocketHandler.sharedSocket.closeSocket()
+            SocketHandler.sharedSocket.closeSocket(false)
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")

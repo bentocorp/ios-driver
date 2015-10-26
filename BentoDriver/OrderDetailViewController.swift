@@ -464,9 +464,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 dispatch_after(delayTime, dispatch_get_main_queue()) {
                     self.dismissHUDWithSuccess(false)
                     
+                    // error from invalid phone
+                    if msg != nil {
                     // error message
-                    SoundEffect.sharedPlayer.playSound("invalid_phone")
-                    self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number")
+                        SoundEffect.sharedPlayer.playSound("invalid_phone")
+                        self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number", success: true)
+                    }
+                    // error from something else...ie. no internet
+                    else {
+                        self.taskHasBeenAssignedOrUnassigned("Connection failed", success: false)
+                    }
                     
                     // show complete button once HUD has been dismissed after 2 seconds...
                     NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: false)
@@ -582,7 +589,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
         SoundEffect.sharedPlayer.playSound("new_task")
         
-        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
+        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!", success: true)
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
@@ -596,10 +603,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // if current order is unassigned
         if unassignedOrder.id == self.order.id {
-            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!")
+            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", success: true)
         }
         else {
-            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!")
+            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", success: true)
         }
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
@@ -607,7 +614,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
 //MARK: Status Bar Notification
-    func taskHasBeenAssignedOrUnassigned(task: String) {
+    func taskHasBeenAssignedOrUnassigned(task: String, success: Bool) {
         
         let alertController = UIAlertController(title: task, message: "", preferredStyle: .Alert)
         
@@ -625,7 +632,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             self.notification.notificationAnimationOutStyle = .Right
             self.notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
             self.notification.notificationLabelTextColor = UIColor.whiteColor()
-            self.notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+            if success == true {
+                self.notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+            }
+            else {
+                self.notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c */
+            }
             self.notification.displayNotificationWithMessage(task, forDuration: 2.0)
         }
         

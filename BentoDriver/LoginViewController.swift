@@ -91,6 +91,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = true
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
         SocketHandler.sharedSocket.delegate = self
         self.checkLoginInfo()
     }

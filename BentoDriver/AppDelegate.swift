@@ -139,6 +139,8 @@ extension AppDelegate {
             // be on the main thread, like this:
             dispatch_async(dispatch_get_main_queue()) {
                 print("Not reachable")
+                
+                SocketHandler.sharedSocket.closeSocket(true) // to prevent multi handlers when reconnected to internet
             }
         }
         

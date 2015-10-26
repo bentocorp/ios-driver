@@ -33,4 +33,8 @@ extension User {
         self.password = nil
         self.token = nil
     }
+    
+    public func isLoggedIn() -> Bool {
+        return NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn")
+    }
 }
