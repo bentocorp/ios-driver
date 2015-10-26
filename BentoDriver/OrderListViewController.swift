@@ -74,7 +74,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
-        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn")
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn") // TODO: consider adding to User class
         SocketHandler.sharedSocket.delegate = self
         self.updateUI()
     }

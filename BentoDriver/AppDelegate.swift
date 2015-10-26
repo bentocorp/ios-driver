@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     var reachability: Reachability!
     
+    var isConnectedToInternet: Bool?
+    var isInForeground: Bool?
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -33,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // Location Services
         self.initiateLocationManager()
+        
+        self.isInForeground = true
     
         return true
     }
@@ -48,10 +53,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
+        self.isInForeground = false
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        self.isInForeground = true
+        
+        if self.isInForeground == true && self.isConnectedToInternet == true && NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn") == true {
+            self.reconnect()
+        }
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -63,6 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
     }
 }
 
@@ -113,20 +128,14 @@ extension AppDelegate {
         self.reachability.whenReachable = { reachability in
             // this is called on a background thread, but UI updates must
             // be on the main thread, like this:
+            
             dispatch_async(dispatch_get_main_queue()) {
                 
-                // TODO: should probably put this is a new class
-                let notification = CWStatusBarNotification()
-                notification.notificationStyle = .NavigationBarNotification
-                notification.notificationAnimationInStyle = .Left
-                notification.notificationAnimationOutStyle = .Right
-                notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-                notification.notificationLabelTextColor = UIColor.whiteColor()
-                notification.notificationLabelBackgroundColor = UIColor(red: 0.1804, green: 0.8, blue: 0.4431, alpha: 1.0) /* #2ecc71 green */
-                notification.displayNotificationWithMessage("Established Connection", forDuration: 1)
+                self.isConnectedToInternet = true
                 
-                // reconnect
-                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "delayReconnect", userInfo: nil, repeats: false)
+                if self.isInForeground == true && self.isConnectedToInternet == true {
+                    self.reconnect()
+                }
             }
         }
         self.reachability.whenUnreachable = { reachability in
@@ -154,6 +163,21 @@ extension AppDelegate {
         } catch {
             print("Unable to start notifier")
         }
+    }
+    
+    func reconnect() {
+        // TODO: should probably put this is a new class
+        let notification = CWStatusBarNotification()
+        notification.notificationStyle = .NavigationBarNotification
+        notification.notificationAnimationInStyle = .Left
+        notification.notificationAnimationOutStyle = .Right
+        notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+        notification.notificationLabelTextColor = UIColor.whiteColor()
+        notification.notificationLabelBackgroundColor = UIColor(red: 0.1804, green: 0.8, blue: 0.4431, alpha: 1.0) /* #2ecc71 green */
+        notification.displayNotificationWithMessage("Established Connection", forDuration: 1)
+        
+        // reconnect
+        NSTimer.scheduledTimerWithTimeInterval(1.75, target: self, selector: "delayReconnect", userInfo: nil, repeats: false)
     }
     
     func delayReconnect() {
