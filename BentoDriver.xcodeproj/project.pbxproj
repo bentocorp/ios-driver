@@ -33,6 +33,7 @@
 		FC4B5E201BD6F37B00C31620 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; };
 		FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */; };
 		FC5DEAF61BDB779700A358F7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5DEAF51BDB779700A358F7 /* LoginView.swift */; };
+		FC80C9BB1BDDE9A800D2B68B /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */; };
 		FC92208C1BDA091300050D1A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC92208B1BDA091300050D1A /* Reachability.swift */; };
 		FC9B8FB21BD8752500E2F404 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FC9B8FB61BD8BD4300E2F404 /* CWStatusBarNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */; };
@@ -118,6 +119,7 @@
 		FC4B5E1F1BD6F37B00C31620 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableStuff.swift; sourceTree = "<group>"; };
 		FC5DEAF51BDB779700A358F7 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		FC92208B1BDA091300050D1A /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CWStatusBarNotification.swift; sourceTree = "<group>"; };
 		FC9B8FB51BD8BD4300E2F404 /* CWStatusBarNotificationUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CWStatusBarNotificationUtils.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 			children = (
 				FCA840531BD8177D00B67416 /* MessageComposer.swift */,
 				FCE208031BDA3BD0006D8554 /* SoundEffect.swift */,
+				FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -652,6 +655,7 @@
 				FC5DEAF61BDB779700A358F7 /* LoginView.swift in Sources */,
 				FC9B8FB61BD8BD4300E2F404 /* CWStatusBarNotification.swift in Sources */,
 				FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */,
+				FC80C9BB1BDDE9A800D2B68B /* Connectivity.swift in Sources */,
 				FC1594361BC89C3C00F532BD /* User.swift in Sources */,
 				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
 				FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */,

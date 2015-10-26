@@ -161,6 +161,13 @@ extension LoginViewController {
             return
         }
         
+        if Connectivity.isConnectedToNetwork() == true {
+            print("is connected to internet")
+        }
+        else {
+            print("is not connected to internet")
+        }
+        
         User.currentUser.login(self.usernameTextField.text!, password: self.passwordTextField.text!)
     }
     
