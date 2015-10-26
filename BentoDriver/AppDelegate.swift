@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     let locationManager = CLLocationManager()
     var reachability: Reachability!
     
-    var isConnectedToInternet: Bool?
     var isInForeground: Bool?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -62,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         self.isInForeground = true
         
-        if self.isInForeground == true && self.isConnectedToInternet == true && NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn") == true {
+        if self.isInForeground == true && NSUserDefaults.standardUserDefaults().boolForKey("didLoseInternetConnection") == true && NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn") == true {
             self.reconnect()
         }
     }
@@ -131,9 +130,7 @@ extension AppDelegate {
             
             dispatch_async(dispatch_get_main_queue()) {
                 
-                self.isConnectedToInternet = true
-                
-                if self.isInForeground == true && self.isConnectedToInternet == true {
+                if self.isInForeground == true && NSUserDefaults.standardUserDefaults().boolForKey("didLoseInternetConnection") == true {
                     self.reconnect()
                 }
             }
@@ -143,6 +140,8 @@ extension AppDelegate {
             // be on the main thread, like this:
             dispatch_async(dispatch_get_main_queue()) {
                 print("Not reachable")
+                
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "didLoseInternetConnection")
                 
                 // TODO: should probably put this is a new class
                 let notification = CWStatusBarNotification()

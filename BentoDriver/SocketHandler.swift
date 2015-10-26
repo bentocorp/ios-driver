@@ -132,6 +132,9 @@ extension SocketHandler {
                             NSUserDefaults.standardUserDefaults().setObject(User.currentUser.username, forKey: "username")
                             NSUserDefaults.standardUserDefaults().setObject(User.currentUser.password, forKey: "password")
                             
+                            // reset didLoseInternetConnection
+                            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "didLoseInternetConnection")
+                            
                             // 3) emit to "loc"
                             self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                             
