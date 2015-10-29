@@ -634,14 +634,14 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         let alertController = UIAlertController(title: taskTitle, message: taskMessage, preferredStyle: .Alert)
         
-        let doesTaskRequireAction: Bool
+        var doesTaskRequireAction: Bool = false // initialize
         
         if taskTitle == "This task has been unassigned!" {
             doesTaskRequireAction = true
             SocketHandler.sharedSocket.promptLocalNotification("unassigned")
             SoundEffect.sharedPlayer.playSound("task_removed")
         }
-        else if taskTitle == "A new task has been assigned!" {
+        else if taskTitle == "A new task has been assigned!" || taskTitle == "A task has been unassigned!" {
             doesTaskRequireAction = false
             SocketHandler.sharedSocket.promptLocalNotification("assigned")
             SoundEffect.sharedPlayer.playSound("new_task")
@@ -659,9 +659,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 self.notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c */
             }
             self.notification.displayNotificationWithMessage(taskTitle, forDuration: 2.0)
-        }
-        else {
-            doesTaskRequireAction = true
         }
         
         if doesTaskRequireAction == true {
