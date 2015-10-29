@@ -255,8 +255,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         alertController.addAction(UIAlertAction(title: "Let's go!", style: .Default, handler: { action in
             
+            // filter out diacritics (symbols above letters)
+            let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+            let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+            
             // street
-            let streetArray = self.order.street.componentsSeparatedByString(" ")
+            let streetArray = streetString.componentsSeparatedByString(" ")
             var newStreetArray: [String] = []
             for var i = 0; i < streetArray.count; i++ {
                 newStreetArray.append("\(streetArray[i])%20")
@@ -264,7 +268,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             let newStreetString = newStreetArray.joinWithSeparator("")
             
             // city
-            let cityArray = self.order.city.componentsSeparatedByString(" ")
+            let cityArray = cityString.componentsSeparatedByString(" ")
             var newCityArray: [String] = []
             for var k = 0; k < cityArray.count; k++ {
                 if cityArray[k] != cityArray[cityArray.count-1] {

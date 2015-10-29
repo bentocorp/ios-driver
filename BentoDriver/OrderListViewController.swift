@@ -190,11 +190,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
         // add order to list
-        print(OrderList.sharedInstance.orderArray.count)
-        
         OrderList.sharedInstance.orderArray.append(assignedOrder)
-        
-        print(OrderList.sharedInstance.orderArray.count)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
         SoundEffect.sharedPlayer.playSound("new_task")
@@ -304,7 +300,14 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         
+        print(OrderList.sharedInstance.orderArray.count)
+        print(acceptedList.count)
+        print(pendingList.count)
+        print(rejectedList.count)
+        
         OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
+        
+        self.orderListTableView.reloadData()
     }
     
 //MARK: Go To Accepted Task
