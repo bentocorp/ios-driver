@@ -271,18 +271,10 @@ extension SocketHandler {
 //MARK: Local Notification
     public func promptLocalNotification(task: String) {
         let localNotification = UILocalNotification()
-        localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
+        localNotification.timeZone = NSTimeZone.defaultTimeZone()
+        localNotification.fireDate = nil
         
         let alertBody = "A task has been \(task)!"
-
-//        if task == "assigned" {
-//            alertBody = "A new task has been assigned!"
-//            localNotification.soundName = "new_task.wav"
-//        }
-//        else {
-//            alertBody = "A task has been unassigned!"
-//            localNotification.soundName = "task_removed.wav"
-//        }
         
         switch task {
         case "assigned":
@@ -295,9 +287,7 @@ extension SocketHandler {
         default: ()
         }
         
-        
         localNotification.alertBody = alertBody
-        localNotification.timeZone = NSTimeZone.defaultTimeZone()
         localNotification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1
         
         UIApplication.sharedApplication().scheduleLocalNotification(localNotification)

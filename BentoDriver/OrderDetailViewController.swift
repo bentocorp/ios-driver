@@ -283,11 +283,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             // open waze with URL scheme
 //            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
 //            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
-            let url2 = NSURL(string: "waze://?ll=\(self.order.coordinates.latitude),\(self.order.coordinates.longitude)&navigate=yes")
             
+            let url = NSURL(string: "waze://?ll=\(self.order.coordinates.latitude),\(self.order.coordinates.longitude)&navigate=yes")
             
-            if UIApplication.sharedApplication().canOpenURL(url2!) == true {
-                UIApplication.sharedApplication().openURL(url2!)
+            if UIApplication.sharedApplication().canOpenURL(url!) == true {
+                UIApplication.sharedApplication().openURL(url!)
             }
         }))
         
@@ -642,8 +642,20 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         else {
             doesTaskRequireAction = false
-            SocketHandler.sharedSocket.promptLocalNotification("assigned")
-            SoundEffect.sharedPlayer.playSound("new_task")
+            
+            //TODO: refactor this
+            switch taskTitle {
+            case "A new task has been assigned!":
+                SocketHandler.sharedSocket.promptLocalNotification("assigned")
+                SoundEffect.sharedPlayer.playSound("new_task")
+            case "A task has been unassigned!":
+                SocketHandler.sharedSocket.promptLocalNotification("assigned")
+                SoundEffect.sharedPlayer.playSound("task_removed")
+            case "A task has been reprioritized!":
+                SocketHandler.sharedSocket.promptLocalNotification("assigned")
+//                SoundEffect.sharedPlayer.playSound("")
+            default: ()
+            }
             
             // status bar notification
             self.notification.notificationStyle = .NavigationBarNotification
