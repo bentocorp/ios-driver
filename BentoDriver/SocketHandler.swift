@@ -22,9 +22,10 @@ import PKHUD
     optional func socketHandlerDidFailToAuthenticate()
     // disconnect
     optional func socketHandlerDidDisconnect()
-    // assign/unassign
+    // Push Type: assign/unassign/reprioritize
     optional func socketHandlerDidAssignOrder(assignedOrder: Order)
     optional func socketHandlerDidUnassignOrder(unassignedOrder: Order)
+    optional func socketHandlerDidReprioritizeOrder()
 }
 
 //MARK: Properties
@@ -192,13 +193,16 @@ extension SocketHandler {
                         // check if body order or body string
                         if push.bodyOrderAction != nil {
                             
-                            // ASSIGNED
-                            if push.bodyOrderAction?.type == PushType.ASSIGN {
+                            switch push.bodyOrderAction!.type! {
+                            case .ASSIGN:
                                 self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
-                            }
-                            //  UNASSIGNED
-                            else if push.bodyOrderAction?.type == PushType.UNASSIGN {
+                            case .UNASSIGN:
+                                OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
                                 self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order)
+                            case .REPRIORITIZE:
+                                OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
+                                self.delegate.socketHandlerDidReprioritizeOrder!()
+                            default: ()
                             }
                         }
                         else {
@@ -269,16 +273,28 @@ extension SocketHandler {
         let localNotification = UILocalNotification()
         localNotification.fireDate = NSDate(timeIntervalSinceNow: 0)
         
-        var alertBody: String
+        let alertBody = "A task has been \(task)!"
 
-        if task == "assigned" {
-            alertBody = "A new task has been assigned!"
+//        if task == "assigned" {
+//            alertBody = "A new task has been assigned!"
+//            localNotification.soundName = "new_task.wav"
+//        }
+//        else {
+//            alertBody = "A task has been unassigned!"
+//            localNotification.soundName = "task_removed.wav"
+//        }
+        
+        switch task {
+        case "assigned":
             localNotification.soundName = "new_task.wav"
-        }
-        else {
-            alertBody = "A task has been unassigned!"
+        case "unassigned":
             localNotification.soundName = "task_removed.wav"
+        case "reprioritized":
+//            localNotification.soundName = 
+            print("should play reprioritized sound")
+        default: ()
         }
+        
         
         localNotification.alertBody = alertBody
         localNotification.timeZone = NSTimeZone.defaultTimeZone()

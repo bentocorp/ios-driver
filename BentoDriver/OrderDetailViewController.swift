@@ -256,35 +256,38 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         alertController.addAction(UIAlertAction(title: "Let's go!", style: .Default, handler: { action in
             
             // filter out diacritics (symbols above letters)
-            let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
-            let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+//            let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+//            let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
             
             // street
-            let streetArray = streetString.componentsSeparatedByString(" ")
-            var newStreetArray: [String] = []
-            for var i = 0; i < streetArray.count; i++ {
-                newStreetArray.append("\(streetArray[i])%20")
-            }
-            let newStreetString = newStreetArray.joinWithSeparator("")
+//            let streetArray = streetString.componentsSeparatedByString(" ")
+//            var newStreetArray: [String] = []
+//            for var i = 0; i < streetArray.count; i++ {
+//                newStreetArray.append("\(streetArray[i])%20")
+//            }
+//            let newStreetString = newStreetArray.joinWithSeparator("")
             
             // city
-            let cityArray = cityString.componentsSeparatedByString(" ")
-            var newCityArray: [String] = []
-            for var k = 0; k < cityArray.count; k++ {
-                if cityArray[k] != cityArray[cityArray.count-1] {
-                    newCityArray.append("\(cityArray[k])%20")
-                }
-                else {
-                    newCityArray.append("\(cityArray[k])") // don't add %20 at the end
-                }
-            }
-            let newCityString = newCityArray.joinWithSeparator("")
+//            let cityArray = cityString.componentsSeparatedByString(" ")
+//            var newCityArray: [String] = []
+//            for var k = 0; k < cityArray.count; k++ {
+//                if cityArray[k] != cityArray[cityArray.count-1] {
+//                    newCityArray.append("\(cityArray[k])%20")
+//                }
+//                else {
+//                    newCityArray.append("\(cityArray[k])") // don't add %20 at the end
+//                }
+//            }
+//            let newCityString = newCityArray.joinWithSeparator("")
             
             // open waze with URL scheme
-            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
-            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
-            if UIApplication.sharedApplication().canOpenURL(url!) == true {
-                UIApplication.sharedApplication().openURL(url!)
+//            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
+//            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
+            let url2 = NSURL(string: "waze://?ll=\(self.order.coordinates.latitude),\(self.order.coordinates.longitude)&navigate=yes")
+            
+            
+            if UIApplication.sharedApplication().canOpenURL(url2!) == true {
+                UIApplication.sharedApplication().openURL(url2!)
             }
         }))
         
@@ -612,14 +615,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
-        // remove order from OrderList
-        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
-            // once found, remove
-            if order.id == unassignedOrder.id {
-                OrderList.sharedInstance.orderArray.removeAtIndex(index)
-            }
-        }
-        
         // if current order is unassigned
         if unassignedOrder.id == self.order.id {
             self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", taskMessage: "", success: true)
@@ -627,6 +622,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         else {
             self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", taskMessage: "", success: true)
         }
+    }
+    
+    func socketHandlerDidReprioritizeOrder() {
+        self.taskHasBeenAssignedOrUnassigned("A task has been reprioritized!", taskMessage: "", success: true)
     }
 
 //MARK: Status Bar Notification
@@ -641,7 +640,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             SocketHandler.sharedSocket.promptLocalNotification("unassigned")
             SoundEffect.sharedPlayer.playSound("task_removed")
         }
-        else if taskTitle == "A new task has been assigned!" || taskTitle == "A task has been unassigned!" {
+        else {
             doesTaskRequireAction = false
             SocketHandler.sharedSocket.promptLocalNotification("assigned")
             SoundEffect.sharedPlayer.playSound("new_task")

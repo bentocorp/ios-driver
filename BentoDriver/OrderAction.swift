@@ -34,13 +34,13 @@ public enum PushType {
 public class OrderAction {
     public var order: Order
     public var type: PushType?
-    public var after: Int?
+    public var after: String?
     public var driverId: Int?
     
     init(bodyJSON: JSON) {
         self.order = Order(json: bodyJSON["order"])
         self.type = PushType.pushTypeFromString(bodyJSON["type"].stringValue)
-        self.after = bodyJSON["after"].intValue
+        self.after = bodyJSON["after"].stringValue
         self.driverId = bodyJSON["driverId"].intValue
     }
 }

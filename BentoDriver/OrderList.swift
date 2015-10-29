@@ -57,4 +57,46 @@ extension OrderList {
                 print("getAllAssigned - \(self.orderArray)")
             })
     }
+    
+    public func removeOrder(orderToRemove: Order) {
+        // loop through all ordersArray to find corresponding Order, then remove it...
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
+            // once found, remove
+            if order.id == orderToRemove.id {
+                OrderList.sharedInstance.orderArray.removeAtIndex(index)
+            }
+        }
+    }
+    
+    public func reprioritizeOrder(orderToReprioritize: Order, afterId: String?) {
+        
+        print(self.orderArray.count)
+        
+        // remove reproritized order...
+        self.removeOrder(orderToReprioritize)
+        
+        print(self.orderArray.count)
+        
+        if afterId == "" { // null
+            // add to last index of array
+            self.orderArray.append(orderToReprioritize)
+        }
+        else {
+            // loop through order list
+            let initialCount = self.orderArray.count
+            for var i = 0; i < initialCount; i++ {
+                
+                print("id in array: \(self.orderArray[i].id)")
+                print("after id: \(afterId)")
+                
+                // search for the order id that matches with "after: id" (insertBeforeOrderId)
+                if self.orderArray[i].id == afterId {
+                    
+                    // reinsert reprioritize order in front of insertBeforeOrderId
+                    self.orderArray.insert(orderToReprioritize, atIndex: i)
+                    break
+                }
+            }
+        }
+    }
 }

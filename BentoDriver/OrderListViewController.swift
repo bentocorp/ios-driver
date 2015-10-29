@@ -189,29 +189,28 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
-        // add order to list
+        // add order to list...
         OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
         SoundEffect.sharedPlayer.playSound("new_task")
-        
         self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
-        
         self.updateUI()
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
-        // loop through all ordersArray to find corresponding Order...
-        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
-            // once found, remove
-            if order.id == unassignedOrder.id {
-                OrderList.sharedInstance.orderArray.removeAtIndex(index)
-            }
-        }
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
         SoundEffect.sharedPlayer.playSound("task_removed")
         self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!")
+        self.updateUI()
+    }
+    
+    func socketHandlerDidReprioritizeOrder() {
+        
+        SocketHandler.sharedSocket.promptLocalNotification("reprioritized")
+//        SoundEffect.sharedPlayer.playSound("task_removed")
+        self.taskHasBeenAssignedOrUnassigned("A task has been reprioritized!")
         self.updateUI()
     }
     
@@ -299,11 +298,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             default: ()
             }
         }
-        
-        print(OrderList.sharedInstance.orderArray.count)
-        print(acceptedList.count)
-        print(pendingList.count)
-        print(rejectedList.count)
         
         OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
         
