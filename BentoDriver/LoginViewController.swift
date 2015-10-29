@@ -124,6 +124,14 @@ extension LoginViewController {
         
     }
     
+    func socketHandlerDidAssignOrder(assignedOrder: Order) {
+        
+    }
+    
+    func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
+        
+    }
+    
     func presentHomepageWithDelay() {
         let navC = UINavigationController.init(rootViewController: OrderListViewController())
         self.navigationController?.presentViewController(navC, animated: true, completion: nil)

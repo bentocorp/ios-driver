@@ -92,7 +92,7 @@ extension SocketHandler {
     func authenticateUser(username: String, password: String) {
         
         // authenticate and get token
-        self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) {data in
+        self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) { data in
             
             // check data for type String, then cast as String if exists
             if let jsonString = data[0] as? String {
