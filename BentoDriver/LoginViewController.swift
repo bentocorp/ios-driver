@@ -19,6 +19,12 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        #if DEBUG
+            print("dev build")
+        #else
+            print("prod build")
+        #endif
+        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
         

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>BentoDriver Dev.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>BentoDriver.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,11 @@
 			<true/>
 		</dict>
 		<key>FC9CB3331BBF4409000F4395</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FCE0369C1BEA9B2300F7605B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

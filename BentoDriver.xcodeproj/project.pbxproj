@@ -45,6 +45,53 @@
 		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
 		FCA840541BD8177D00B67416 /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840531BD8177D00B67416 /* MessageComposer.swift */; };
 		FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840561BD83E5D00B67416 /* OrderList.swift */; };
+		FCE0369F1BEA9B2300F7605B /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */; };
+		FCE036A01BEA9B2300F7605B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; };
+		FCE036A11BEA9B2300F7605B /* SoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE208031BDA3BD0006D8554 /* SoundEffect.swift */; };
+		FCE036A21BEA9B2300F7605B /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC92208B1BDA091300050D1A /* Reachability.swift */; };
+		FCE036A31BEA9B2300F7605B /* OrderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840561BD83E5D00B67416 /* OrderList.swift */; };
+		FCE036A41BEA9B2300F7605B /* OrderAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15B5AA1BD56E8F007B7121 /* OrderAction.swift */; };
+		FCE036A51BEA9B2300F7605B /* CWStatusBarNotificationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B8FB51BD8BD4300E2F404 /* CWStatusBarNotificationUtils.swift */; };
+		FCE036A61BEA9B2300F7605B /* OrderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15B5AE1BD5805A007B7121 /* OrderListCell.swift */; };
+		FCE036A71BEA9B2300F7605B /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93931BD19046008C17C8 /* Push.swift */; };
+		FCE036A81BEA9B2300F7605B /* BentoBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15943F1BCC5FB600F532BD /* BentoBox.swift */; };
+		FCE036A91BEA9B2300F7605B /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15942D1BC89BF100F532BD /* OrderListViewController.swift */; };
+		FCE036AA1BEA9B2300F7605B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594271BC89BBA00F532BD /* LoginViewController.swift */; };
+		FCE036AB1BEA9B2300F7605B /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93911BD174D5008C17C8 /* DishInfo.swift */; };
+		FCE036AC1BEA9B2300F7605B /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840531BD8177D00B67416 /* MessageComposer.swift */; };
+		FCE036AD1BEA9B2300F7605B /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFC938F1BC73EDF00DB52AC /* Order.swift */; };
+		FCE036AE1BEA9B2300F7605B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5DEAF51BDB779700A358F7 /* LoginView.swift */; };
+		FCE036AF1BEA9B2300F7605B /* CWStatusBarNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */; };
+		FCE036B01BEA9B2300F7605B /* SocketHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594331BC89C2600F532BD /* SocketHandler.swift */; };
+		FCE036B11BEA9B2300F7605B /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */; };
+		FCE036B21BEA9B2300F7605B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594351BC89C3C00F532BD /* User.swift */; };
+		FCE036B31BEA9B2300F7605B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3181BBF4409000F4395 /* AppDelegate.swift */; };
+		FCE036B41BEA9B2300F7605B /* ReusableStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */; };
+		FCE036B61BEA9B2300F7605B /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; };
+		FCE036B81BEA9B2300F7605B /* gradient-placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */; };
+		FCE036B91BEA9B2300F7605B /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE31BD49DF600D423D9 /* OpenSans-Bold.ttf */; };
+		FCE036BA1BEA9B2300F7605B /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE61BD49DF600D423D9 /* OpenSans-ExtraBoldItalic.ttf */; };
+		FCE036BB1BEA9B2300F7605B /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE71BD49DF600D423D9 /* OpenSans-Italic.ttf */; };
+		FCE036BC1BEA9B2300F7605B /* invalid_phone.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */; };
+		FCE036BD1BEA9B2300F7605B /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE01BD49DF600D423D9 /* logo.png */; };
+		FCE036BE1BEA9B2300F7605B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB3211BBF4409000F4395 /* LaunchScreen.storyboard */; };
+		FCE036BF1BEA9B2300F7605B /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE91BD49DF600D423D9 /* OpenSans-LightItalic.ttf */; };
+		FCE036C01BEA9B2300F7605B /* new_task.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FE1BDA3B9D006D8554 /* new_task.wav */; };
+		FCE036C11BEA9B2300F7605B /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE41BD49DF600D423D9 /* OpenSans-BoldItalic.ttf */; };
+		FCE036C21BEA9B2300F7605B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FC9CB31F1BBF4409000F4395 /* Assets.xcassets */; };
+		FCE036C31BEA9B2300F7605B /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CEB1BD49DF600D423D9 /* OpenSans-Semibold.ttf */; };
+		FCE036C41BEA9B2300F7605B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE81BD49DF600D423D9 /* OpenSans-Light.ttf */; };
+		FCE036C51BEA9B2300F7605B /* open-sans.zip in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE21BD49DF600D423D9 /* open-sans.zip */; };
+		FCE036C61BEA9B2300F7605B /* notified.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208091BDA465C006D8554 /* notified.wav */; };
+		FCE036C71BEA9B2300F7605B /* good_job.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FC1BDA3B9D006D8554 /* good_job.wav */; };
+		FCE036C81BEA9B2300F7605B /* horses.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FD1BDA3B9D006D8554 /* horses.wav */; };
+		FCE036C91BEA9B2300F7605B /* bento_placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = FC169CDB1BD49DF600D423D9 /* bento_placeholder.png */; };
+		FCE036CA1BEA9B2300F7605B /* lets_drive.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208051BDA4249006D8554 /* lets_drive.wav */; };
+		FCE036CB1BEA9B2300F7605B /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CEC1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf */; };
+		FCE036CC1BEA9B2300F7605B /* task_removed.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208071BDA4376006D8554 /* task_removed.wav */; };
+		FCE036CD1BEA9B2300F7605B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CEA1BD49DF600D423D9 /* OpenSans-Regular.ttf */; };
+		FCE036CE1BEA9B2300F7605B /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CE51BD49DF600D423D9 /* OpenSans-ExtraBold.ttf */; };
+		FCE036D21BEA9B2300F7605B /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FCE207FF1BDA3B9D006D8554 /* invalid_phone.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */; };
 		FCE208001BDA3B9D006D8554 /* good_job.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FC1BDA3B9D006D8554 /* good_job.wav */; };
 		FCE208011BDA3B9D006D8554 /* horses.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE207FD1BDA3B9D006D8554 /* horses.wav */; };
@@ -76,6 +123,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		FCE036D11BEA9B2300F7605B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FCE036D21BEA9B2300F7605B /* Pods.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FCE4268F1BD3C1C800DF3D19 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -136,6 +194,8 @@
 		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCA840531BD8177D00B67416 /* MessageComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposer.swift; sourceTree = "<group>"; };
 		FCA840561BD83E5D00B67416 /* OrderList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderList.swift; sourceTree = "<group>"; };
+		FCE036D61BEA9B2300F7605B /* BentoDriver Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BentoDriver Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCE036D71BEA9B2300F7605B /* BentoDriver Dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BentoDriver Dev-Info.plist"; path = "/Users/JosephLauSF/_github/BentoDriver/BentoDriver Dev-Info.plist"; sourceTree = "<absolute>"; };
 		FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = invalid_phone.wav; sourceTree = "<group>"; };
 		FCE207FC1BDA3B9D006D8554 /* good_job.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = good_job.wav; sourceTree = "<group>"; };
 		FCE207FD1BDA3B9D006D8554 /* horses.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horses.wav; sourceTree = "<group>"; };
@@ -169,6 +229,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCE036B51BEA9B2300F7605B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCE036B61BEA9B2300F7605B /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +341,7 @@
 				FC9CB3151BBF4409000F4395 /* BentoDriver.app */,
 				FC9CB3291BBF4409000F4395 /* BentoDriverTests.xctest */,
 				FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */,
+				FCE036D61BEA9B2300F7605B /* BentoDriver Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -301,6 +370,7 @@
 			children = (
 				FC9CB32D1BBF4409000F4395 /* BentoDriverTests.swift */,
 				FC9CB32F1BBF4409000F4395 /* Info.plist */,
+				FCE036D71BEA9B2300F7605B /* BentoDriver Dev-Info.plist */,
 			);
 			path = BentoDriverTests;
 			sourceTree = "<group>";
@@ -490,6 +560,27 @@
 			productReference = FC9CB3341BBF4409000F4395 /* BentoDriverUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		FCE0369C1BEA9B2300F7605B /* BentoDriver Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCE036D31BEA9B2300F7605B /* Build configuration list for PBXNativeTarget "BentoDriver Dev" */;
+			buildPhases = (
+				FCE0369D1BEA9B2300F7605B /* Check Pods Manifest.lock */,
+				FCE0369E1BEA9B2300F7605B /* Sources */,
+				FCE036B51BEA9B2300F7605B /* Frameworks */,
+				FCE036B71BEA9B2300F7605B /* Resources */,
+				FCE036CF1BEA9B2300F7605B /* Embed Pods Frameworks */,
+				FCE036D01BEA9B2300F7605B /* Copy Pods Resources */,
+				FCE036D11BEA9B2300F7605B /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BentoDriver Dev";
+			productName = BentoDriver;
+			productReference = FCE036D61BEA9B2300F7605B /* BentoDriver Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -532,6 +623,7 @@
 			projectRoot = "";
 			targets = (
 				FC9CB3141BBF4409000F4395 /* BentoDriver */,
+				FCE0369C1BEA9B2300F7605B /* BentoDriver Dev */,
 				FC9CB3281BBF4409000F4395 /* BentoDriverTests */,
 				FC9CB3331BBF4409000F4395 /* BentoDriverUITests */,
 			);
@@ -583,6 +675,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCE036B71BEA9B2300F7605B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCE036B81BEA9B2300F7605B /* gradient-placeholder2.png in Resources */,
+				FCE036B91BEA9B2300F7605B /* OpenSans-Bold.ttf in Resources */,
+				FCE036BA1BEA9B2300F7605B /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				FCE036BB1BEA9B2300F7605B /* OpenSans-Italic.ttf in Resources */,
+				FCE036BC1BEA9B2300F7605B /* invalid_phone.wav in Resources */,
+				FCE036BD1BEA9B2300F7605B /* logo.png in Resources */,
+				FCE036BE1BEA9B2300F7605B /* LaunchScreen.storyboard in Resources */,
+				FCE036BF1BEA9B2300F7605B /* OpenSans-LightItalic.ttf in Resources */,
+				FCE036C01BEA9B2300F7605B /* new_task.wav in Resources */,
+				FCE036C11BEA9B2300F7605B /* OpenSans-BoldItalic.ttf in Resources */,
+				FCE036C21BEA9B2300F7605B /* Assets.xcassets in Resources */,
+				FCE036C31BEA9B2300F7605B /* OpenSans-Semibold.ttf in Resources */,
+				FCE036C41BEA9B2300F7605B /* OpenSans-Light.ttf in Resources */,
+				FCE036C51BEA9B2300F7605B /* open-sans.zip in Resources */,
+				FCE036C61BEA9B2300F7605B /* notified.wav in Resources */,
+				FCE036C71BEA9B2300F7605B /* good_job.wav in Resources */,
+				FCE036C81BEA9B2300F7605B /* horses.wav in Resources */,
+				FCE036C91BEA9B2300F7605B /* bento_placeholder.png in Resources */,
+				FCE036CA1BEA9B2300F7605B /* lets_drive.wav in Resources */,
+				FCE036CB1BEA9B2300F7605B /* OpenSans-SemiboldItalic.ttf in Resources */,
+				FCE036CC1BEA9B2300F7605B /* task_removed.wav in Resources */,
+				FCE036CD1BEA9B2300F7605B /* OpenSans-Regular.ttf in Resources */,
+				FCE036CE1BEA9B2300F7605B /* OpenSans-ExtraBold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -617,6 +739,50 @@
 			showEnvVarsInLog = 0;
 		};
 		79583C11A1E86808A53DFC43 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+		};
+		FCE0369D1BEA9B2300F7605B /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FCE036CF1BEA9B2300F7605B /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FCE036D01BEA9B2300F7605B /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
 			files = (
@@ -675,6 +841,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCE0369E1BEA9B2300F7605B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCE0369F1BEA9B2300F7605B /* OrderDetailViewController.swift in Sources */,
+				FCE036A01BEA9B2300F7605B /* String.swift in Sources */,
+				FCE036A11BEA9B2300F7605B /* SoundEffect.swift in Sources */,
+				FCE036A21BEA9B2300F7605B /* Reachability.swift in Sources */,
+				FCE036A31BEA9B2300F7605B /* OrderList.swift in Sources */,
+				FCE036A41BEA9B2300F7605B /* OrderAction.swift in Sources */,
+				FCE036A51BEA9B2300F7605B /* CWStatusBarNotificationUtils.swift in Sources */,
+				FCE036A61BEA9B2300F7605B /* OrderListCell.swift in Sources */,
+				FCE036A71BEA9B2300F7605B /* Push.swift in Sources */,
+				FCE036A81BEA9B2300F7605B /* BentoBox.swift in Sources */,
+				FCE036A91BEA9B2300F7605B /* OrderListViewController.swift in Sources */,
+				FCE036AA1BEA9B2300F7605B /* LoginViewController.swift in Sources */,
+				FCE036AB1BEA9B2300F7605B /* DishInfo.swift in Sources */,
+				FCE036AC1BEA9B2300F7605B /* MessageComposer.swift in Sources */,
+				FCE036AD1BEA9B2300F7605B /* Order.swift in Sources */,
+				FCE036AE1BEA9B2300F7605B /* LoginView.swift in Sources */,
+				FCE036AF1BEA9B2300F7605B /* CWStatusBarNotification.swift in Sources */,
+				FCE036B01BEA9B2300F7605B /* SocketHandler.swift in Sources */,
+				FCE036B11BEA9B2300F7605B /* Connectivity.swift in Sources */,
+				FCE036B21BEA9B2300F7605B /* User.swift in Sources */,
+				FCE036B31BEA9B2300F7605B /* AppDelegate.swift in Sources */,
+				FCE036B41BEA9B2300F7605B /* ReusableStuff.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,6 +1100,79 @@
 			};
 			name = Release;
 		};
+		FCE036D41BEA9B2300F7605B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91D35A47F57D12811D161D2E /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "BentoDriver Dev-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Alamofire_SwiftyJSON\"",
+					"-framework",
+					"\"PureLayout\"",
+					"-framework",
+					"\"Socket_IO_Client_Swift\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"pop\"",
+					"-ObjC",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.josephlau.BentoDriver-Dev";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		FCE036D51BEA9B2300F7605B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D099147A26E8593D53020F13 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "BentoDriver Dev-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Alamofire_SwiftyJSON\"",
+					"-framework",
+					"\"PureLayout\"",
+					"-framework",
+					"\"Socket_IO_Client_Swift\"",
+					"-framework",
+					"\"SwiftyJSON\"",
+					"-framework",
+					"\"pop\"",
+					"-ObjC",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.josephlau.BentoDriver-Dev";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -940,6 +1208,15 @@
 			buildConfigurations = (
 				FC9CB3441BBF4409000F4395 /* Debug */,
 				FC9CB3451BBF4409000F4395 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FCE036D31BEA9B2300F7605B /* Build configuration list for PBXNativeTarget "BentoDriver Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCE036D41BEA9B2300F7605B /* Debug */,
+				FCE036D51BEA9B2300F7605B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
