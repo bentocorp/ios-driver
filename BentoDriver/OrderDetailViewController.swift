@@ -110,19 +110,24 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         self.itemStringTextView.userInteractionEnabled = true
         
+        // if there is a string message
         if self.order.itemString != nil {
+            // display string message
             self.itemStringTextView.text = order.itemString
             self.view.addSubview(self.itemStringTextView)
         }
         
-        // check if current array is empty
+        // check if current array is empty, if not empty...
         if self.order.itemArray.isEmpty == false {
             
-            // then check in array for label. if label does not exist, don't show cells
+            // then check in array for label...if label does not exist, don't show cells...
             let label = self.order.itemArray[0].items[0].label
             if label!.isEmpty == true || label == "" {
                 
+                // check if orderString is empty...if not...
                 if order.orderString.isEmpty == false {
+                    
+                    // display orderString
                     self.itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
                     self.view.addSubview(self.itemStringTextView)
                 }
