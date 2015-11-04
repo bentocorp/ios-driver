@@ -189,8 +189,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
+        
+        print(OrderList.sharedInstance.orderArray.count)
+        
         // add order to list...
         OrderList.sharedInstance.orderArray.append(assignedOrder)
+        
+        print(OrderList.sharedInstance.orderArray.count)
         
         SocketHandler.sharedSocket.promptLocalNotification("assigned")
         SoundEffect.sharedPlayer.playSound("new_task")

@@ -33,7 +33,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var arrivedAndCompleteButton: UIButton!
     
     var bentoTableView: UITableView!
-    
+
     var delegate: OrderDetailViewControllerDelegate?
     
     var messageComposer: MessageComposer!
@@ -41,6 +41,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     let notification = CWStatusBarNotification()
 
     var indexOfOrderThatHasAlreadyBeenAccepted: Int?
+    
+    var itemStringTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,7 +53,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
 
 //MARK: API & Parameters
-        self.api = "http://52.11.208.197:8081/api"
+        self.api = SocketHandler.sharedSocket.getHoustonAPI()
         self.parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
         
 //MARK: Socket Handler
@@ -102,14 +104,28 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
 //MARK: Task
-        let itemStringTextView = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
-        itemStringTextView.textColor = UIColor.whiteColor()
-        itemStringTextView.backgroundColor = UIColor.clearColor()
-        itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        itemStringTextView.userInteractionEnabled = false
+        self.itemStringTextView = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
+        self.itemStringTextView.textColor = UIColor.whiteColor()
+        self.itemStringTextView.backgroundColor = UIColor.clearColor()
+        self.itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        self.itemStringTextView.userInteractionEnabled = true
         if self.order.itemString != nil {
-            itemStringTextView.text = order.itemString
-            self.view.addSubview(itemStringTextView)
+            self.itemStringTextView.text = order.itemString
+            self.view.addSubview(self.itemStringTextView)
+        }
+        
+        // check if current array is empty
+        if self.order.itemArray.isEmpty == false {
+            
+            // then check in array for label. if label does not exist, don't show cells
+            let label = self.order.itemArray[0].items[0].label
+            if label!.isEmpty == true || label == "" {
+                
+                if order.orderString.isEmpty == false {
+                    self.itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+                    self.view.addSubview(self.itemStringTextView)
+                }
+            }
         }
         
 //MARK: Actions
@@ -198,6 +214,21 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        // check if current array is empty
+        if self.order.itemArray.isEmpty == false {
+            
+            // then check in array for label. if label does not exist, don't show cells
+            let label = self.order.itemArray[0].items[0].label
+            if label!.isEmpty == true || label == "" {
+                
+                if order.orderString.isEmpty == false {
+                    
+                    return 0
+                }
+            }
+        }
+        
         return self.order.itemArray.count // box count
     }
     
@@ -237,12 +268,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             cell = UITableViewCell(style: .Default, reuseIdentifier: cellId)
         }
         
-        let itemNameString = (order.itemArray[indexPath.section].items[indexPath.row].name)!
         let itemLabelString = (order.itemArray[indexPath.section].items[indexPath.row].label)!
+        let itemNameString = (order.itemArray[indexPath.section].items[indexPath.row].name)!
         
+        cell?.textLabel?.text = "  \(itemLabelString) - \(itemNameString)"
         cell?.selectionStyle = .None
         cell?.textLabel?.textColor = UIColor.whiteColor()
-        cell?.textLabel?.text = "  \(itemLabelString) - \(itemNameString)"
         cell?.textLabel?.font = UIFont(name: "OpenSans-Regular", size: 14)
         cell?.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
         
@@ -256,35 +287,35 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         alertController.addAction(UIAlertAction(title: "Let's go!", style: .Default, handler: { action in
             
             // filter out diacritics (symbols above letters)
-//            let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
-//            let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+            let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+            let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
             
             // street
-//            let streetArray = streetString.componentsSeparatedByString(" ")
-//            var newStreetArray: [String] = []
-//            for var i = 0; i < streetArray.count; i++ {
-//                newStreetArray.append("\(streetArray[i])%20")
-//            }
-//            let newStreetString = newStreetArray.joinWithSeparator("")
+            let streetArray = streetString.componentsSeparatedByString(" ")
+            var newStreetArray: [String] = []
+            for var i = 0; i < streetArray.count; i++ {
+                newStreetArray.append("\(streetArray[i])%20")
+            }
+            let newStreetString = newStreetArray.joinWithSeparator("")
             
             // city
-//            let cityArray = cityString.componentsSeparatedByString(" ")
-//            var newCityArray: [String] = []
-//            for var k = 0; k < cityArray.count; k++ {
-//                if cityArray[k] != cityArray[cityArray.count-1] {
-//                    newCityArray.append("\(cityArray[k])%20")
-//                }
-//                else {
-//                    newCityArray.append("\(cityArray[k])") // don't add %20 at the end
-//                }
-//            }
-//            let newCityString = newCityArray.joinWithSeparator("")
+            let cityArray = cityString.componentsSeparatedByString(" ")
+            var newCityArray: [String] = []
+            for var k = 0; k < cityArray.count; k++ {
+                if cityArray[k] != cityArray[cityArray.count-1] {
+                    newCityArray.append("\(cityArray[k])%20")
+                }
+                else {
+                    newCityArray.append("\(cityArray[k])") // don't add %20 at the end
+                }
+            }
+            let newCityString = newCityArray.joinWithSeparator("")
             
             // open waze with URL scheme
-//            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
-//            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
+            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
+            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
             
-            let url = NSURL(string: "waze://?ll=\(self.order.coordinates.latitude),\(self.order.coordinates.longitude)&navigate=yes")
+//            let url = NSURL(string: "waze://?ll=\(self.order.coordinates.latitude),\(self.order.coordinates.longitude)&navigate=yes")
             
             if UIApplication.sharedApplication().canOpenURL(url!) == true {
                 UIApplication.sharedApplication().openURL(url!)

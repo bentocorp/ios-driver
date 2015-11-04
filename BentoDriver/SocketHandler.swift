@@ -32,7 +32,12 @@ import PKHUD
 public class SocketHandler: NSObject {
     static let sharedSocket = SocketHandler() // singleton
     var delegate: SocketHandlerDelegate! // delegate
-    public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil) // Node API
+    /*
+    Node:
+    dev - http://54.191.141.101:8081
+    prod - http://52.32.68.149:8081
+    */
+    public var socket = SocketIOClient(socketURL: "http://52.32.68.149:8081", opts: nil)
     public var emitLocationTimer: NSTimer?
     let notification = CWStatusBarNotification()
     
@@ -41,6 +46,15 @@ public class SocketHandler: NSObject {
 
 //MARK: Methods
 extension SocketHandler {
+    
+    public func getHoustonAPI() -> String {
+        /*
+        Houston:
+        dev - http://houston.dev.bentonow.com/api
+        prod - http://houston.bentonow.com/api
+        */
+        return "http://houston.bentonow.com/api"
+    }
     
     public func connectAndAuthenticateWith(username: String, password: String) {
         print("connectAndAuthenticate called")

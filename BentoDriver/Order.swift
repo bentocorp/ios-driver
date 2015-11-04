@@ -45,6 +45,8 @@ public class Order: NSObject {
     public var country: String
     public var coordinates: CLLocationCoordinate2D
     
+    public var orderString: String
+    
     public var status: OrderStatus
     // public var item: T
     public var itemArray: [BentoBox] = [] // to do
@@ -66,6 +68,8 @@ public class Order: NSObject {
         self.country = address["country"].stringValue
         self.coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
 
+        self.orderString = json["orderString"].stringValue
+        
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
         
         // check first letter in Order.id

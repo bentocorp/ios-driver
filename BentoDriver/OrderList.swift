@@ -21,7 +21,7 @@ extension OrderList {
     public func pullOrders(completion: (result: JSON) -> Void) {
         
         // get all assigned orders
-        Alamofire.request(.GET, "http://52.11.208.197:8081/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
+        Alamofire.request(.GET, "\(SocketHandler.sharedSocket.getHoustonAPI())/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
             .responseSwiftyJSON({ (request, response, json, error) in
                 
                 let code = json["code"]
