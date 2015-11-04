@@ -109,6 +109,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.itemStringTextView.backgroundColor = UIColor.clearColor()
         self.itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         self.itemStringTextView.userInteractionEnabled = true
+        
         if self.order.itemString != nil {
             self.itemStringTextView.text = order.itemString
             self.view.addSubview(self.itemStringTextView)

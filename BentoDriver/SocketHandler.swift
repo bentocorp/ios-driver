@@ -32,15 +32,15 @@ import PKHUD
 public class SocketHandler: NSObject {
     static let sharedSocket = SocketHandler() // singleton
     var delegate: SocketHandlerDelegate! // delegate
-    /*
-    Node:
-    dev - http://54.191.141.101:8081
-    prod - http://52.32.68.149:8081
-    */
-    public var socket = SocketIOClient(socketURL: "http://52.32.68.149:8081", opts: nil)
     public var emitLocationTimer: NSTimer?
-    let notification = CWStatusBarNotification()
     
+#if DEBUG
+     public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil)
+#else
+     public var socket = SocketIOClient(socketURL: "http://52.32.68.149:8081", opts: nil)
+#endif
+    
+    let notification = CWStatusBarNotification()
     var tryToConnect: Bool? // prevent timeout "failed to connect" message
 }
 
@@ -48,12 +48,11 @@ public class SocketHandler: NSObject {
 extension SocketHandler {
     
     public func getHoustonAPI() -> String {
-        /*
-        Houston:
-        dev - http://houston.dev.bentonow.com/api
-        prod - http://houston.bentonow.com/api
-        */
+    #if DEBUG
+        return "http://houston.dev.bentonow.com/api"
+    #else
         return "http://houston.bentonow.com/api"
+    #endif
     }
     
     public func connectAndAuthenticateWith(username: String, password: String) {
