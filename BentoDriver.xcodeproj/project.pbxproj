@@ -32,7 +32,6 @@
 		FC169CFF1BD49DF600D423D9 /* gradient-placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */; };
 		FC4B5E201BD6F37B00C31620 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; };
 		FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */; };
-		FC5DEAF61BDB779700A358F7 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5DEAF51BDB779700A358F7 /* LoginView.swift */; };
 		FC80C9BB1BDDE9A800D2B68B /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */; };
 		FC92208C1BDA091300050D1A /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC92208B1BDA091300050D1A /* Reachability.swift */; };
 		FC9B8FB21BD8752500E2F404 /* Pods.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -60,7 +59,6 @@
 		FCE036AB1BEA9B2300F7605B /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93911BD174D5008C17C8 /* DishInfo.swift */; };
 		FCE036AC1BEA9B2300F7605B /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840531BD8177D00B67416 /* MessageComposer.swift */; };
 		FCE036AD1BEA9B2300F7605B /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFC938F1BC73EDF00DB52AC /* Order.swift */; };
-		FCE036AE1BEA9B2300F7605B /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5DEAF51BDB779700A358F7 /* LoginView.swift */; };
 		FCE036AF1BEA9B2300F7605B /* CWStatusBarNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */; };
 		FCE036B01BEA9B2300F7605B /* SocketHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594331BC89C2600F532BD /* SocketHandler.swift */; };
 		FCE036B11BEA9B2300F7605B /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */; };
@@ -176,7 +174,6 @@
 		FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-placeholder2.png"; sourceTree = "<group>"; };
 		FC4B5E1F1BD6F37B00C31620 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableStuff.swift; sourceTree = "<group>"; };
-		FC5DEAF51BDB779700A358F7 /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		FC92208B1BDA091300050D1A /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		FC9B8FB41BD8BD4300E2F404 /* CWStatusBarNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CWStatusBarNotification.swift; sourceTree = "<group>"; };
@@ -469,7 +466,6 @@
 		FCFC938A1BC7331900DB52AC /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				FC5DEAF51BDB779700A358F7 /* LoginView.swift */,
 				FC1594271BC89BBA00F532BD /* LoginViewController.swift */,
 			);
 			name = Login;
@@ -593,6 +589,7 @@
 				TargetAttributes = {
 					FC9CB3141BBF4409000F4395 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = WFJ7C63625;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -606,6 +603,9 @@
 					FC9CB3331BBF4409000F4395 = {
 						CreatedOnToolsVersion = 7.0.1;
 						TestTargetID = FC9CB3141BBF4409000F4395;
+					};
+					FCE0369C1BEA9B2300F7605B = {
+						DevelopmentTeam = WFJ7C63625;
 					};
 				};
 			};
@@ -818,7 +818,6 @@
 				FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */,
 				FCA840541BD8177D00B67416 /* MessageComposer.swift in Sources */,
 				FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */,
-				FC5DEAF61BDB779700A358F7 /* LoginView.swift in Sources */,
 				FC9B8FB61BD8BD4300E2F404 /* CWStatusBarNotification.swift in Sources */,
 				FC1594341BC89C2600F532BD /* SocketHandler.swift in Sources */,
 				FC80C9BB1BDDE9A800D2B68B /* Connectivity.swift in Sources */,
@@ -863,7 +862,6 @@
 				FCE036AB1BEA9B2300F7605B /* DishInfo.swift in Sources */,
 				FCE036AC1BEA9B2300F7605B /* MessageComposer.swift in Sources */,
 				FCE036AD1BEA9B2300F7605B /* Order.swift in Sources */,
-				FCE036AE1BEA9B2300F7605B /* LoginView.swift in Sources */,
 				FCE036AF1BEA9B2300F7605B /* CWStatusBarNotification.swift in Sources */,
 				FCE036B01BEA9B2300F7605B /* SocketHandler.swift in Sources */,
 				FCE036B11BEA9B2300F7605B /* Connectivity.swift in Sources */,
@@ -987,6 +985,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1010,7 +1009,7 @@
 					"\"pop\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriver;
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1023,6 +1022,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1046,7 +1046,7 @@
 					"\"pop\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.BentoDriver;
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};
@@ -1106,6 +1106,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1130,7 +1131,7 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "co.josephlau.BentoDriver-Dev";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1143,6 +1144,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1167,7 +1169,7 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = "co.josephlau.BentoDriver-Dev";
+				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};

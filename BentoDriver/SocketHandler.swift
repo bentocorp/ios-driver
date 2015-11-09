@@ -84,7 +84,7 @@ extension SocketHandler {
         }
         
         // connect to Node & handle error if any
-        self.socket.connect(timeoutAfter: 5) { () -> Void in
+        self.socket.connect(timeoutAfter: 10) { () -> Void in
         
             if self.tryToConnect == true {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -152,7 +152,7 @@ extension SocketHandler {
                             // 3) emit to "loc"
                             self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                             
-                            // 4) listn to "push"
+                            // 4) listen to "push"
                             self.listenToPushChannel()
                         }
                     }

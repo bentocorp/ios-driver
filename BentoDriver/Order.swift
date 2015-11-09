@@ -45,12 +45,12 @@ public class Order: NSObject {
     public var country: String
     public var coordinates: CLLocationCoordinate2D
     
-    public var orderString: String
-    
     public var status: OrderStatus
     // public var item: T
     public var itemArray: [BentoBox] = [] // to do
     public var itemString: String?
+    
+    public var orderString: String
     
     init(json: JSON) {
         self.driverId = json["driverId"].intValue
@@ -67,8 +67,6 @@ public class Order: NSObject {
         self.zipCode = address["zipCode"].stringValue
         self.country = address["country"].stringValue
         self.coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
-
-        self.orderString = json["orderString"].stringValue
         
         self.status = OrderStatus.statusFromString(json["status"].stringValue)
         
@@ -83,5 +81,8 @@ public class Order: NSObject {
         else if firstCharInString == "g" {
             self.itemString = json["item"].stringValue
         }
+        
+        self.orderString = json["orderString"].stringValue
+
     }
 }

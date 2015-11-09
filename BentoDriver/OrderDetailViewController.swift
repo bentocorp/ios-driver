@@ -526,7 +526,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 return
             }
             
-            // No Error~
+            // No Error
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 switch task {
                 case "reject":
