@@ -109,7 +109,16 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return OrderList.sharedInstance.orderArray.count
+        
+        // edit: just return the first index so drivers won't feel too anxious with a list of orders
+        if OrderList.sharedInstance.orderArray.count == 0 {
+            return 0
+        }
+        else {
+            return 1;
+        }
+        
+//        return OrderList.sharedInstance.orderArray.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -193,7 +202,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         print(OrderList.sharedInstance.orderArray.count)
         
         // add order to list...
-        OrderList.sharedInstance.orderArray.append(assignedOrder)
+//        OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         print(OrderList.sharedInstance.orderArray.count)
         
@@ -283,30 +292,30 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func sortList() {
-        var acceptedList: [Order] = []
-        var pendingList: [Order] = []
-        var rejectedList: [Order] = []
+//        var acceptedList: [Order] = []
+//        var pendingList: [Order] = []
+//        var rejectedList: [Order] = []
+//        
+//        // loop through order list
+//        for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
+//            
+//            let status = OrderList.sharedInstance.orderArray[i].status
+//            let order = OrderList.sharedInstance.orderArray[i]
+//            
+//            switch status {
+//            case .Accepted:
+//                acceptedList.append(order)
+//            case .Pending:
+//                pendingList.append(order)
+//            case .Rejected:
+//                rejectedList.append(order)
+//            default: ()
+//            }
+//        }
+//        
+//        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
         
-        // loop through order list
-        for var i = 0; i < OrderList.sharedInstance.orderArray.count; i++ {
-            
-            let status = OrderList.sharedInstance.orderArray[i].status
-            let order = OrderList.sharedInstance.orderArray[i]
-            
-            switch status {
-            case .Accepted:
-                acceptedList.append(order)
-            case .Pending:
-                pendingList.append(order)
-            case .Rejected:
-                rejectedList.append(order)
-            default: ()
-            }
-        }
-        
-        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
-        
-        self.orderListTableView.reloadData()
+//        self.orderListTableView.reloadData()
     }
     
 //MARK: Go To Accepted Task

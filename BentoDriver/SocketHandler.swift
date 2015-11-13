@@ -208,6 +208,7 @@ extension SocketHandler {
                             
                             switch push.bodyOrderAction!.type! {
                             case .ASSIGN:
+                                OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
                             case .UNASSIGN:
                                 OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
