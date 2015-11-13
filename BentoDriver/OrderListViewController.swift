@@ -199,24 +199,35 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
         
-        print(OrderList.sharedInstance.orderArray.count)
-        
         // add order to list...
 //        OrderList.sharedInstance.orderArray.append(assignedOrder)
         
-        print(OrderList.sharedInstance.orderArray.count)
-        
-        SocketHandler.sharedSocket.promptLocalNotification("assigned")
-        SoundEffect.sharedPlayer.playSound("new_task")
-        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!")
-        self.updateUI()
+        // no preexisting orders
+        if OrderList.sharedInstance.orderArray.count <= 1 { // 1 is current current just added, so no prexisting
+            
+            if assignedOrder == OrderList.sharedInstance.orderArray[0] {
+                SocketHandler.sharedSocket.promptLocalNotification("assigned")
+                SoundEffect.sharedPlayer.playSound("new_task")
+                self.taskHasBeenAssignedOrUnassigned("Task assigned!")
+                self.updateUI()
+            }
+        }
+        // order(s) preexist
+        else {
+            if assignedOrder == OrderList.sharedInstance.orderArray[0] {
+                SocketHandler.sharedSocket.promptLocalNotification("switched")
+//                SoundEffect.sharedPlayer.playSound("task_switched")
+                self.taskHasBeenAssignedOrUnassigned("Task switched!")
+                self.updateUI()
+            }
+        }
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
         
         SocketHandler.sharedSocket.promptLocalNotification("unassigned")
         SoundEffect.sharedPlayer.playSound("task_removed")
-        self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!")
+        self.taskHasBeenAssignedOrUnassigned("Task removed!")
         self.updateUI()
     }
     
@@ -287,11 +298,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func updateUI() {
         self.showOrHideNoTasksLabel()
-        self.sortList()
+//        self.sortList()
         self.orderListTableView.reloadData()
     }
     
-    func sortList() {
+//    func sortList() {
 //        var acceptedList: [Order] = []
 //        var pendingList: [Order] = []
 //        var rejectedList: [Order] = []
@@ -316,7 +327,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
         
 //        self.orderListTableView.reloadData()
-    }
+//    }
     
 //MARK: Go To Accepted Task
     @objc func didTapOnGoToAcceptedTask(orderInSession: Order) {
