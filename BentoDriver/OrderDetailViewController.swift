@@ -660,24 +660,40 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
-        // add order to list
-        OrderList.sharedInstance.orderArray.append(assignedOrder)
+
+        if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
+            self.taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
+        }
         
-        self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!", taskMessage: "", success: true)
+//        OrderList.sharedInstance.orderArray.append(assignedOrder)
+//        
+//        self.taskHasBeenAssignedOrUnassigned("Task assigned!", taskMessage: "", success: true)
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
-        // if current order is unassigned
-        if unassignedOrder.id == self.order.id {
-            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", taskMessage: "", success: true)
+
+        if isCurrentTask == true {
+            if OrderList.sharedInstance.orderArray.count != 0 {
+                self.taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
+            }
+            else {
+                self.taskHasBeenAssignedOrUnassigned("Task removed!", taskMessage: "", success: true)
+            }
         }
-        else {
-            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", taskMessage: "", success: true)
-        }
+        
+//        if unassignedOrder.id == self.order.id {
+//            self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", taskMessage: "", success: true)
+//        }
+//        else {
+//            self.taskHasBeenAssignedOrUnassigned("A task has been unassigned!", taskMessage: "", success: true)
+//        }
     }
     
-    func socketHandlerDidReprioritizeOrder() {
-        self.taskHasBeenAssignedOrUnassigned("A task has been reprioritized!", taskMessage: "", success: true)
+    func socketHandlerDidReprioritizeOrder(reprioritized: Order) {
+        
+        if reprioritized.id == OrderList.sharedInstance.orderArray[0].id {
+            self.taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
+        }
     }
 
 //MARK: Status Bar Notification
@@ -687,27 +703,25 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         var doesTaskRequireAction: Bool = false // initialize
         
-        if taskTitle == "This task has been unassigned!" {
+        if taskTitle == "Task removed!" || taskTitle == "Task switched!" {
             doesTaskRequireAction = true
-            SocketHandler.sharedSocket.promptLocalNotification("unassigned")
-            SoundEffect.sharedPlayer.playSound("task_removed")
+            
+            switch taskTitle {
+            case "Task removed!":
+                SocketHandler.sharedSocket.promptLocalNotification("assigned")
+                SoundEffect.sharedPlayer.playSound("task_removed")
+            case "Task switched!":
+                SocketHandler.sharedSocket.promptLocalNotification("assigned")
+                SoundEffect.sharedPlayer.playSound("task_switched")
+            default: ()
+            }
         }
         else {
             doesTaskRequireAction = false
             
-            //TODO: refactor this
-            switch taskTitle {
-            case "A new task has been assigned!":
-                SocketHandler.sharedSocket.promptLocalNotification("assigned")
-                SoundEffect.sharedPlayer.playSound("new_task")
-            case "A task has been unassigned!":
-                SocketHandler.sharedSocket.promptLocalNotification("assigned")
-                SoundEffect.sharedPlayer.playSound("task_removed")
-            case "A task has been reprioritized!":
-                SocketHandler.sharedSocket.promptLocalNotification("assigned")
-//                SoundEffect.sharedPlayer.playSound("")
-            default: ()
-            }
+            // assigned
+            SocketHandler.sharedSocket.promptLocalNotification("assigned")
+            SoundEffect.sharedPlayer.playSound("new_task")
             
             // status bar notification
             self.notification.notificationStyle = .NavigationBarNotification

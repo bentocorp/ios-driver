@@ -206,7 +206,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         if OrderList.sharedInstance.orderArray.count <= 1 { // 1 is current just added, so no prexisting
             
             // first in list
-            if assignedOrder == OrderList.sharedInstance.orderArray[0] {
+            if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("assigned")
                 SoundEffect.sharedPlayer.playSound("new_task")
                 self.taskHasBeenAssignedOrUnassigned("Task assigned!")
@@ -215,7 +215,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
         // order(s) preexist
         else {
-            if assignedOrder == OrderList.sharedInstance.orderArray[0] {
+            if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
                 self.taskHasBeenAssignedOrUnassigned("Task switched!")
@@ -242,7 +242,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             }
         }
         else {
-            if unassignedOrder == OrderList.sharedInstance.orderArray[0] {
+            if unassignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
                 self.taskHasBeenAssignedOrUnassigned("Task switched!")
@@ -253,7 +253,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func socketHandlerDidReprioritizeOrder(reprioritized: Order) {
         
-        if reprioritized == OrderList.sharedInstance.orderArray[0] {
+        if reprioritized.id == OrderList.sharedInstance.orderArray[0].id {
             SocketHandler.sharedSocket.promptLocalNotification("switched")
             SoundEffect.sharedPlayer.playSound("task_switched")
             self.taskHasBeenAssignedOrUnassigned("Task switched!")
