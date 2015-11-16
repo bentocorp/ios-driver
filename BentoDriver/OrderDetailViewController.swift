@@ -651,7 +651,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         self.taskHasBeenAssignedOrUnassigned("A new task has been assigned!", taskMessage: "", success: true)
     }
     
-    func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
+    func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
         // if current order is unassigned
         if unassignedOrder.id == self.order.id {
             self.taskHasBeenAssignedOrUnassigned("This task has been unassigned!", taskMessage: "", success: true)

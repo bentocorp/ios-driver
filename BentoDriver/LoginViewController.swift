@@ -134,7 +134,7 @@ extension LoginViewController {
         
     }
     
-    func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
+    func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
         
     }
     
@@ -156,6 +156,18 @@ extension LoginViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
+    func promptDisabledSettingsAlert(messageString: String) {
+        let alertController = UIAlertController(title: "", message: messageString, preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { action in
+            self.goToSettings()
+        }))
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func goToSettings() {
+        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+    }
+    
 //MARK: Login
     func checkLoginInfo() {
         // check if logged in user, if not reset textfields
@@ -170,9 +182,13 @@ extension LoginViewController {
     }
     
     func onLogin() {
+        // username or password fields empty
         if self.usernameTextField.text == "" || self.passwordTextField.text == "" {
-            // username and password fields empty
             self.promptAlertWith("Please enter both your username and password", style: .Cancel)
+            return
+        }
+        
+        if areLocationAndNotificationEnabled() == false {
             return
         }
         
@@ -184,6 +200,41 @@ extension LoginViewController {
         }
         
         User.currentUser.login(self.usernameTextField.text!, password: self.passwordTextField.text!)
+    }
+    
+    func areLocationAndNotificationEnabled() -> Bool {
+        let settingsMessage = "Both Location and Notifications must be enabled to use this app. We will only track your location when you're logged in for your shift. Please turn them on in device Settings to proceed."
+        
+        // if general location services enabled
+        if CLLocationManager.locationServicesEnabled() {
+            print("Location services for this app is not enabled")
+            
+            if CLLocationManager.authorizationStatus() == .NotDetermined || CLLocationManager.authorizationStatus() == .Restricted || CLLocationManager.authorizationStatus() == .Denied {
+                
+                self.promptDisabledSettingsAlert(settingsMessage)
+                
+                return false
+            }
+        }
+            // general location servies disabled
+        else {
+            print("General location services are not enabled")
+            
+            self.promptDisabledSettingsAlert(settingsMessage)
+            
+            return false
+        }
+        
+        if let settings = UIApplication.sharedApplication().currentUserNotificationSettings() {
+            if settings.types.contains([.Alert, .Sound]) == false {
+                // Don't have alert and sound permissions
+                self.promptDisabledSettingsAlert(settingsMessage)
+                
+                return false
+            }
+        }
+        
+        return true
     }
     
 //MARK: UITextfieldDelegate

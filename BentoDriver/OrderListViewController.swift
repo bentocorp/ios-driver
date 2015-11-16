@@ -203,8 +203,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //        OrderList.sharedInstance.orderArray.append(assignedOrder)
         
         // no preexisting orders
-        if OrderList.sharedInstance.orderArray.count <= 1 { // 1 is current current just added, so no prexisting
+        if OrderList.sharedInstance.orderArray.count <= 1 { // 1 is current just added, so no prexisting
             
+            // first in list
             if assignedOrder == OrderList.sharedInstance.orderArray[0] {
                 SocketHandler.sharedSocket.promptLocalNotification("assigned")
                 SoundEffect.sharedPlayer.playSound("new_task")
@@ -223,12 +224,17 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func socketHandlerDidUnassignOrder(unassignedOrder: Order) {
+    func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
+
+        if isCurrentTask == true {
+            
+            SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+            SoundEffect.sharedPlayer.playSound("task_removed")
+            self.taskHasBeenAssignedOrUnassigned("Task removed!")
+            self.updateUI()
+        }
         
-        SocketHandler.sharedSocket.promptLocalNotification("unassigned")
-        SoundEffect.sharedPlayer.playSound("task_removed")
-        self.taskHasBeenAssignedOrUnassigned("Task removed!")
-        self.updateUI()
+        // no
     }
     
     func socketHandlerDidReprioritizeOrder() {

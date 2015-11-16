@@ -24,7 +24,7 @@ import PKHUD
     optional func socketHandlerDidDisconnect()
     // Push Type: assign/unassign/reprioritize
     optional func socketHandlerDidAssignOrder(assignedOrder: Order)
-    optional func socketHandlerDidUnassignOrder(unassignedOrder: Order)
+    optional func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool)
     optional func socketHandlerDidReprioritizeOrder()
 }
 
@@ -211,8 +211,17 @@ extension SocketHandler {
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
                             case .UNASSIGN:
+                                
+                                var isCurrentTask = false
+                                
+                                if OrderList.sharedInstance.orderArray.count != 0 {
+                                    if push.bodyOrderAction!.order == OrderList.sharedInstance.orderArray[0] {
+                                        isCurrentTask = true
+                                    }
+                                }
+                                
                                 OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
-                                self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order)
+                                self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order, isCurrentTask:isCurrentTask)
                             case .REPRIORITIZE:
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 self.delegate.socketHandlerDidReprioritizeOrder!()
