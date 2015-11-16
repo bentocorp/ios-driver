@@ -519,6 +519,21 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         self.taskHasBeenAssignedOrUnassigned("Connection failed", taskMessage: "", success: false)
                     }
                     
+                    // continue with order accept
+                    if task == "accept" {
+                        self.delegate?.didAcceptOrder(self.order.id)
+                        
+                        self.showHideButtons()
+                        
+                        self.updateArrivedOrCompleteButtonState("arrived")
+                        
+                        self.setArrivedWasTapped(false)
+
+                        SoundEffect.sharedPlayer.playSound("lets_drive")
+                        
+                        return
+                    }
+                    
                     // show complete button once HUD has been dismissed after 2 seconds...
                     NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: false)
                 }

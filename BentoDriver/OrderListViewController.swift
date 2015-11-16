@@ -217,7 +217,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         else {
             if assignedOrder == OrderList.sharedInstance.orderArray[0] {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
-//                SoundEffect.sharedPlayer.playSound("task_switched")
+                SoundEffect.sharedPlayer.playSound("task_switched")
                 self.taskHasBeenAssignedOrUnassigned("Task switched!")
                 self.updateUI()
             }
@@ -233,16 +233,28 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             self.taskHasBeenAssignedOrUnassigned("Task removed!")
             self.updateUI()
         }
-        
-        // no
+        else {
+            if unassignedOrder == OrderList.sharedInstance.orderArray[0] {
+                SocketHandler.sharedSocket.promptLocalNotification("switched")
+                SoundEffect.sharedPlayer.playSound("task_switched")
+                self.taskHasBeenAssignedOrUnassigned("Task switched!")
+                self.updateUI()
+            }
+        }
     }
     
-    func socketHandlerDidReprioritizeOrder() {
+    func socketHandlerDidReprioritizeOrder(reprioritized: Order) {
         
-        SocketHandler.sharedSocket.promptLocalNotification("reprioritized")
-//        SoundEffect.sharedPlayer.playSound("task_removed")
-        self.taskHasBeenAssignedOrUnassigned("A task has been reprioritized!")
-        self.updateUI()
+        if reprioritized == OrderList.sharedInstance.orderArray[0] {
+            SocketHandler.sharedSocket.promptLocalNotification("switched")
+            SoundEffect.sharedPlayer.playSound("task_switched")
+            self.taskHasBeenAssignedOrUnassigned("Task switched!")
+            self.updateUI()
+        }
+        
+//        SocketHandler.sharedSocket.promptLocalNotification("reprioritized")
+//        self.taskHasBeenAssignedOrUnassigned("A task has been reprioritized!")
+//        self.updateUI()
     }
     
 //MARK: OrderDetailViewControllerDelegate

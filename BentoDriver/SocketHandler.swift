@@ -25,7 +25,7 @@ import PKHUD
     // Push Type: assign/unassign/reprioritize
     optional func socketHandlerDidAssignOrder(assignedOrder: Order)
     optional func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool)
-    optional func socketHandlerDidReprioritizeOrder()
+    optional func socketHandlerDidReprioritizeOrder(reprioritized: Order)
 }
 
 //MARK: Properties
@@ -173,7 +173,6 @@ extension SocketHandler {
 
 //MARK: Emit
     func emitToLocChannel() {
-        
         let token = User.currentUser.token!
         let lat = User.currentUser.coordinates!.latitude
         let long = User.currentUser.coordinates!.longitude
@@ -215,7 +214,7 @@ extension SocketHandler {
                                 var isCurrentTask = false
                                 
                                 if OrderList.sharedInstance.orderArray.count != 0 {
-                                    if push.bodyOrderAction!.order == OrderList.sharedInstance.orderArray[0] {
+                                    if push.bodyOrderAction!.order.id == OrderList.sharedInstance.orderArray[0].id {
                                         isCurrentTask = true
                                     }
                                 }
@@ -224,7 +223,7 @@ extension SocketHandler {
                                 self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order, isCurrentTask:isCurrentTask)
                             case .REPRIORITIZE:
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
-                                self.delegate.socketHandlerDidReprioritizeOrder!()
+                                self.delegate.socketHandlerDidReprioritizeOrder!(push.bodyOrderAction!.order)
                             default: ()
                             }
                         }
