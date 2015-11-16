@@ -225,13 +225,21 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
-
+        
         if isCurrentTask == true {
             
-            SocketHandler.sharedSocket.promptLocalNotification("unassigned")
-            SoundEffect.sharedPlayer.playSound("task_removed")
-            self.taskHasBeenAssignedOrUnassigned("Task removed!")
-            self.updateUI()
+            if OrderList.sharedInstance.orderArray.count != 0 {
+                SocketHandler.sharedSocket.promptLocalNotification("switched")
+                SoundEffect.sharedPlayer.playSound("task_switched")
+                self.taskHasBeenAssignedOrUnassigned("Task switched!")
+                self.updateUI()
+            }
+            else {
+                SocketHandler.sharedSocket.promptLocalNotification("unassigned")
+                SoundEffect.sharedPlayer.playSound("task_removed")
+                self.taskHasBeenAssignedOrUnassigned("Task removed!")
+                self.updateUI()
+            }
         }
         else {
             if unassignedOrder == OrderList.sharedInstance.orderArray[0] {
