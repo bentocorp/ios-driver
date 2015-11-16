@@ -251,9 +251,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-    func socketHandlerDidReprioritizeOrder(reprioritized: Order) {
+    func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool) {
         
-        if reprioritized.id == OrderList.sharedInstance.orderArray[0].id {
+        // reprioritized order became first on list
+        if reprioritized.id == OrderList.sharedInstance.orderArray[0].id ||
+            // the first on list was reprioritized down
+            (reprioritized.id != OrderList.sharedInstance.orderArray[0].id && isCurrentTask == true) {
+                
             SocketHandler.sharedSocket.promptLocalNotification("switched")
             SoundEffect.sharedPlayer.playSound("task_switched")
             self.taskHasBeenAssignedOrUnassigned("Task switched!")

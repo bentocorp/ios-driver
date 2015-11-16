@@ -689,9 +689,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //        }
     }
     
-    func socketHandlerDidReprioritizeOrder(reprioritized: Order) {
+    func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool) {
         
-        if reprioritized.id == OrderList.sharedInstance.orderArray[0].id {
+        // reprioritized order became first on list
+        if reprioritized.id == OrderList.sharedInstance.orderArray[0].id ||
+            // the first on list was reprioritized down
+            (reprioritized.id != OrderList.sharedInstance.orderArray[0].id && isCurrentTask == true) {
+         
             self.taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
         }
     }

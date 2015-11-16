@@ -70,12 +70,8 @@ extension OrderList {
     
     public func reprioritizeOrder(orderToReprioritize: Order, afterId: String?) {
         
-        print(self.orderArray.count)
-        
         // remove reproritized order...
         self.removeOrder(orderToReprioritize)
-        
-        print(self.orderArray.count)
         
         if afterId == "" { // null
             // add to last index of array
