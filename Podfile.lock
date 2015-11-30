@@ -1,11 +1,11 @@
 PODS:
-  - Alamofire (3.0.0)
+  - Alamofire (3.1.3)
   - Alamofire-SwiftyJSON (2.0.0-beta.1)
-  - PKHUD (2.2.3)
+  - PKHUD (2.2.5)
   - pop (1.0.8)
   - PureLayout (3.0.1)
-  - Socket.IO-Client-Swift (3.1.6)
-  - SwiftyJSON (2.3.0)
+  - Socket.IO-Client-Swift (4.1.2)
+  - SwiftyJSON (2.3.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -26,12 +26,12 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwiftyJSON/Alamofire-SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Alamofire: b61782387f81bcc538a0284cf2bb5d7995cd0a80
+  Alamofire: 9f93b56389e48def9220dd57d1f44b1927229a5a
   Alamofire-SwiftyJSON: e394c54579b41d18d2aa1b88adf9fd6a2351e888
-  PKHUD: 47339a6fdb917015ce79b1a0480e31ea6955c11d
+  PKHUD: 15d9db01fb008bb9247c6d785c585f587955b113
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
-  Socket.IO-Client-Swift: f80e4eec9f067ced71fbcdbfa55bf59ff0248e53
-  SwiftyJSON: 8d6b61a70277ef2a5d710d372e06e7e2d87fb9e4
+  Socket.IO-Client-Swift: e9e173cf20d6fa33c1c1c4f6354c7b168259eeb6
+  SwiftyJSON: 592b53bee5ef3dd9b3bebc6b9cb7ee35426ae8c3
 
 COCOAPODS: 0.38.2

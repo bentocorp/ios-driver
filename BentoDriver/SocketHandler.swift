@@ -35,9 +35,9 @@ public class SocketHandler: NSObject {
     public var emitLocationTimer: NSTimer?
     
 #if DEBUG
-     public var socket = SocketIOClient(socketURL: "http://54.191.141.101:8081", opts: nil)
+    public var socket = SocketIOClient(socketURL: "https://node.dev.bentonow.com:8081", options: [.Log(true), .SessionDelegate(SessionDelegate())])
 #else
-     public var socket = SocketIOClient(socketURL: "http://52.32.68.149:8081", opts: nil)
+     public var socket = SocketIOClient(socketURL: "http://52.32.68.149:8081", options: nil)
 #endif
     
     let notification = CWStatusBarNotification()
@@ -49,7 +49,7 @@ extension SocketHandler {
     
     public func getHoustonAPI() -> String {
     #if DEBUG
-        return "http://houston.dev.bentonow.com/api"
+        return "https://houston.dev.bentonow.com/api"
     #else
         return "http://houston.bentonow.com/api"
     #endif

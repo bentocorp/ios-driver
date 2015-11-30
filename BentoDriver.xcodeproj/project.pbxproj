@@ -102,6 +102,8 @@
 		FCE2080A1BDA465C006D8554 /* notified.wav in Resources */ = {isa = PBXBuildFile; fileRef = FCE208091BDA465C006D8554 /* notified.wav */; };
 		FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93911BD174D5008C17C8 /* DishInfo.swift */; };
 		FCED93941BD19046008C17C8 /* Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCED93931BD19046008C17C8 /* Push.swift */; };
+		FCEDDE951C0CF45300A7B2A3 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */; };
+		FCEDDE961C0CF45300A7B2A3 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */; };
 		FCFC93901BC73EDF00DB52AC /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFC938F1BC73EDF00DB52AC /* Order.swift */; };
 /* End PBXBuildFile section */
 
@@ -206,6 +208,7 @@
 		FCE208091BDA465C006D8554 /* notified.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = notified.wav; sourceTree = "<group>"; };
 		FCED93911BD174D5008C17C8 /* DishInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DishInfo.swift; sourceTree = "<group>"; };
 		FCED93931BD19046008C17C8 /* Push.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Push.swift; sourceTree = "<group>"; };
+		FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
 		FCFC938F1BC73EDF00DB52AC /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -415,6 +418,7 @@
 				FC1594351BC89C3C00F532BD /* User.swift */,
 				FCA840561BD83E5D00B67416 /* OrderList.swift */,
 				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
+				FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */,
 			);
 			name = Singletons;
 			sourceTree = "<group>";
@@ -830,6 +834,7 @@
 				FC1594361BC89C3C00F532BD /* User.swift in Sources */,
 				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
 				FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */,
+				FCEDDE951C0CF45300A7B2A3 /* SessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,6 +879,7 @@
 				FCE036B21BEA9B2300F7605B /* User.swift in Sources */,
 				FCE036B31BEA9B2300F7605B /* AppDelegate.swift in Sources */,
 				FCE036B41BEA9B2300F7605B /* ReusableStuff.swift in Sources */,
+				FCEDDE961C0CF45300A7B2A3 /* SessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

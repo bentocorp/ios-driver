@@ -8,62 +8,56 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>2</integer>
 		</dict>
 		<key>PKHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
 		</dict>
 		<key>PureLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>7</integer>
 		</dict>
 		<key>Socket.IO-Client-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>8</integer>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>9</integer>
 		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>6</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>12A7E86D0D0082969645428E6F54E50A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1F8EB7AF964805C736B1E106DA4E6EEC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2BD6AA3C40B1E901EA43633FAA9105DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -73,22 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>77982611E08B98AA95E0A154EE77273F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8240A687A12B3496C485DFBEB80E79E2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>93208DF5F66C021BD60146424D07E751</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A6027ADD9B195844C103D7B1654BC983</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B322444F4DBC7361226DA9EC1693B74E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -98,7 +82,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E11E4D5139E3DDD292DDA5AD4F32E8B4</key>
+		<key>C080E97286EC1A9FF8B7E364101EE71F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
