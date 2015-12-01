@@ -589,7 +589,7 @@
 				TargetAttributes = {
 					FC9CB3141BBF4409000F4395 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = WFJ7C63625;
+						DevelopmentTeam = BU7ZBFN522;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -990,6 +990,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1013,8 +1014,9 @@
 					"\"pop\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driver;
+				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1027,6 +1029,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1050,8 +1053,9 @@
 					"\"pop\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driver;
+				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};
 			name = Release;
@@ -1135,7 +1139,7 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driverdev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1173,7 +1177,7 @@
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = co.josephlau.driverdev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};
