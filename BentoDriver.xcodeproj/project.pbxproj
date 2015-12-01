@@ -412,17 +412,6 @@
 			name = "Bento Images";
 			sourceTree = "<group>";
 		};
-		FCE675E71BDB00B4004FFEBF /* Singletons */ = {
-			isa = PBXGroup;
-			children = (
-				FC1594351BC89C3C00F532BD /* User.swift */,
-				FCA840561BD83E5D00B67416 /* OrderList.swift */,
-				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
-				FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */,
-			);
-			name = Singletons;
-			sourceTree = "<group>";
-		};
 		FCED93861BCEDF88008C17C8 /* Resouces */ = {
 			isa = PBXGroup;
 			children = (
@@ -446,7 +435,10 @@
 		FCFC93871BC731D900DB52AC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FCE675E71BDB00B4004FFEBF /* Singletons */,
+				FC1594351BC89C3C00F532BD /* User.swift */,
+				FCA840561BD83E5D00B67416 /* OrderList.swift */,
+				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
+				FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */,
 				FC6FEC9E1BD2CC8700C7F95A /* Order */,
 				FC6FEC9F1BD2CCB700C7F95A /* Push */,
 			);
