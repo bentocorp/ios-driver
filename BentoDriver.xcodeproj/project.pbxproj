@@ -605,7 +605,7 @@
 						TestTargetID = FC9CB3141BBF4409000F4395;
 					};
 					FCE0369C1BEA9B2300F7605B = {
-						DevelopmentTeam = WFJ7C63625;
+						DevelopmentTeam = BU7ZBFN522;
 					};
 				};
 			};
