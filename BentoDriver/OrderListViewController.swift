@@ -22,6 +22,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//MARK: Default Map Setting
+        if NSUserDefaults.standardUserDefaults().objectForKey("map") == nil {
+            NSUserDefaults.standardUserDefaults().setObject("Apple Maps", forKey: "map")
+        }
+        
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
 
 //MARK: Navigation Bar
@@ -110,34 +115,43 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
 //MARK: Settings
     func onSettings() {
-        let alertController = UIAlertController(title: "Map Preference", message: "", preferredStyle: .Alert)
         
-        alertController.addAction(UIAlertAction(title: "Apple Maps", style: .Default, handler: { action in
-            self.setAppleMaps()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
-            self.setGoogleMaps()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
-            self.setWaze()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
-        
-        presentViewController(alertController, animated: true, completion: nil)
+        if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") {
+            
+            let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting)", preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(title: "Apple Maps", style: .Default, handler: { action in
+                self.showHUD()
+                self.setAppleMaps()
+            }))
+            
+            alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
+                self.showHUD()
+                self.setGoogleMaps()
+            }))
+            
+            alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
+                self.showHUD()
+                self.setWaze()
+            }))
+            
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        }
     }
     
 //MARK: Set Map Preference
     func setAppleMaps() {
-        NSUserDefaults.standardUserDefaults().setObject("apple", forKey: "map")
+        NSUserDefaults.standardUserDefaults().setObject("Apple Maps", forKey: "map")
+        dismissHUD()
     }
     
     func setGoogleMaps() {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
             
-            NSUserDefaults.standardUserDefaults().setObject("google", forKey: "map")
+            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            dismissHUD()
         }
         else {
             // Google Maps is not installed. Launch AppStore to install Google Map
@@ -148,12 +162,15 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func setWaze() {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
             
-            NSUserDefaults.standardUserDefaults().setObject("waze", forKey: "map")
+            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            dismissHUD()
         }
         else {
             // Waze is not installed. Launch AppStore to install Waze
             UIApplication.sharedApplication().openURL(NSURL(string: "http://itunes.apple.com/us/app/id323229106")!)
         }
+        
+        dismissHUD()
     }
     
 //MARK: Table View Datasource
@@ -423,6 +440,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: HUD
+    func showHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
+        PKHUD.sharedHUD.show()
+    }
+    
     func dismissHUD() {
         PKHUD.sharedHUD.contentView = PKHUDSuccessView()
         PKHUD.sharedHUD.hide(afterDelay: 0)
