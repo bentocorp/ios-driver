@@ -144,6 +144,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Set Map Preference
     func setAppleMaps() {
         NSUserDefaults.standardUserDefaults().setObject("Apple Maps", forKey: "map")
+        self.statusBarNotification("Apple Maps")
         dismissHUD()
     }
     
@@ -151,26 +152,27 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
             
             NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            self.statusBarNotification("Google Maps")
             dismissHUD()
         }
         else {
             // Google Maps is not installed. Launch AppStore to install Google Map
             UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/google-maps/id585027354?mt=8")!)
         }
+        
     }
     
     func setWaze() {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
             
             NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            self.statusBarNotification("Waze")
             dismissHUD()
         }
         else {
             // Waze is not installed. Launch AppStore to install Waze
             UIApplication.sharedApplication().openURL(NSURL(string: "http://itunes.apple.com/us/app/id323229106")!)
         }
-        
-        dismissHUD()
     }
     
 //MARK: Table View Datasource
@@ -279,7 +281,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("assigned")
                 SoundEffect.sharedPlayer.playSound("new_task")
-                taskHasBeenAssignedOrUnassigned("Task assigned!")
+                statusBarNotification("Task assigned!")
                 updateUI()
             }
         }
@@ -288,7 +290,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
-                taskHasBeenAssignedOrUnassigned("Task switched!")
+                statusBarNotification("Task switched!")
                 updateUI()
             }
         }
@@ -301,13 +303,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if OrderList.sharedInstance.orderArray.count != 0 {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
-                taskHasBeenAssignedOrUnassigned("Task switched!")
+                statusBarNotification("Task switched!")
                 updateUI()
             }
             else {
                 SocketHandler.sharedSocket.promptLocalNotification("unassigned")
                 SoundEffect.sharedPlayer.playSound("task_removed")
-                taskHasBeenAssignedOrUnassigned("Task removed!")
+                statusBarNotification("Task removed!")
                 updateUI()
             }
         }
@@ -315,7 +317,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if unassignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
-                taskHasBeenAssignedOrUnassigned("Task switched!")
+                statusBarNotification("Task switched!")
                 updateUI()
             }
         }
@@ -330,7 +332,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                 
             SocketHandler.sharedSocket.promptLocalNotification("switched")
             SoundEffect.sharedPlayer.playSound("task_switched")
-                taskHasBeenAssignedOrUnassigned("Task switched!")
+                statusBarNotification("Task switched!")
                 updateUI()
         }
         
@@ -376,7 +378,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: Status Bar Notification
-    func taskHasBeenAssignedOrUnassigned(task: String) {
+    func statusBarNotification(task: String) {
         notification.notificationStyle = .NavigationBarNotification
         notification.notificationAnimationInStyle = .Left
         notification.notificationAnimationOutStyle = .Right
