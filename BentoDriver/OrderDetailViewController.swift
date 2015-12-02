@@ -19,26 +19,6 @@ import PKHUD
     optional func didTapOnGoToAcceptedTask(orderInSession: Order)
 }
 
-enum buttonActionType {
-    case REJECTED, ACCEPTED, ARRIVED, COMPLETED
-    
-    static func buttonActionTypeFromString(buttonActionTypeString: String) -> buttonActionType {
-        
-        let lowercaseString = buttonActionTypeString.lowercaseString
-        
-        switch lowercaseString {
-        case "rejected":
-            return REJECTED
-        case "accepted":
-            return ACCEPTED
-        case "arrived":
-            return ARRIVED
-        case "completed":
-            return COMPLETED
-        }
-    }
-}
-
 class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate {
 
 //MARK: Properties
@@ -482,7 +462,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
 //MARK: Commit Action
-    func rejectOrder(action: ) {
+    func rejectOrder() {
         callHouston(api + "/order/reject" , parameters: parameters, task: "reject")
     }
     
