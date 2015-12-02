@@ -35,7 +35,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>We need your location to track order statuses. Your location won&apos;t be tracked when you&apos;re offline.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Light.ttf</string>
