@@ -144,7 +144,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Set Map Preference
     func setAppleMaps() {
         NSUserDefaults.standardUserDefaults().setObject("Apple Maps", forKey: "map")
-        self.statusBarNotification("Apple Maps")
+        self.statusBarNotification("Apple Maps saved!")
         dismissHUD()
     }
     
@@ -152,27 +152,28 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
             
             NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
-            self.statusBarNotification("Google Maps")
-            dismissHUD()
+            self.statusBarNotification("Google Maps saved!")
         }
         else {
             // Google Maps is not installed. Launch AppStore to install Google Map
             UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/google-maps/id585027354?mt=8")!)
         }
         
+        dismissHUD()
     }
     
     func setWaze() {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
             
-            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            NSUserDefaults.standardUserDefaults().setObject("Waze saved!", forKey: "map")
             self.statusBarNotification("Waze")
-            dismissHUD()
         }
         else {
             // Waze is not installed. Launch AppStore to install Waze
             UIApplication.sharedApplication().openURL(NSURL(string: "http://itunes.apple.com/us/app/id323229106")!)
         }
+        
+        dismissHUD()
     }
     
 //MARK: Table View Datasource

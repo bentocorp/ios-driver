@@ -311,9 +311,8 @@ extension SocketHandler {
             localNotification.soundName = "new_task.wav"
         case "unassigned":
             localNotification.soundName = "task_removed.wav"
-        case "reprioritized":
-//            localNotification.soundName = 
-            print("should play reprioritized sound")
+        case "switched":
+            localNotification.soundName = "task_switched.wav"
         default: ()
         }
         
