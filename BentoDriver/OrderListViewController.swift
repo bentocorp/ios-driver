@@ -165,8 +165,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func setWaze() {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
             
-            NSUserDefaults.standardUserDefaults().setObject("Waze saved!", forKey: "map")
-            self.statusBarNotification("Waze")
+            NSUserDefaults.standardUserDefaults().setObject("Waze!", forKey: "map")
+            self.statusBarNotification("Waze saved!")
         }
         else {
             // Waze is not installed. Launch AppStore to install Waze
