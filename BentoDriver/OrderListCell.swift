@@ -24,33 +24,33 @@ class OrderListCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         
         // Circle
-        self.circleImageView = UIImageView(frame: CGRectMake(20, self.frame.height / 2 + 20, 20, 20))
-        self.addSubview(self.circleImageView)
+        circleImageView = UIImageView(frame: CGRectMake(20, self.frame.height / 2 + 20, 20, 20))
+        self.addSubview(circleImageView)
         
         // Address
-        self.addressLabel = UILabel(frame: CGRectMake(20 + self.circleImageView.frame.width + 20, 10, self.frame.size.width - 40 - 20, 60))
-        self.addressLabel.numberOfLines = 2
-        self.addressLabel.font = UIFont(name: "OpenSans-Bold", size: 17)
-        self.addressLabel.textColor = UIColor.whiteColor()
-        self.addSubview(self.addressLabel)
+        addressLabel = UILabel(frame: CGRectMake(20 + self.circleImageView.frame.width + 20, 10, self.frame.size.width - 40 - 20, 60))
+        addressLabel.numberOfLines = 2
+        addressLabel.font = UIFont(name: "OpenSans-Bold", size: 17)
+        addressLabel.textColor = UIColor.whiteColor()
+        self.addSubview(addressLabel)
         
         // Name
-        self.nameLabel = UILabel(frame: CGRectMake(20 + self.circleImageView.frame.width + 20, self.addressLabel.frame.origin.y + 60, self.frame.size.width - 40 - 20, 20))
-        self.nameLabel.font = UIFont(name: "OpenSans-Bold", size: 14)
-        self.nameLabel.textColor = UIColor.lightGrayColor()
-        self.addSubview(self.nameLabel!)
+        nameLabel = UILabel(frame: CGRectMake(20 + self.circleImageView.frame.width + 20, self.addressLabel.frame.origin.y + 60, self.frame.size.width - 40 - 20, 20))
+        nameLabel.font = UIFont(name: "OpenSans-Bold", size: 14)
+        nameLabel.textColor = UIColor.lightGrayColor()
+        self.addSubview(nameLabel!)
         
         // Arrow note: using uiscreen to frame this because cell width is stuck at 320 for some reason...
-        self.arrowImageView = UIImageView(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 40, self.frame.height / 2 + 20, 20, 20))
-        self.arrowImageView.image = UIImage(named: "gray-arrow-64")
-        self.addSubview(self.arrowImageView)
+        arrowImageView = UIImageView(frame: CGRectMake(UIScreen.mainScreen().bounds.width - 40, self.frame.height / 2 + 20, 20, 20))
+        arrowImageView.image = UIImage(named: "gray-arrow-64")
+        self.addSubview(arrowImageView)
         
         // Timestamp
-        self.createdAtLabel = UILabel(frame: CGRectMake(self.arrowImageView.frame.origin.x - 70, self.frame.height / 2 + 20, 60, 20))
-        self.createdAtLabel.font = UIFont.systemFontOfSize(13.0)
-        self.createdAtLabel.textAlignment = .Right
-        self.createdAtLabel.textColor = UIColor.whiteColor()
-        self.addSubview(self.createdAtLabel)
+        createdAtLabel = UILabel(frame: CGRectMake(self.arrowImageView.frame.origin.x - 70, self.frame.height / 2 + 20, 60, 20))
+        createdAtLabel.font = UIFont.systemFontOfSize(13.0)
+        createdAtLabel.textAlignment = .Right
+        createdAtLabel.textColor = UIColor.whiteColor()
+        self.addSubview(createdAtLabel)
     }
 
     required init?(coder aDecoder: NSCoder) {

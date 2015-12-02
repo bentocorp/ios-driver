@@ -33,8 +33,15 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
 //MARK: Bar Item
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
-        navigationItem.leftBarButtonItem = backButton
+//        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
+//        navigationItem.leftBarButtonItem = backButton
+        
+        let settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        settingsButton.setImage(UIImage(named: "settings-100"), forState: UIControlState.Normal)
+        settingsButton.addTarget(self.navigationController, action: Selector("onSettingsPressed"), forControlEvents:  UIControlEvents.TouchUpInside)
+        let item = UIBarButtonItem(customView: settingsButton)
+        navigationItem.leftBarButtonItem = item
+        
         
 //MARK: Log out
         let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: self, action: "onLogout")
@@ -42,27 +49,25 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         navigationItem.rightBarButtonItem = logOutButton
         
 //MARK: Table View
-        self.orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
-        self.orderListTableView.delegate = self
-        self.orderListTableView.dataSource = self
+        orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
+        orderListTableView.delegate = self
+        orderListTableView.dataSource = self
         let backgroundView = UIView(frame: CGRectZero) // remove empty cells
-        self.orderListTableView.tableFooterView = backgroundView // remove empty cells
-        self.orderListTableView.backgroundColor = UIColor.clearColor()
-        self.orderListTableView.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
-        self.view.addSubview(self.orderListTableView)
+        orderListTableView.tableFooterView = backgroundView // remove empty cells
+        orderListTableView.backgroundColor = UIColor.clearColor()
+        orderListTableView.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
+        self.view.addSubview(orderListTableView)
         
 //MARK: No Tasks Label
-        self.noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 50, self.view.frame.height/2 - 10, 100, 20))
-        self.noTasksLabel.text = "No Tasks"
-        self.noTasksLabel.textAlignment = .Center
-        self.noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        self.noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
+        noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 50, self.view.frame.height/2 - 10, 100, 20))
+        noTasksLabel.text = "No Tasks"
+        noTasksLabel.textAlignment = .Center
+        noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         self.view.addSubview(noTasksLabel)
-        
         
 //MARK: Pull Orders
         OrderList.sharedInstance.pullOrders { (result) -> Void in
-            
             print("result: \(result)")
             self.dismissHUD()
             self.updateUI()
@@ -76,7 +81,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewWillAppear(animated: Bool) {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn") // TODO: consider adding to User class
         SocketHandler.sharedSocket.delegate = self
-        self.updateUI()
+        updateUI()
     }
 
 //MARK: Log Out
@@ -209,8 +214,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("assigned")
                 SoundEffect.sharedPlayer.playSound("new_task")
-                self.taskHasBeenAssignedOrUnassigned("Task assigned!")
-                self.updateUI()
+                taskHasBeenAssignedOrUnassigned("Task assigned!")
+                updateUI()
             }
         }
         // order(s) preexist
@@ -218,8 +223,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
-                self.taskHasBeenAssignedOrUnassigned("Task switched!")
-                self.updateUI()
+                taskHasBeenAssignedOrUnassigned("Task switched!")
+                updateUI()
             }
         }
     }
@@ -231,22 +236,22 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             if OrderList.sharedInstance.orderArray.count != 0 {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
-                self.taskHasBeenAssignedOrUnassigned("Task switched!")
-                self.updateUI()
+                taskHasBeenAssignedOrUnassigned("Task switched!")
+                updateUI()
             }
             else {
                 SocketHandler.sharedSocket.promptLocalNotification("unassigned")
                 SoundEffect.sharedPlayer.playSound("task_removed")
-                self.taskHasBeenAssignedOrUnassigned("Task removed!")
-                self.updateUI()
+                taskHasBeenAssignedOrUnassigned("Task removed!")
+                updateUI()
             }
         }
         else {
             if unassignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
                 SocketHandler.sharedSocket.promptLocalNotification("switched")
                 SoundEffect.sharedPlayer.playSound("task_switched")
-                self.taskHasBeenAssignedOrUnassigned("Task switched!")
-                self.updateUI()
+                taskHasBeenAssignedOrUnassigned("Task switched!")
+                updateUI()
             }
         }
     }
@@ -260,8 +265,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
                 
             SocketHandler.sharedSocket.promptLocalNotification("switched")
             SoundEffect.sharedPlayer.playSound("task_switched")
-            self.taskHasBeenAssignedOrUnassigned("Task switched!")
-            self.updateUI()
+                taskHasBeenAssignedOrUnassigned("Task switched!")
+                updateUI()
         }
         
 //        SocketHandler.sharedSocket.promptLocalNotification("reprioritized")
@@ -272,17 +277,17 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: OrderDetailViewControllerDelegate
     func didRejectOrder(orderId: String) {
         self.changeOrderStatus(orderId, status: .Rejected)
-        self.updateUI()
+        updateUI()
     }
     
     func didAcceptOrder(orderId: String) {
         self.changeOrderStatus(orderId, status: .Accepted)
-        self.updateUI()
+        updateUI()
     }
     
     func didCompleteOrder(orderId: String) {
         self.removeOrder(orderId)
-        self.updateUI()
+        updateUI()
     }
     
 //MARK:
@@ -307,13 +312,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
 //MARK: Status Bar Notification
     func taskHasBeenAssignedOrUnassigned(task: String) {
-        self.notification.notificationStyle = .NavigationBarNotification
-        self.notification.notificationAnimationInStyle = .Left
-        self.notification.notificationAnimationOutStyle = .Right
-        self.notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-        self.notification.notificationLabelTextColor = UIColor.whiteColor()
-        self.notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
-        self.notification.displayNotificationWithMessage(task, forDuration: 2.0)
+        notification.notificationStyle = .NavigationBarNotification
+        notification.notificationAnimationInStyle = .Left
+        notification.notificationAnimationOutStyle = .Right
+        notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+        notification.notificationLabelTextColor = UIColor.whiteColor()
+        notification.notificationLabelBackgroundColor = UIColor(red: 0.4902, green: 0.3137, blue: 0.651, alpha: 1.0) /* #7d50a6 */
+        notification.displayNotificationWithMessage(task, forDuration: 2.0)
     }
     
 //MARK: Update UI

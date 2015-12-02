@@ -46,47 +46,47 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         backgroundView.addSubview(logoImageView)
         
 //MARK: Username
-        self.usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
-        self.usernameTextField.layer.cornerRadius = 1
-        self.usernameTextField.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
-        self.usernameTextField.placeholder = "username"
-        self.usernameTextField.font = UIFont(name: "OpenSans-Regular", size: 17)
-        self.usernameTextField.text!.lowercaseString
-        self.usernameTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        self.usernameTextField.autocorrectionType = .No
-        self.usernameTextField.backgroundColor = UIColor.whiteColor()
-        self.usernameTextField.keyboardType = UIKeyboardType.EmailAddress
-        self.usernameTextField.clearButtonMode = UITextFieldViewMode.WhileEditing
-        self.usernameTextField.tintColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
-        self.usernameTextField.delegate = self
-        backgroundView.addSubview(self.usernameTextField)
+        usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
+        usernameTextField.layer.cornerRadius = 1
+        usernameTextField.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        usernameTextField.placeholder = "username"
+        usernameTextField.font = UIFont(name: "OpenSans-Regular", size: 17)
+        usernameTextField.text!.lowercaseString
+        usernameTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        usernameTextField.autocorrectionType = .No
+        usernameTextField.backgroundColor = UIColor.whiteColor()
+        usernameTextField.keyboardType = UIKeyboardType.EmailAddress
+        usernameTextField.clearButtonMode = UITextFieldViewMode.WhileEditing
+        usernameTextField.tintColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        usernameTextField.delegate = self
+        backgroundView.addSubview(usernameTextField)
         
         // username padding
-        let paddingView = UIView(frame: CGRectMake(0, 0, 15, self.usernameTextField.frame.height))
+        let paddingView = UIView(frame: CGRectMake(0, 0, 15, usernameTextField.frame.height))
         usernameTextField.leftView = paddingView
         usernameTextField.leftViewMode = UITextFieldViewMode.Always
         
 //MARK: Password
-        self.passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField.frame.origin.y + 51, self.view.frame.width - 40, 50))
-        self.passwordTextField.layer.cornerRadius = 1
-        self.passwordTextField.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
-        self.passwordTextField.placeholder = "password"
-        self.passwordTextField.font = UIFont(name: "OpenSans-Regular", size: 17)
-        self.passwordTextField.autocapitalizationType = UITextAutocapitalizationType.None
-        self.passwordTextField.backgroundColor = UIColor.whiteColor()
-        self.passwordTextField.secureTextEntry = true
-        self.passwordTextField.clearButtonMode = UITextFieldViewMode.WhileEditing
-        self.passwordTextField.tintColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
-        self.passwordTextField.delegate = self
-        backgroundView.addSubview(self.passwordTextField)
+        passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField.frame.origin.y + 51, self.view.frame.width - 40, 50))
+        passwordTextField.layer.cornerRadius = 1
+        passwordTextField.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        passwordTextField.placeholder = "password"
+        passwordTextField.font = UIFont(name: "OpenSans-Regular", size: 17)
+        passwordTextField.autocapitalizationType = UITextAutocapitalizationType.None
+        passwordTextField.backgroundColor = UIColor.whiteColor()
+        passwordTextField.secureTextEntry = true
+        passwordTextField.clearButtonMode = UITextFieldViewMode.WhileEditing
+        passwordTextField.tintColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
+        passwordTextField.delegate = self
+        backgroundView.addSubview(passwordTextField)
     
         // password padding
-        let paddingView2 = UIView(frame: CGRectMake(0, 0, 15, self.passwordTextField.frame.height))
+        let paddingView2 = UIView(frame: CGRectMake(0, 0, 15, passwordTextField.frame.height))
         passwordTextField.leftView = paddingView2
         passwordTextField.leftViewMode = UITextFieldViewMode.Always
         
 //MARK: Login
-        let loginButton = UIButton(frame: CGRectMake(20, self.passwordTextField.frame.origin.y + 70, self.view.frame.width - 40, 50))
+        let loginButton = UIButton(frame: CGRectMake(20, passwordTextField.frame.origin.y + 70, self.view.frame.width - 40, 50))
         loginButton.backgroundColor = UIColor.clearColor()
         loginButton.titleLabel!.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         loginButton.layer.cornerRadius = 3
@@ -99,7 +99,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         self.navigationController?.navigationBarHidden = true
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
         SocketHandler.sharedSocket.delegate = self
-        self.checkLoginInfo()
+        checkLoginInfo()
     }
 
     override func didReceiveMemoryWarning() {
@@ -177,14 +177,14 @@ extension LoginViewController {
         }
         
         // set textfield text -> either empty strings to username and password
-        self.usernameTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
-        self.passwordTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
+        usernameTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
+        passwordTextField.text = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
     }
     
     func onLogin() {
         // username or password fields empty
         if self.usernameTextField.text == "" || self.passwordTextField.text == "" {
-            self.promptAlertWith("Please enter both your username and password", style: .Cancel)
+            promptAlertWith("Please enter both your username and password", style: .Cancel)
             return
         }
         
@@ -199,7 +199,7 @@ extension LoginViewController {
             print("is not connected to internet")
         }
         
-        User.currentUser.login(self.usernameTextField.text!, password: self.passwordTextField.text!)
+        User.currentUser.login(usernameTextField.text!, password: passwordTextField.text!)
     }
     
     func areLocationAndNotificationEnabled() -> Bool {
@@ -211,7 +211,7 @@ extension LoginViewController {
             
             if CLLocationManager.authorizationStatus() == .NotDetermined || CLLocationManager.authorizationStatus() == .Restricted || CLLocationManager.authorizationStatus() == .Denied {
                 
-                self.promptDisabledSettingsAlert(settingsMessage)
+                promptDisabledSettingsAlert(settingsMessage)
                 
                 return false
             }
