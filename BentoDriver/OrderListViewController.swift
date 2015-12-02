@@ -113,26 +113,21 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-//MARK: Settings
+//MARK: Map Settings
     func onMapSettings() {
         
         if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String {
             
             let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting)", preferredStyle: .Alert)
             
-            alertController.addAction(UIAlertAction(title: "Apple Maps", style: .Default, handler: { action in
+            alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
                 self.showHUD()
-                self.setAppleMaps()
+                self.setWaze()
             }))
             
             alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
                 self.showHUD()
                 self.setGoogleMaps()
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
-                self.showHUD()
-                self.setWaze()
             }))
             
             alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
@@ -141,29 +136,30 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
-//MARK: Set Map Preference
-    func setAppleMaps() {
-        NSUserDefaults.standardUserDefaults().setObject("Apple Maps", forKey: "map")
-        self.statusBarNotification("Apple Maps saved!")
-        dismissHUD()
-    }
-    
-    func setGoogleMaps() {
-        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
-            
-            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
-            self.statusBarNotification("Google Maps saved!")
-        }
-        else {
-            // Google Maps is not installed. Launch AppStore to install Google Map
-            UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/google-maps/id585027354?mt=8")!)
+//MARK: Check Map Settings
+    func isWazeInstalled() -> Bool {
+        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
+            return true
         }
         
-        dismissHUD()
+        return false
     }
     
+    func isGoogleMapsInstalled() -> Bool {
+        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
+            return true
+        }
+        
+        return false
+    }
+    
+    func isMapPreferenceInstalled() -> Bool {
+        
+    }
+    
+//MARK: Set Map Preference
     func setWaze() {
-        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
+        if isWazeInstalled() {
             
             NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
             self.statusBarNotification("Waze saved!")
@@ -171,6 +167,20 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         else {
             // Waze is not installed. Launch AppStore to install Waze
             UIApplication.sharedApplication().openURL(NSURL(string: "http://itunes.apple.com/us/app/id323229106")!)
+        }
+        
+        dismissHUD()
+    }
+    
+    func setGoogleMaps() {
+        if isGoogleMapsInstalled() {
+            
+            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            self.statusBarNotification("Google Maps saved!")
+        }
+        else {
+            // Google Maps is not installed. Launch AppStore to install Google Map
+            UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/google-maps/id585027354?mt=8")!)
         }
         
         dismissHUD()

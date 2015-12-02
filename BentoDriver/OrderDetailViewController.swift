@@ -313,15 +313,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         let addressForSchemeString = "\(newStreetString)\(newCityString)"
         
-        switch currentMapSetting {
-        case "Apple Maps":
-            return NSURL(string: "http://maps.apple.com/?saddr=&daddr=\(addressForSchemeString)")!
-        case "Google Maps":
-            return NSURL(string: "comgooglemaps://?saddr=&daddr=\(addressForSchemeString)&directionsmode=driving")!
-        default: ()
+        // Waze
+        if currentMapSetting == "Waze" {
+            return NSURL(string: "waze://?q=\(addressForSchemeString)")!
         }
         
-        return NSURL(string: "waze://?q=\(addressForSchemeString)")! // "%20"
+        // Google Maps
+        return NSURL(string: "comgooglemaps://?saddr=&daddr=\(addressForSchemeString)&directionsmode=driving")!
     }
     
 //MARK: On Location, Phone, and Text
@@ -334,11 +332,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 
                 var url: NSURL!
                 
-                switch currentMapSetting {
-                case "Waze":
+                // Waze
+                if currentMapSetting == "Waze" {
                     url = self.getMapURL(currentMapSetting, spaceFiller: "%20")
-                default:
-                    // apple maps and google maps have same spaceFiller
+                }
+                // Google Maps
+                else {
                     url = self.getMapURL(currentMapSetting, spaceFiller: "+")
                 }
                 
