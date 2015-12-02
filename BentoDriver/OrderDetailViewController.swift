@@ -527,7 +527,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     // error from invalid phone
                     if msg != nil {
                     // error message
-                        SoundEffect.sharedPlayer.playSound("invalid_phone")
                         self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number", taskMessage: "", success: true)
                     }
                     // error from something else...ie. no internet
@@ -740,8 +739,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             doesTaskRequireAction = false
             
             // assigned
-            SocketHandler.sharedSocket.promptLocalNotification("assigned")
-            SoundEffect.sharedPlayer.playSound("new_task")
+//            SocketHandler.sharedSocket.promptLocalNotification("assigned")
+//            SoundEffect.sharedPlayer.playSound("new_task")
             
             // status bar notification
             notification.notificationStyle = .NavigationBarNotification

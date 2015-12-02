@@ -165,7 +165,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func setWaze() {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
             
-            NSUserDefaults.standardUserDefaults().setObject("Waze!", forKey: "map")
+            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
             self.statusBarNotification("Waze saved!")
         }
         else {
