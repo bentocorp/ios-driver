@@ -29,24 +29,24 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
         
 //MARK: Background Image
-        let backgroundImage = UIImageView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
+        let backgroundImage = UIImageView(frame: CGRectMake(0, 0, view.frame.width, view.frame.height))
         backgroundImage.image = UIImage(named: "grass")
         backgroundImage.contentMode = .ScaleAspectFill
-        self.view.addSubview(backgroundImage)
+        view.addSubview(backgroundImage)
         
 //MARK: Background View
-        let backgroundView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 350))
-        backgroundView.center = self.view.center
-        self.view.addSubview(backgroundView)
+        let backgroundView = UIView(frame: CGRectMake(0, 0, view.frame.width, 350))
+        backgroundView.center = view.center
+        view.addSubview(backgroundView)
         
 //MARK: Logo
-        let logoImageView = UIImageView(frame: CGRectMake(20, 20, self.view.frame.width - 40, 100))
+        let logoImageView = UIImageView(frame: CGRectMake(20, 20, view.frame.width - 40, 100))
         logoImageView.contentMode = UIViewContentMode.ScaleAspectFit
         logoImageView.image = UIImage(named: "logo")
         backgroundView.addSubview(logoImageView)
         
 //MARK: Username
-        usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, self.view.frame.width - 40, 50))
+        usernameTextField = UITextField(frame: CGRectMake(20, 20 + 100 + 60, view.frame.width - 40, 50))
         usernameTextField.layer.cornerRadius = 1
         usernameTextField.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         usernameTextField.placeholder = "username"
@@ -67,7 +67,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         usernameTextField.leftViewMode = UITextFieldViewMode.Always
         
 //MARK: Password
-        passwordTextField = UITextField(frame: CGRectMake(20, self.usernameTextField.frame.origin.y + 51, self.view.frame.width - 40, 50))
+        passwordTextField = UITextField(frame: CGRectMake(20, usernameTextField.frame.origin.y + 51, view.frame.width - 40, 50))
         passwordTextField.layer.cornerRadius = 1
         passwordTextField.textColor = UIColor(red: 0.3137, green: 0.549, blue: 0.3098, alpha: 1.0)
         passwordTextField.placeholder = "password"
@@ -86,7 +86,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         passwordTextField.leftViewMode = UITextFieldViewMode.Always
         
 //MARK: Login
-        let loginButton = UIButton(frame: CGRectMake(20, passwordTextField.frame.origin.y + 70, self.view.frame.width - 40, 50))
+        let loginButton = UIButton(frame: CGRectMake(20, passwordTextField.frame.origin.y + 70, view.frame.width - 40, 50))
         loginButton.backgroundColor = UIColor.clearColor()
         loginButton.titleLabel!.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         loginButton.layer.cornerRadius = 3
@@ -96,7 +96,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
+        navigationController?.navigationBarHidden = true
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
         SocketHandler.sharedSocket.delegate = self
         checkLoginInfo()
@@ -140,7 +140,7 @@ extension LoginViewController {
     
     func presentHomepageWithDelay() {
         let navC = UINavigationController.init(rootViewController: OrderListViewController())
-        self.navigationController?.presentViewController(navC, animated: true, completion: nil)
+        navigationController?.presentViewController(navC, animated: true, completion: nil)
     }
     
 //MARK: Alert
@@ -153,7 +153,7 @@ extension LoginViewController {
                 self.navigationController?.presentViewController(navC, animated: true, completion: nil)
             }
         }))
-        self.presentViewController(alertController, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func promptDisabledSettingsAlert(messageString: String) {
@@ -161,7 +161,7 @@ extension LoginViewController {
         alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { action in
             self.goToSettings()
         }))
-        self.presentViewController(alertController, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func goToSettings() {
@@ -183,7 +183,7 @@ extension LoginViewController {
     
     func onLogin() {
         // username or password fields empty
-        if self.usernameTextField.text == "" || self.passwordTextField.text == "" {
+        if usernameTextField.text == "" || passwordTextField.text == "" {
             promptAlertWith("Please enter both your username and password", style: .Cancel)
             return
         }
@@ -220,7 +220,7 @@ extension LoginViewController {
         else {
             print("General location services are not enabled")
             
-            self.promptDisabledSettingsAlert(settingsMessage)
+            promptDisabledSettingsAlert(settingsMessage)
             
             return false
         }
@@ -228,7 +228,7 @@ extension LoginViewController {
         if let settings = UIApplication.sharedApplication().currentUserNotificationSettings() {
             if settings.types.contains([.Alert, .Sound]) == false {
                 // Don't have alert and sound permissions
-                self.promptDisabledSettingsAlert(settingsMessage)
+                promptDisabledSettingsAlert(settingsMessage)
                 
                 return false
             }
@@ -239,12 +239,12 @@ extension LoginViewController {
     
 //MARK: UITextfieldDelegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.usernameTextField.resignFirstResponder()
-        self.passwordTextField.resignFirstResponder()
+        usernameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
         return true;
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.view.endEditing(true)
+        view.endEditing(true)
     }
 }

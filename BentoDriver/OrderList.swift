@@ -75,21 +75,21 @@ extension OrderList {
         
         if afterId == "" { // null
             // add to last index of array
-            self.orderArray.append(orderToReprioritize)
+            orderArray.append(orderToReprioritize)
         }
         else {
             // loop through order list
-            let initialCount = self.orderArray.count
+            let initialCount = orderArray.count
             for var i = 0; i < initialCount; i++ {
                 
-                print("id in array: \(self.orderArray[i].id)")
+                print("id in array: \(orderArray[i].id)")
                 print("after id: \(afterId)")
                 
                 // search for the order id that matches with "after: id" (insertBeforeOrderId)
-                if self.orderArray[i].id == afterId {
+                if orderArray[i].id == afterId {
                     
                     // reinsert reprioritize order in front of insertBeforeOrderId
-                    self.orderArray.insert(orderToReprioritize, atIndex: i)
+                    orderArray.insert(orderToReprioritize, atIndex: i)
                     break
                 }
             }

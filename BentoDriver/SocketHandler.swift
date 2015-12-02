@@ -60,20 +60,20 @@ extension SocketHandler {
         
         tryToConnect = true // ok to show timeout "failed to connect" message
         
-        self.showHUD()
+        showHUD()
 
         // close and remove any preexisting handlers before trying to connect
-        self.socket.disconnect()
-        self.socket.removeAllHandlers()
+        socket.disconnect()
+        socket.removeAllHandlers()
         
         // connect
-        self.connectUser(username, password: password)
+        connectUser(username, password: password)
     }
     
 //MARK: Connect
     func connectUser(username: String, password: String) {
         // 1) connect
-        self.socket.on("connect") {data, ack in
+        socket.on("connect") {data, ack in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegate.socketHandlerDidConnect!()
                 print("socket did connect")
@@ -106,7 +106,7 @@ extension SocketHandler {
     func authenticateUser(username: String, password: String) {
         
         // authenticate and get token
-        self.socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) { data in
+        socket.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) { data in
             
             // check data for type String, then cast as String if exists
             if let jsonString = data[0] as? String {
@@ -187,7 +187,7 @@ extension SocketHandler {
 //MARK: Listen To
     func listenToPushChannel() {
         
-        self.socket.on("push", callback: { (data, ack) -> Void in
+        socket.on("push", callback: { (data, ack) -> Void in
             
             // check data for type String, then cast as String if exists
             if let jsonStr = data[0] as? String {
@@ -247,13 +247,13 @@ extension SocketHandler {
 //MARK: Disconnect
     func closeSocket(lostConnection: Bool) {
         
-        self.tryToConnect = false // prevent timeout "failed to connect" message
+        tryToConnect = false // prevent timeout "failed to connect" message
         
-        self.socket.disconnect()
-        self.socket.removeAllHandlers()
+        socket.disconnect()
+        socket.removeAllHandlers()
         
         // stop timer to stop emiting location
-        self.emitLocationTimer?.invalidate()
+        emitLocationTimer?.invalidate()
         
         // don't trigger delegate method is lostConnection is true (ie. triggered by disconnected internet connection)
         if lostConnection == false {
@@ -263,7 +263,7 @@ extension SocketHandler {
             // logout user
             User.currentUser.logout()
             
-            self.delegate.socketHandlerDidDisconnect!()
+            delegate.socketHandlerDidDisconnect!()
         }
         
         print("socket closed")

@@ -438,7 +438,6 @@
 				FC1594351BC89C3C00F532BD /* User.swift */,
 				FCA840561BD83E5D00B67416 /* OrderList.swift */,
 				FC1594331BC89C2600F532BD /* SocketHandler.swift */,
-				FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */,
 				FC6FEC9E1BD2CC8700C7F95A /* Order */,
 				FC6FEC9F1BD2CCB700C7F95A /* Push */,
 			);
@@ -492,6 +491,7 @@
 			isa = PBXGroup;
 			children = (
 				FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */,
+				FCEDDE941C0CF45300A7B2A3 /* SessionDelegate.swift */,
 			);
 			name = "Reusable Elements";
 			sourceTree = "<group>";

@@ -25,46 +25,44 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
 
 //MARK: Navigation Bar
-        self.view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
-        self.title = "Tasks"
-        self.navigationController?.navigationBar.barTintColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
-        self.navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "OpenSans-Bold", size: 17)!]
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
-        self.navigationController?.navigationBar.tintColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+        title = "Tasks"
+        navigationController?.navigationBar.barTintColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
+        navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "OpenSans-Bold", size: 17)!]
+        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
-//MARK: Bar Item
-//        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: navigationController, action: nil)
-//        navigationItem.leftBarButtonItem = backButton
-        
-        let settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+//MARK: Settings
+        let settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
         settingsButton.setImage(UIImage(named: "settings-100"), forState: UIControlState.Normal)
-        settingsButton.addTarget(self.navigationController, action: Selector("onSettingsPressed"), forControlEvents:  UIControlEvents.TouchUpInside)
-        let item = UIBarButtonItem(customView: settingsButton)
-        navigationItem.leftBarButtonItem = item
-        
+        settingsButton.addTarget(navigationController, action: Selector("onSettingsPressed"), forControlEvents:  UIControlEvents.TouchUpInside)
+        let settingsItem = UIBarButtonItem(customView: settingsButton)
+        navigationItem.leftBarButtonItem = settingsItem
         
 //MARK: Log out
-        let logOutButton = UIBarButtonItem(title: "Log out", style: UIBarButtonItemStyle.Plain, target: self, action: "onLogout")
-        logOutButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans-SemiBold", size: 14)!], forState: .Normal)
-        navigationItem.rightBarButtonItem = logOutButton
+        let logoutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+        logoutButton.setImage(UIImage(named: "logout-100"), forState: UIControlState.Normal)
+        logoutButton.addTarget(navigationController, action: Selector("onLogout"), forControlEvents:  UIControlEvents.TouchUpInside)
+        let logoutItem = UIBarButtonItem(customView: logoutButton)
+        navigationItem.rightBarButtonItem = logoutItem
         
 //MARK: Table View
-        orderListTableView = UITableView(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
+        orderListTableView = UITableView(frame: CGRectMake(0, 0, view.bounds.size.width, view.bounds.size.height))
         orderListTableView.delegate = self
         orderListTableView.dataSource = self
         let backgroundView = UIView(frame: CGRectZero) // remove empty cells
         orderListTableView.tableFooterView = backgroundView // remove empty cells
         orderListTableView.backgroundColor = UIColor.clearColor()
         orderListTableView.separatorColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
-        self.view.addSubview(orderListTableView)
+        view.addSubview(orderListTableView)
         
 //MARK: No Tasks Label
-        noTasksLabel = UILabel(frame: CGRectMake(self.view.frame.width/2 - 50, self.view.frame.height/2 - 10, 100, 20))
+        noTasksLabel = UILabel(frame: CGRectMake(view.frame.width/2 - 50, view.frame.height/2 - 10, 100, 20))
         noTasksLabel.text = "No Tasks"
         noTasksLabel.textAlignment = .Center
         noTasksLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
-        self.view.addSubview(noTasksLabel)
+        view.addSubview(noTasksLabel)
         
 //MARK: Pull Orders
         OrderList.sharedInstance.pullOrders { (result) -> Void in
@@ -86,7 +84,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 
 //MARK: Log Out
     func onLogout() {
-        self.promptLogoutConfirmationAlert()
+        promptLogoutConfirmationAlert()
     }
     
     func promptLogoutConfirmationAlert() {
@@ -105,7 +103,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
 //MARK: Table View Datasource
@@ -167,7 +165,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         orderDetailViewController.delegate = self
         orderDetailViewController.order = OrderList.sharedInstance.orderArray[indexPath.row]
 
-        self.navigationController?.pushViewController(orderDetailViewController, animated: true)
+        navigationController?.pushViewController(orderDetailViewController, animated: true)
     }
     
 //MARK: SocketHandlerDelegate
@@ -199,7 +197,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func socketHandlerDidDisconnect() {
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
@@ -270,23 +268,23 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
 //        SocketHandler.sharedSocket.promptLocalNotification("reprioritized")
-//        self.taskHasBeenAssignedOrUnassigned("A task has been reprioritized!")
-//        self.updateUI()
+//        taskHasBeenAssignedOrUnassigned("A task has been reprioritized!")
+//        updateUI()
     }
     
 //MARK: OrderDetailViewControllerDelegate
     func didRejectOrder(orderId: String) {
-        self.changeOrderStatus(orderId, status: .Rejected)
+        changeOrderStatus(orderId, status: .Rejected)
         updateUI()
     }
     
     func didAcceptOrder(orderId: String) {
-        self.changeOrderStatus(orderId, status: .Accepted)
+        changeOrderStatus(orderId, status: .Accepted)
         updateUI()
     }
     
     func didCompleteOrder(orderId: String) {
-        self.removeOrder(orderId)
+        removeOrder(orderId)
         updateUI()
     }
     
@@ -324,17 +322,17 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Update UI
     func showOrHideNoTasksLabel() {
         if OrderList.sharedInstance.orderArray.count == 0 {
-            self.noTasksLabel.hidden = false
+            noTasksLabel.hidden = false
         }
         else {
-            self.noTasksLabel.hidden = true
+            noTasksLabel.hidden = true
         }
     }
     
     func updateUI() {
-        self.showOrHideNoTasksLabel()
-//        self.sortList()
-        self.orderListTableView.reloadData()
+        showOrHideNoTasksLabel()
+//        sortList()
+        orderListTableView.reloadData()
     }
     
 //    func sortList() {
@@ -361,7 +359,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //        
 //        OrderList.sharedInstance.orderArray = acceptedList + pendingList + rejectedList
         
-//        self.orderListTableView.reloadData()
+//        orderListTableView.reloadData()
 //    }
     
 //MARK: Go To Accepted Task
@@ -371,7 +369,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         orderDetailViewController.delegate = self
         orderDetailViewController.order = orderInSession
         
-        self.navigationController?.pushViewController(orderDetailViewController, animated: true)
+        navigationController?.pushViewController(orderDetailViewController, animated: true)
     }
     
 //MARK: HUD

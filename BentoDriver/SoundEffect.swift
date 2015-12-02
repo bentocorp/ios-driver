@@ -23,7 +23,7 @@ extension SoundEffect {
         // play audio
         do {
             let sound = try AVAudioPlayer(contentsOfURL: soundURL)
-            self.audioPlayer = sound
+            audioPlayer = sound
             sound.play()
         } catch {
             // couldn't load file, handle error

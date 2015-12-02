@@ -17,7 +17,7 @@ public class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
     init(phoneString: String) {
         // get only digits from phone string
         let phoneArray =  phoneString.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
-        self.phoneDigitsString = phoneArray.joinWithSeparator("")
+        phoneDigitsString = phoneArray.joinWithSeparator("")
         textMessageRecipients = ["\(phoneDigitsString)"]
     }
     
@@ -28,7 +28,7 @@ public class MessageComposer: NSObject, MFMessageComposeViewControllerDelegate {
     public func configuredMessageComposeViewController() -> MFMessageComposeViewController {
         let messageController = MFMessageComposeViewController()
         messageController.messageComposeDelegate = self
-        messageController.recipients = ["\(self.phoneDigitsString)"]
+        messageController.recipients = ["\(phoneDigitsString)"]
 //        messageController.body = ""
         
         return messageController

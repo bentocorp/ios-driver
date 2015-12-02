@@ -38,10 +38,10 @@ public class OrderAction {
     public var driverId: Int?
     
     init(bodyJSON: JSON) {
-        self.order = Order(json: bodyJSON["order"])
-        self.type = PushType.pushTypeFromString(bodyJSON["type"].stringValue)
-        self.after = bodyJSON["after"].stringValue
-        self.driverId = bodyJSON["driverId"].intValue
+        order = Order(json: bodyJSON["order"])
+        type = PushType.pushTypeFromString(bodyJSON["type"].stringValue)
+        after = bodyJSON["after"].stringValue
+        driverId = bodyJSON["driverId"].intValue
     }
 }
 

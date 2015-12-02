@@ -53,36 +53,36 @@ public class Order: NSObject {
     public var orderString: String
     
     init(json: JSON) {
-        self.driverId = json["driverId"].intValue
-        self.id = json["id"].stringValue
-        self.name = json["name"].stringValue
-        self.phone = json["phone"].stringValue
+        driverId = json["driverId"].intValue
+        id = json["id"].stringValue
+        name = json["name"].stringValue
+        phone = json["phone"].stringValue
         
         // address
         var address = json["address"]
-        self.street = address["street"].stringValue
-        self.residence = address["residence"].stringValue
-        self.city = address["city"].stringValue
-        self.region = address["region"].stringValue
-        self.zipCode = address["zipCode"].stringValue
-        self.country = address["country"].stringValue
-        self.coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
+        street = address["street"].stringValue
+        residence = address["residence"].stringValue
+        city = address["city"].stringValue
+        region = address["region"].stringValue
+        zipCode = address["zipCode"].stringValue
+        country = address["country"].stringValue
+        coordinates = CLLocationCoordinate2DMake(address["lat"].doubleValue, address["lng"].doubleValue)
         
-        self.status = OrderStatus.statusFromString(json["status"].stringValue)
+        status = OrderStatus.statusFromString(json["status"].stringValue)
         
         // check first letter in Order.id
-        let firstCharInString = self.id[self.id.startIndex]
+        let firstCharInString = id[id.startIndex]
         
         if firstCharInString == "o" {
             for items in json["item"].arrayValue {
-                self.itemArray.append(BentoBox(json: items))
+                itemArray.append(BentoBox(json: items))
             }
         }
         else if firstCharInString == "g" {
-            self.itemString = json["item"].stringValue
+            itemString = json["item"].stringValue
         }
         
-        self.orderString = json["orderString"].stringValue
+        orderString = json["orderString"].stringValue
 
     }
 }

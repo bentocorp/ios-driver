@@ -29,9 +29,9 @@ extension User {
     }
     
     public func logout() {
-        self.username = nil
-        self.password = nil
-        self.token = nil
+        username = nil
+        password = nil
+        token = nil
     }
     
     public func isLoggedIn() -> Bool {

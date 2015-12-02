@@ -22,17 +22,17 @@ public class Push {
     public var bodyString: String?
     
     init(json: JSON) {
-        self.rid = json["rid"].stringValue
-        self.from = json["from"].stringValue
-        self.to = json["to"].stringValue
-        self.subject = json["subject"].stringValue
-        self.createdAt = json["timeStamp"].stringValue
+        rid = json["rid"].stringValue
+        from = json["from"].stringValue
+        to = json["to"].stringValue
+        subject = json["subject"].stringValue
+        createdAt = json["timeStamp"].stringValue
         
-        if self.subject == "order_action" {
-            self.bodyOrderAction = OrderAction(bodyJSON: json["body"])
+        if subject == "order_action" {
+            bodyOrderAction = OrderAction(bodyJSON: json["body"])
         }
         else {
-            self.bodyString = json["body"]["order"].stringValue
+            bodyString = json["body"]["order"].stringValue
         }
     }
 }

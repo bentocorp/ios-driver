@@ -34,9 +34,9 @@ public class DishInfo {
     public var type: Type?
     
     init (json: JSON) {
-        self.id = json["id"].intValue
-        self.label = json["label"].stringValue
-        self.name = json["name"].stringValue
-        self.type = Type.typeFromString(json["type"].stringValue)
+        id = json["id"].intValue
+        label = json["label"].stringValue
+        name = json["name"].stringValue
+        type = Type.typeFromString(json["type"].stringValue)
     }
 }
