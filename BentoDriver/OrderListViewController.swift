@@ -35,14 +35,16 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Settings
         let settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
         settingsButton.setImage(UIImage(named: "settings-100"), forState: UIControlState.Normal)
-        settingsButton.addTarget(navigationController, action: Selector("onSettingsPressed"), forControlEvents:  UIControlEvents.TouchUpInside)
+        settingsButton.addTarget(navigationController?.topViewController, action: Selector("onSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
+        
         let settingsItem = UIBarButtonItem(customView: settingsButton)
         navigationItem.leftBarButtonItem = settingsItem
         
 //MARK: Log out
         let logoutButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
-        logoutButton.setImage(UIImage(named: "logout-100"), forState: UIControlState.Normal)
-        logoutButton.addTarget(navigationController, action: Selector("onLogout"), forControlEvents:  UIControlEvents.TouchUpInside)
+        logoutButton.setImage(UIImage(named: "exit-100"), forState: UIControlState.Normal)
+        logoutButton.addTarget(navigationController?.topViewController, action: Selector("onLogout"), forControlEvents:  UIControlEvents.TouchUpInside)
+        
         let logoutItem = UIBarButtonItem(customView: logoutButton)
         navigationItem.rightBarButtonItem = logoutItem
         
@@ -104,6 +106,54 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
         
         presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+//MARK: Settings
+    func onSettings() {
+        let alertController = UIAlertController(title: "Map Preference", message: "", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Apple Maps", style: .Default, handler: { action in
+            self.setAppleMaps()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
+            self.setGoogleMaps()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
+            self.setWaze()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+//MARK: Set Map Preference
+    func setAppleMaps() {
+        NSUserDefaults.standardUserDefaults().setObject("apple", forKey: "map")
+    }
+    
+    func setGoogleMaps() {
+        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
+            
+            NSUserDefaults.standardUserDefaults().setObject("google", forKey: "map")
+        }
+        else {
+            // Google Maps is not installed. Launch AppStore to install Google Map
+            UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/google-maps/id585027354?mt=8")!)
+        }
+    }
+    
+    func setWaze() {
+        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
+            
+            NSUserDefaults.standardUserDefaults().setObject("waze", forKey: "map")
+        }
+        else {
+            // Waze is not installed. Launch AppStore to install Waze
+            UIApplication.sharedApplication().openURL(NSURL(string: "http://itunes.apple.com/us/app/id323229106")!)
+        }
     }
     
 //MARK: Table View Datasource
