@@ -25,7 +25,8 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>waze</string>
-        <string>comgooglemaps</string>
+		<string>maps.apple.com</string>
+		<string>comgooglemaps</string>
 		<string>tel</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>

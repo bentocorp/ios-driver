@@ -283,45 +283,68 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         return cell!
     }
     
+    //MARK: Map URL
+    func getMapURL(currentMapSetting: String, spaceFiller: String) -> NSURL {
+        
+        // filter out diacritics (symbols above letters)
+        let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+        let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
+        
+        // street
+        let streetArray = streetString.componentsSeparatedByString(" ")
+        var newStreetArray: [String] = []
+        for var i = 0; i < streetArray.count; i++ {
+            newStreetArray.append("\(streetArray[i])\(spaceFiller)")
+        }
+        let newStreetString = newStreetArray.joinWithSeparator("")
+        
+        // city
+        let cityArray = cityString.componentsSeparatedByString(" ")
+        var newCityArray: [String] = []
+        for var k = 0; k < cityArray.count; k++ {
+            if cityArray[k] != cityArray[cityArray.count-1] {
+                newCityArray.append("\(cityArray[k])\(spaceFiller)")
+            }
+            else {
+                newCityArray.append("\(cityArray[k])") // don't add %20 at the end
+            }
+        }
+        let newCityString = newCityArray.joinWithSeparator("")
+        
+        let addressForSchemeString = "\(newStreetString)\(newCityString)"
+        
+        switch currentMapSetting {
+        case "Apple Maps":
+            return NSURL(string: "http://maps.apple.com/?saddr=&daddr=\(addressForSchemeString)")!
+        case "Google Maps":
+            return NSURL(string: "comgooglemaps://?saddr=&daddr=\(addressForSchemeString)&directionsmode=driving")!
+        default: ()
+        }
+        
+        return NSURL(string: "waze://?q=\(addressForSchemeString)")! // "%20"
+    }
+    
 //MARK: On Location, Phone, and Text
     func onLocation() {
         let alertController = UIAlertController(title: "Address", message: "\(order.street)\n\(order.city), \(order.region)", preferredStyle: .Alert)
         
         alertController.addAction(UIAlertAction(title: "Let's go!", style: .Default, handler: { action in
             
-            // filter out diacritics (symbols above letters)
-            let streetString = self.order.street.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
-            let cityString = self.order.city.stringByFoldingWithOptions(.DiacriticInsensitiveSearch, locale: NSLocale.currentLocale())
-            
-            // street
-            let streetArray = streetString.componentsSeparatedByString(" ")
-            var newStreetArray: [String] = []
-            for var i = 0; i < streetArray.count; i++ {
-                newStreetArray.append("\(streetArray[i])%20")
-            }
-            let newStreetString = newStreetArray.joinWithSeparator("")
-            
-            // city
-            let cityArray = cityString.componentsSeparatedByString(" ")
-            var newCityArray: [String] = []
-            for var k = 0; k < cityArray.count; k++ {
-                if cityArray[k] != cityArray[cityArray.count-1] {
-                    newCityArray.append("\(cityArray[k])%20")
+            if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String {
+                
+                var url: NSURL!
+                
+                switch currentMapSetting {
+                case "Waze":
+                    url = self.getMapURL(currentMapSetting, spaceFiller: "%20")
+                default:
+                    // apple maps and google maps have same spaceFiller
+                    url = self.getMapURL(currentMapSetting, spaceFiller: "+")
                 }
-                else {
-                    newCityArray.append("\(cityArray[k])") // don't add %20 at the end
+                
+                if UIApplication.sharedApplication().canOpenURL(url!) == true {
+                    UIApplication.sharedApplication().openURL(url!)
                 }
-            }
-            let newCityString = newCityArray.joinWithSeparator("")
-            
-            // open waze with URL scheme
-            let addressForWazeSchemeString = "\(newStreetString)\(newCityString)"
-            let url  = NSURL(string: "waze://?q=\(addressForWazeSchemeString)");
-            
-//            let url = NSURL(string: "waze://?ll=\(self.order.coordinates.latitude),\(self.order.coordinates.longitude)&navigate=yes")
-            
-            if UIApplication.sharedApplication().canOpenURL(url!) == true {
-                UIApplication.sharedApplication().openURL(url!)
             }
         }))
         

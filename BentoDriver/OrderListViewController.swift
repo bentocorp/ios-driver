@@ -38,11 +38,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         navigationController?.navigationBar.tintColor = UIColor.whiteColor()
         
 //MARK: Settings
-        let settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
-        settingsButton.setImage(UIImage(named: "map-100"), forState: UIControlState.Normal)
-        settingsButton.addTarget(navigationController?.topViewController, action: Selector("onSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
+        let mapSettingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
+        mapSettingsButton.setImage(UIImage(named: "map-100"), forState: UIControlState.Normal)
+        mapSettingsButton.addTarget(navigationController?.topViewController, action: Selector("onMapSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
         
-        let settingsItem = UIBarButtonItem(customView: settingsButton)
+        let settingsItem = UIBarButtonItem(customView: mapSettingsButton)
         navigationItem.leftBarButtonItem = settingsItem
         
 //MARK: Log out
@@ -114,9 +114,9 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: Settings
-    func onSettings() {
+    func onMapSettings() {
         
-        if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") {
+        if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String {
             
             let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting)", preferredStyle: .Alert)
             
