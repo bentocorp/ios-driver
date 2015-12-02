@@ -39,7 +39,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
 //MARK: Settings
         let settingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
-        settingsButton.setImage(UIImage(named: "settings-100"), forState: UIControlState.Normal)
+        settingsButton.setImage(UIImage(named: "map-100"), forState: UIControlState.Normal)
         settingsButton.addTarget(navigationController?.topViewController, action: Selector("onSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
         
         let settingsItem = UIBarButtonItem(customView: settingsButton)
