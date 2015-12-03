@@ -64,6 +64,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         if self.isInForeground == true && NSUserDefaults.standardUserDefaults().boolForKey("didLoseInternetConnection") == true && NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn") == true {
             self.reconnect()
         }
+        
+        // post notification to check map settings
+        NSNotificationCenter.defaultCenter().postNotificationName("didEnterForeground", object: nil)
     }
 
     func applicationDidBecomeActive(application: UIApplication) {

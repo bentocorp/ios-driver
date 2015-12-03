@@ -22,10 +22,8 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//MARK: Default Map Setting
-        if NSUserDefaults.standardUserDefaults().objectForKey("map") == nil {
-            NSUserDefaults.standardUserDefaults().setObject("Apple Maps", forKey: "map")
-        }
+//MARK: Check/Enforce Map Preference
+        checkMapSettings()
         
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
 
@@ -40,7 +38,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Settings
         let mapSettingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
         mapSettingsButton.setImage(UIImage(named: "map-100"), forState: UIControlState.Normal)
-        mapSettingsButton.addTarget(navigationController?.topViewController, action: Selector("onMapSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
+        mapSettingsButton.addTarget(navigationController?.topViewController, action: Selector("manuallyShowMapSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
         
         let settingsItem = UIBarButtonItem(customView: mapSettingsButton)
         navigationItem.leftBarButtonItem = settingsItem
@@ -84,9 +82,16 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
+        // Add Observer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkMapSettings", name: "didEnterForeground", object: nil)
+        
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn") // TODO: consider adding to User class
         SocketHandler.sharedSocket.delegate = self
         updateUI()
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
 //MARK: Log Out
@@ -114,26 +119,60 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: Map Settings
-    func onMapSettings() {
-        
-        if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String {
-            
-            let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting)", preferredStyle: .Alert)
-            
-            alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
-                self.showHUD()
-                self.setWaze()
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
-                self.showHUD()
-                self.setGoogleMaps()
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
-            
-            presentViewController(alertController, animated: true, completion: nil)
+    func manuallyShowMapSettings() {
+        promptMapSettings(true)
+    }
+    
+    func isCurrentMapSettingStillInstalled(currentMapSetting: String) -> Bool {
+        if currentMapSetting == "Waze" {
+            if isWazeInstalled() {
+                return true
+            }
         }
+        else if currentMapSetting == "Google Maps" {
+            if isGoogleMapsInstalled() {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func promptMapSettings(isManualPrompt: Bool) {
+        
+        var currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
+        
+        if currentMapSetting != nil {
+            if isCurrentMapSettingStillInstalled(currentMapSetting!) == false {
+                currentMapSetting = "None"
+            }
+        }
+        else {
+            currentMapSetting = "None"
+        }
+        
+        let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting!)", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
+            if isManualPrompt && self.isWazeInstalled() {
+                self.showHUD()
+            }
+            self.setWaze()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
+            if isManualPrompt && self.isGoogleMapsInstalled() {
+                self.showHUD()
+            }
+            self.setGoogleMaps()
+        }))
+        
+        if isManualPrompt {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+        }
+        
+        presentViewController(alertController, animated: true, completion: nil)
+        
     }
     
 //MARK: Check Map Settings
@@ -153,8 +192,18 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         return false
     }
     
-    func isMapPreferenceInstalled() -> Bool {
-        
+    func checkMapSettings() {
+        if isWazeInstalled() {
+            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            return
+        }
+        else if isGoogleMapsInstalled() {
+            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            return
+        }
+        else {
+            promptMapSettings(false)
+        }
     }
     
 //MARK: Set Map Preference
