@@ -38,7 +38,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
 //MARK: Settings
         let mapSettingsButton = UIButton(frame: CGRect(x: 0, y: 0, width: 22, height: 22))
         mapSettingsButton.setImage(UIImage(named: "map-100"), forState: UIControlState.Normal)
-        mapSettingsButton.addTarget(navigationController?.topViewController, action: Selector("manuallyShowMapSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
+        mapSettingsButton.addTarget(navigationController?.topViewController, action: Selector("manuallyPromptMapSettings"), forControlEvents:  UIControlEvents.TouchUpInside)
         
         let settingsItem = UIBarButtonItem(customView: mapSettingsButton)
         navigationItem.leftBarButtonItem = settingsItem
@@ -119,63 +119,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: Map Settings
-    func manuallyShowMapSettings() {
-        promptMapSettings(true)
-    }
-    
-    func isCurrentMapSettingStillInstalled(currentMapSetting: String) -> Bool {
-        if currentMapSetting == "Waze" {
-            if isWazeInstalled() {
-                return true
-            }
-        }
-        else if currentMapSetting == "Google Maps" {
-            if isGoogleMapsInstalled() {
-                return true
-            }
-        }
-        
-        return false
-    }
-    
-    func promptMapSettings(isManualPrompt: Bool) {
-        
-        var currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
-        
-        if currentMapSetting != nil {
-            if isCurrentMapSettingStillInstalled(currentMapSetting!) == false {
-                currentMapSetting = "None"
-            }
-        }
-        else {
-            currentMapSetting = "None"
-        }
-        
-        let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting!)", preferredStyle: .Alert)
-        
-        alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
-            if isManualPrompt && self.isWazeInstalled() {
-                self.showHUD()
-            }
-            self.setWaze()
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
-            if isManualPrompt && self.isGoogleMapsInstalled() {
-                self.showHUD()
-            }
-            self.setGoogleMaps()
-        }))
-        
-        if isManualPrompt {
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
-        }
-        
-        presentViewController(alertController, animated: true, completion: nil)
-        
-    }
-    
-//MARK: Check Map Settings
     func isWazeInstalled() -> Bool {
         if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
             return true
@@ -193,16 +136,56 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func checkMapSettings() {
-        if isWazeInstalled() {
+
+        let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
+        
+        if isWazeInstalled() && currentMapSetting == "Waze" {
             NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
             return
         }
-        else if isGoogleMapsInstalled() {
+        else if isGoogleMapsInstalled() && currentMapSetting == "Google Maps"{
             NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
             return
         }
         else {
+            NSUserDefaults.standardUserDefaults().setObject("None", forKey: "map")
             promptMapSettings(false)
+        }
+    }
+    
+    func manuallyPromptMapSettings() {
+        promptMapSettings(true)
+    }
+    
+    func promptMapSettings(isManualPrompt: Bool) {
+        
+        if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String {
+            
+            let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting)", preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
+                if isManualPrompt && self.isWazeInstalled() {
+                    self.showHUD()
+                }
+                self.setWaze()
+            }))
+            
+            alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
+                if isManualPrompt && self.isGoogleMapsInstalled() {
+                    self.showHUD()
+                }
+                self.setGoogleMaps()
+            }))
+            
+            if isManualPrompt {
+                alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+            }
+            
+            presentViewController(alertController, animated: true, completion: nil)
+        }
+        else {
+            // error
+            print("currentMapSetting is nil")
         }
     }
     

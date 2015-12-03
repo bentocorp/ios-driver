@@ -36,7 +36,7 @@
                   moduleName = "BentoDriver Dev"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/JosephLauSF/_github/BentoDriver/BentoDriver/OrderDetailViewController.swift"
-                  timestampString = "470793900.182879"
+                  timestampString = "470796727.609802"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "559"
@@ -51,7 +51,7 @@
                   moduleName = "BentoDriver Dev"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/JosephLauSF/_github/BentoDriver/BentoDriver/OrderDetailViewController.swift"
-                  timestampString = "470793900.183141"
+                  timestampString = "470796727.610118"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "560"
@@ -90,22 +90,6 @@
             startingLineNumber = "740"
             endingLineNumber = "740"
             landmarkName = "taskHasBeenAssignedOrUnassigned(_:taskMessage:success:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BentoDriver/OrderListViewController.swift"
-            timestampString = "470794557.507167"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "checkMapSettings()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
