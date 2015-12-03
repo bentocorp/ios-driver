@@ -46,6 +46,8 @@
 		FC9CB3391BBF4409000F4395 /* BentoDriverUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9CB3381BBF4409000F4395 /* BentoDriverUITests.swift */; };
 		FCA840541BD8177D00B67416 /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840531BD8177D00B67416 /* MessageComposer.swift */; };
 		FCA840571BD83E5D00B67416 /* OrderList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA840561BD83E5D00B67416 /* OrderList.swift */; };
+		FCA863721C0FCEDE00150A8A /* MapSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA863711C0FCEDE00150A8A /* MapSetting.swift */; };
+		FCA863731C0FCEDE00150A8A /* MapSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA863711C0FCEDE00150A8A /* MapSetting.swift */; };
 		FCE0369F1BEA9B2300F7605B /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */; };
 		FCE036A01BEA9B2300F7605B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; };
 		FCE036A11BEA9B2300F7605B /* SoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE208031BDA3BD0006D8554 /* SoundEffect.swift */; };
@@ -196,6 +198,7 @@
 		FC9CB33A1BBF4409000F4395 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FCA840531BD8177D00B67416 /* MessageComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageComposer.swift; sourceTree = "<group>"; };
 		FCA840561BD83E5D00B67416 /* OrderList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderList.swift; sourceTree = "<group>"; };
+		FCA863711C0FCEDE00150A8A /* MapSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSetting.swift; sourceTree = "<group>"; };
 		FCE036D61BEA9B2300F7605B /* BentoDriver Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BentoDriver Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCE036D71BEA9B2300F7605B /* BentoDriver Dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "BentoDriver Dev-Info.plist"; path = "/Users/JosephLauSF/_github/BentoDriver/BentoDriver Dev-Info.plist"; sourceTree = "<absolute>"; };
 		FCE207FB1BDA3B9D006D8554 /* invalid_phone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = invalid_phone.wav; sourceTree = "<group>"; };
@@ -455,6 +458,7 @@
 		FCFC93891BC731EA00DB52AC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FCA863711C0FCEDE00150A8A /* MapSetting.swift */,
 				FCA840531BD8177D00B67416 /* MessageComposer.swift */,
 				FCE208031BDA3BD0006D8554 /* SoundEffect.swift */,
 				FC80C9BA1BDDE9A800D2B68B /* Connectivity.swift */,
@@ -825,6 +829,7 @@
 				FC80C9BB1BDDE9A800D2B68B /* Connectivity.swift in Sources */,
 				FC1594361BC89C3C00F532BD /* User.swift in Sources */,
 				FC9CB3191BBF4409000F4395 /* AppDelegate.swift in Sources */,
+				FCA863721C0FCEDE00150A8A /* MapSetting.swift in Sources */,
 				FC4B5E221BD6F67E00C31620 /* ReusableStuff.swift in Sources */,
 				FCEDDE951C0CF45300A7B2A3 /* SessionDelegate.swift in Sources */,
 			);
@@ -870,6 +875,7 @@
 				FCE036B11BEA9B2300F7605B /* Connectivity.swift in Sources */,
 				FCE036B21BEA9B2300F7605B /* User.swift in Sources */,
 				FCE036B31BEA9B2300F7605B /* AppDelegate.swift in Sources */,
+				FCA863731C0FCEDE00150A8A /* MapSetting.swift in Sources */,
 				FCE036B41BEA9B2300F7605B /* ReusableStuff.swift in Sources */,
 				FCEDDE961C0CF45300A7B2A3 /* SessionDelegate.swift in Sources */,
 			);

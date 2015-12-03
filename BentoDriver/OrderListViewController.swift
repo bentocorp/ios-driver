@@ -118,32 +118,56 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-//MARK: Map Settings
-    func isWazeInstalled() -> Bool {
-        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "waze://")!) == true {
-            return true
+//MARK: Map Settings //TODO: Figure out how to put all of map settings in MapSettings.Swift
+    func promptMapSettings(isManualPrompt: Bool) {
+        let alertController = UIAlertController(title: "Map Setting", message: "Current Setting: \(MapSetting.sharedMapSetting.getCurrentMapSetting())", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
+            if isManualPrompt && MapSetting.sharedMapSetting.isWazeInstalled() {
+                self.showHUD()
+            }
+            
+            if MapSetting.sharedMapSetting.isWazeInstalled() {
+                MapSetting.sharedMapSetting.setWaze()
+                self.statusBarNotification("Waze saved!")
+                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "dismissHUD", userInfo: nil, repeats: false)
+            }
+            else {
+                MapSetting.sharedMapSetting.gotoAppStoreWaze()
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
+            if isManualPrompt && MapSetting.sharedMapSetting.isGoogleMapsInstalled() {
+                self.showHUD()
+            }
+            
+            if MapSetting.sharedMapSetting.isGoogleMapsInstalled() {
+                MapSetting.sharedMapSetting.setGoogleMaps()
+                self.statusBarNotification("Google Maps saved!")
+                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "dismissHUD", userInfo: nil, repeats: false)
+            }
+            else {
+                MapSetting.sharedMapSetting.gotoAppStoreGoogleMaps()
+            }
+        }))
+        
+        if isManualPrompt {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
         }
         
-        return false
-    }
-    
-    func isGoogleMapsInstalled() -> Bool {
-        if UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!) == true {
-            return true
-        }
-        
-        return false
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func checkMapSettings() {
-
+        
         let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
         
-        if isWazeInstalled() && currentMapSetting == "Waze" {
+        if MapSetting.sharedMapSetting.isWazeInstalled() && currentMapSetting == "Waze" {
             NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
             return
         }
-        else if isGoogleMapsInstalled() && currentMapSetting == "Google Maps"{
+        else if MapSetting.sharedMapSetting.isGoogleMapsInstalled() && currentMapSetting == "Google Maps"{
             NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
             return
         }
@@ -155,67 +179,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func manuallyPromptMapSettings() {
         promptMapSettings(true)
-    }
-    
-    func promptMapSettings(isManualPrompt: Bool) {
-        
-        if let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String {
-            
-            let alertController = UIAlertController(title: "Map Preference", message: "Current Setting: \(currentMapSetting)", preferredStyle: .Alert)
-            
-            alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
-                if isManualPrompt && self.isWazeInstalled() {
-                    self.showHUD()
-                }
-                self.setWaze()
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
-                if isManualPrompt && self.isGoogleMapsInstalled() {
-                    self.showHUD()
-                }
-                self.setGoogleMaps()
-            }))
-            
-            if isManualPrompt {
-                alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
-            }
-            
-            presentViewController(alertController, animated: true, completion: nil)
-        }
-        else {
-            // error
-            print("currentMapSetting is nil")
-        }
-    }
-    
-//MARK: Set Map Preference
-    func setWaze() {
-        if isWazeInstalled() {
-            
-            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
-            self.statusBarNotification("Waze saved!")
-        }
-        else {
-            // Waze is not installed. Launch AppStore to install Waze
-            UIApplication.sharedApplication().openURL(NSURL(string: "http://itunes.apple.com/us/app/id323229106")!)
-        }
-        
-        dismissHUD()
-    }
-    
-    func setGoogleMaps() {
-        if isGoogleMapsInstalled() {
-            
-            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
-            self.statusBarNotification("Google Maps saved!")
-        }
-        else {
-            // Google Maps is not installed. Launch AppStore to install Google Map
-            UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/google-maps/id585027354?mt=8")!)
-        }
-        
-        dismissHUD()
     }
     
 //MARK: Table View Datasource

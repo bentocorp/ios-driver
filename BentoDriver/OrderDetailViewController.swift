@@ -526,11 +526,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     // error from invalid phone
                     if msg != nil {
                     // error message
-                        self.taskHasBeenAssignedOrUnassigned("\(self.order.phone) is an invalid number", taskMessage: "", success: true)
+                        self.statusBarNotification("\(self.order.phone) is an invalid number", taskMessage: "", success: true)
                     }
                     // error from something else...ie. no internet
                     else {
-                        self.taskHasBeenAssignedOrUnassigned("Connection failed", taskMessage: "", success: false)
+                        self.statusBarNotification("Connection failed", taskMessage: "", success: false)
                     }
                     
                     // continue with order accept
@@ -657,7 +657,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
     func delayReconnectedAlert() {
         // for now, just pop back... can think of a better UX in future
-        taskHasBeenAssignedOrUnassigned("Established Connection", taskMessage: "You'll be returned to 'Tasks' page.", success: true)
+        statusBarNotification("Established Connection", taskMessage: "You'll be returned to 'Tasks' page.", success: true)
     }
     
     func socketHandlerDidFailToAuthenticate() {
@@ -676,7 +676,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func socketHandlerDidAssignOrder(assignedOrder: Order) {
 
         if assignedOrder.id == OrderList.sharedInstance.orderArray[0].id {
-            taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
+            statusBarNotification("Task switched!", taskMessage: "", success: true)
         }
         
 //        OrderList.sharedInstance.orderArray.append(assignedOrder)
@@ -688,10 +688,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 
         if isCurrentTask == true {
             if OrderList.sharedInstance.orderArray.count != 0 {
-                taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
+                statusBarNotification("Task switched!", taskMessage: "", success: true)
             }
             else {
-                taskHasBeenAssignedOrUnassigned("Task removed!", taskMessage: "", success: true)
+                statusBarNotification("Task removed!", taskMessage: "", success: true)
             }
         }
         
@@ -710,12 +710,75 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             // the first on list was reprioritized down
             (reprioritized.id != OrderList.sharedInstance.orderArray[0].id && isCurrentTask == true) {
          
-                taskHasBeenAssignedOrUnassigned("Task switched!", taskMessage: "", success: true)
+                statusBarNotification("Task switched!", taskMessage: "", success: true)
         }
+    }
+    
+    //MARK: Map Settings //TODO: Figure out how to put all of map settings in MapSettings.Swift
+    func promptMapSettings(isManualPrompt: Bool) {
+        let alertController = UIAlertController(title: "Map Setting", message: "Current Setting: \(MapSetting.sharedMapSetting.getCurrentMapSetting())", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Waze", style: .Default, handler: { action in
+            if isManualPrompt && MapSetting.sharedMapSetting.isWazeInstalled() {
+                self.showHUD()
+            }
+            
+            if MapSetting.sharedMapSetting.isWazeInstalled() {
+                MapSetting.sharedMapSetting.setWaze()
+                self.statusBarNotification("Waze saved!", taskMessage: "", success: true)
+                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "dismissHUD", userInfo: nil, repeats: false)
+            }
+            else {
+                MapSetting.sharedMapSetting.gotoAppStoreWaze()
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Google Maps", style: .Default, handler: { action in
+            if isManualPrompt && MapSetting.sharedMapSetting.isGoogleMapsInstalled() {
+                self.showHUD()
+            }
+            
+            if MapSetting.sharedMapSetting.isGoogleMapsInstalled() {
+                MapSetting.sharedMapSetting.setGoogleMaps()
+                self.statusBarNotification("Google Maps saved!", taskMessage: "", success: true)
+                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "dismissHUD", userInfo: nil, repeats: false)
+            }
+            else {
+                MapSetting.sharedMapSetting.gotoAppStoreGoogleMaps()
+            }
+        }))
+        
+        if isManualPrompt {
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
+        }
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func checkMapSettings() {
+        
+        let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
+        
+        if MapSetting.sharedMapSetting.isWazeInstalled() && currentMapSetting == "Waze" {
+            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            return
+        }
+        else if MapSetting.sharedMapSetting.isGoogleMapsInstalled() && currentMapSetting == "Google Maps"{
+            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            return
+        }
+        else {
+            NSUserDefaults.standardUserDefaults().setObject("None", forKey: "map")
+            promptMapSettings(false)
+        }
+    }
+    
+    func manuallyPromptMapSettings() {
+        promptMapSettings(true)
     }
 
 //MARK: Status Bar Notification
-    func taskHasBeenAssignedOrUnassigned(taskTitle: String, taskMessage: String, success: Bool) {
+    func statusBarNotification(taskTitle: String, taskMessage: String, success: Bool) {
         
         let alertController = UIAlertController(title: taskTitle, message: taskMessage, preferredStyle: .Alert)
         
@@ -736,10 +799,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         else {
             doesTaskRequireAction = false
-            
-            // assigned
-//            SocketHandler.sharedSocket.promptLocalNotification("assigned")
-//            SoundEffect.sharedPlayer.playSound("new_task")
             
             // status bar notification
             notification.notificationStyle = .NavigationBarNotification
