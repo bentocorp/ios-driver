@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import Foundation
+import PKHUD
 
 @UIApplicationMain
 
@@ -124,7 +125,6 @@ extension AppDelegate {
             self.reachability = try Reachability.reachabilityForInternetConnection()
         } catch {
             print("Unable to create Reachability")
-//            return
         }
         
         self.reachability.whenReachable = { reachability in
@@ -145,18 +145,7 @@ extension AppDelegate {
                 print("Not reachable")
                 
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: "didLoseInternetConnection")
-                
-                // TODO: should probably put this is a new class
-                let notification = CWStatusBarNotification()
-                notification.notificationStyle = .NavigationBarNotification
-                notification.notificationAnimationInStyle = .Left
-                notification.notificationAnimationOutStyle = .Right
-                notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-                notification.notificationLabelTextColor = UIColor.whiteColor()
-                notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c red */
-                notification.displayNotificationWithMessage("Lost Connection", forDuration: 2.0)
-                
-                SocketHandler.sharedSocket.closeSocket(true) // to prevent multi handlers when reconnected to internet
+                self.disconnect()
             }
         }
         
@@ -167,8 +156,23 @@ extension AppDelegate {
         }
     }
     
-    func reconnect() {
+    func disconnect() {
         // TODO: should probably put this is a new class
+        let notification = CWStatusBarNotification()
+        notification.notificationStyle = .NavigationBarNotification
+        notification.notificationAnimationInStyle = .Left
+        notification.notificationAnimationOutStyle = .Right
+        notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
+        notification.notificationLabelTextColor = UIColor.whiteColor()
+        notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c red */
+        notification.displayNotificationWithMessage("Lost Connection", forDuration: 2.0)
+        
+        showHUD()
+        
+        SocketHandler.sharedSocket.closeSocket(true) // to prevent multi handlers when reconnected to internet
+    }
+    
+    func reconnect() {
         let notification = CWStatusBarNotification()
         notification.notificationStyle = .NavigationBarNotification
         notification.notificationAnimationInStyle = .Left
@@ -201,6 +205,20 @@ extension AppDelegate {
             
             print("Reachable via Cellular")
         }
+        
+        dismissHUD()
+    }
+    
+    func showHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        PKHUD.sharedHUD.dimsBackground = true
+        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
+        PKHUD.sharedHUD.show()
+    }
+    
+    func dismissHUD() {
+        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
+        PKHUD.sharedHUD.hide(afterDelay: 1)
     }
 }
 

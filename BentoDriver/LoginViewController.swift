@@ -194,6 +194,8 @@ extension LoginViewController {
         
         if Connectivity.isConnectedToNetwork() == true {
             print("is connected to internet")
+            
+
         }
         else {
             print("is not connected to internet")
