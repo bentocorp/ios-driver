@@ -760,15 +760,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
         
         if MapSetting.sharedMapSetting.isWazeInstalled() && currentMapSetting == "Waze" {
-            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            MapSetting.sharedMapSetting.setWaze()
             return
         }
         else if MapSetting.sharedMapSetting.isGoogleMapsInstalled() && currentMapSetting == "Google Maps"{
-            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            MapSetting.sharedMapSetting.setGoogleMaps()
             return
         }
         else {
-            NSUserDefaults.standardUserDefaults().setObject("None", forKey: "map")
+            MapSetting.sharedMapSetting.setToNone()
             promptMapSettings(false)
         }
     }

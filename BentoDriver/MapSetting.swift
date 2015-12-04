@@ -36,6 +36,10 @@ public class MapSetting {
         NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
     }
     
+    public func setToNone() {
+        NSUserDefaults.standardUserDefaults().setObject("None", forKey: "map")
+    }
+    
     public func getCurrentMapSetting() -> String {
         let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
         

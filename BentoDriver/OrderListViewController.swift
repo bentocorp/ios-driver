@@ -164,16 +164,26 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         let currentMapSetting = NSUserDefaults.standardUserDefaults().objectForKey("map") as? String
         
         if MapSetting.sharedMapSetting.isWazeInstalled() && currentMapSetting == "Waze" {
-            NSUserDefaults.standardUserDefaults().setObject("Waze", forKey: "map")
+            MapSetting.sharedMapSetting.setWaze()
             return
         }
         else if MapSetting.sharedMapSetting.isGoogleMapsInstalled() && currentMapSetting == "Google Maps"{
-            NSUserDefaults.standardUserDefaults().setObject("Google Maps", forKey: "map")
+            MapSetting.sharedMapSetting.setGoogleMaps()
             return
         }
         else {
-            NSUserDefaults.standardUserDefaults().setObject("None", forKey: "map")
-            promptMapSettings(false)
+            if MapSetting.sharedMapSetting.isWazeInstalled() {
+                MapSetting.sharedMapSetting.setWaze()
+                return
+            }
+            else if MapSetting.sharedMapSetting.isGoogleMapsInstalled() {
+                MapSetting.sharedMapSetting.setGoogleMaps()
+                return
+            }
+            else {
+                MapSetting.sharedMapSetting.setToNone()
+                promptMapSettings(false)
+            }
         }
     }
     
