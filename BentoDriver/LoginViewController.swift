@@ -25,6 +25,19 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             print("prod build")
         #endif
         
+//        let alertController = UIAlertController(title: "Update Available", message: "Please update to the new version now", preferredStyle: .Alert)
+//        
+//        alertController.addAction(UIAlertAction(title: "Update", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
+//            
+//            let webpage = "https://s3-us-west-1.amazonaws.com/bentonow-assets/ios_driver_app/driver.html"
+//            
+//            if UIApplication.sharedApplication().canOpenURL(NSURL(string: webpage)!) == true {
+//                UIApplication.sharedApplication().openURL(NSURL(string: webpage)!)
+//            }
+//        }))
+//        
+//        presentViewController(alertController, animated: true, completion: nil)
+        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
         

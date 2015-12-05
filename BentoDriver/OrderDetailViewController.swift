@@ -406,16 +406,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         if let action = sender.titleLabel?.text {
             let actionLowercaseString = action.lowercaseString
             
-            // tapped on accepted
-            if actionLowercaseString == "accept" {
-                // there's already an accepted order
-                if isThereAlreadyAnAcceptedOrder() == true {
-                    showHoldYourHorsesAlert()
-                    return
-                }
-            }
-            
-            // no order has already been accepted, continue down...
+//            // tapped on accepted
+//            if actionLowercaseString == "accept" {
+//                // there's already an accepted order
+//                if isThereAlreadyAnAcceptedOrder() == true {
+//                    showHoldYourHorsesAlert()
+//                    return
+//                }
+//            }
+//            
+//          // no order has already been accepted, continue down...
             
             // tapped on arrive
             if actionLowercaseString == "arrived" {
@@ -442,26 +442,26 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         return false
     }
     
-    func showHoldYourHorsesAlert() {
-        SoundEffect.sharedPlayer.playSound("horses")
-        
-        // prevent accepting
-        let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. You must finish that first before accepting a new task.", preferredStyle: .Alert)
-        
-        // action 1
-        alertController.addAction(UIAlertAction(title: "Go to task", style: .Default, handler: { action in
-            
-            self.navigationController?.popViewControllerAnimated(true)
-            
-            self.delegate?.didTapOnGoToAcceptedTask!(OrderList.sharedInstance.orderArray[self.indexOfOrderThatHasAlreadyBeenAccepted!])
-        }))
-        
-        // action 2
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-        
-        // show alert
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
+//    func showHoldYourHorsesAlert() {
+//        SoundEffect.sharedPlayer.playSound("horses")
+//        
+//        // prevent accepting
+//        let alertController = UIAlertController(title: "Hold your horses!", message: "You already have a task in session. You must finish that first before accepting a new task.", preferredStyle: .Alert)
+//        
+//        // action 1
+//        alertController.addAction(UIAlertAction(title: "Go to task", style: .Default, handler: { action in
+//            
+//            self.navigationController?.popViewControllerAnimated(true)
+//            
+//            self.delegate?.didTapOnGoToAcceptedTask!(OrderList.sharedInstance.orderArray[self.indexOfOrderThatHasAlreadyBeenAccepted!])
+//        }))
+//        
+//        // action 2
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+//        
+//        // show alert
+//        self.presentViewController(alertController, animated: true, completion: nil)
+//    }
     
     func showActionConfirmationAlert(actionString: String) {
         let alertController = UIAlertController(title: "\(actionString.firstCharacterUpperCase()) Task?", message: "Are you sure you want to \(actionString) task?", preferredStyle: .Alert)
