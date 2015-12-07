@@ -53,7 +53,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         view.backgroundColor = UIColor(red: 0.0392, green: 0.1373, blue: 0.1765, alpha: 1.0) /* #0a232d */
 
 //MARK: API & Parameters
-        api = SocketHandler.sharedSocket.getHoustonAPI()
+        api = "\(SocketHandler.sharedSocket.getHoustonAPI())/api"
         parameters = ["token": User.currentUser.token!, "orderId": self.order.id]
         
 //MARK: Socket Handler

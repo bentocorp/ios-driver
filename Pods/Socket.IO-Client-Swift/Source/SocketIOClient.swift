@@ -30,6 +30,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
     public private(set) var engine: SocketEngineSpec?
     public private(set) var status = SocketIOClientStatus.NotConnected
     
+    public var forceNew = false
     public var nsp = "/"
     public var options: Set<SocketIOClientOption>
     public var reconnects = true
@@ -44,7 +45,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
     
     private var anyHandler: ((SocketAnyEvent) -> Void)?
     private var currentReconnectAttempt = 0
-    private var handlers = ContiguousArray<SocketEventHandler>()
+    private var handlers = [SocketEventHandler]()
     private var connectParams: [String: AnyObject]?
     private var reconnectTimer: NSTimer?
     private var ackHandlers = SocketAckManager()
@@ -88,6 +89,8 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
                 DefaultSocketLogger.Logger = logger
             case .HandleQueue(let queue):
                 handleQueue = queue
+            case .ForceNew(let force):
+                forceNew = force
             default:
                 continue
             }
@@ -153,20 +156,20 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
             assert(timeoutAfter >= 0, "Invalid timeout: \(timeoutAfter)")
             
             guard status != .Connected else {
-                return
-            }
-            
-            if status == .Closed {
-                DefaultSocketLogger.Logger.log("Warning! This socket was previously closed. This might be dangerous!",
+                DefaultSocketLogger.Logger.log("Tried connecting on an already connected socket",
                     type: logType)
-            }
-            
-            status = SocketIOClientStatus.Connecting
-            addEngine().open(connectParams)
-            
-            guard timeoutAfter != 0 else {
                 return
             }
+            
+            status = .Connecting
+            
+            if engine == nil || forceNew {
+                addEngine().open(connectParams)
+            } else {
+                engine?.open(connectParams)
+            }
+            
+            guard timeoutAfter != 0 else { return }
             
             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(timeoutAfter) * Int64(NSEC_PER_SEC))
             
@@ -288,11 +291,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
         
         DefaultSocketLogger.Logger.log("Emitting: %@", type: logType, args: str)
         
-        if packet.type == .BinaryEvent {
-            engine?.send(str, withData: packet.binary)
-        } else {
-            engine?.send(str, withData: nil)
-        }
+        engine?.send(str, withData: packet.binary)
     }
     
     // If the server wants to know that the client received data
@@ -304,12 +303,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
                 
                 DefaultSocketLogger.Logger.log("Emitting Ack: %@", type: self.logType, args: str)
                 
-                if packet.type == SocketPacket.PacketType.BinaryAck {
-                    self.engine?.send(str, withData: packet.binary)
-                } else {
-                    self.engine?.send(str, withData: nil)
-                }
-                
+                self.engine?.send(str, withData: packet.binary)
             }
         }
     }
@@ -362,7 +356,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
      */
     public func leaveNamespace() {
         if nsp != "/" {
-            engine?.send("1\(nsp)", withData: nil)
+            engine?.send("1\(nsp)", withData: [])
             nsp = "/"
         }
     }
@@ -374,7 +368,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
         DefaultSocketLogger.Logger.log("Joining namespace", type: logType)
         
         if nsp != "/" {
-            engine?.send("0\(nsp)", withData: nil)
+            engine?.send("0\(nsp)", withData: [])
         }
     }
     
@@ -392,7 +386,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
     public func off(event: String) {
         DefaultSocketLogger.Logger.log("Removing handler for event: %@", type: logType, args: event)
         
-        handlers = ContiguousArray(handlers.filter { $0.event != event })
+        handlers = handlers.filter { $0.event != event }
     }
     
     /**
@@ -415,7 +409,7 @@ public final class SocketIOClient: NSObject, SocketEngineClient {
         
         let handler = SocketEventHandler(event: event, id: id) {[weak self] data, ack in
             guard let this = self else {return}
-            this.handlers = ContiguousArray(this.handlers.filter {$0.id != id})
+            this.handlers = this.handlers.filter {$0.id != id}
             callback(data, ack)
         }
         

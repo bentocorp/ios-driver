@@ -14,33 +14,54 @@ import Alamofire_SwiftyJSON
 public class ForcedUpdate {
     static let sharedInstance = ForcedUpdate()
     
-    public func isUpToDate() -> Bool {
+    var iOSMinVersion: Double?
+    var iOSMinVersionURL: String?
+    
+    public func getForcedUpdateInfo(completion:(success: Bool) -> Void) {
         
-        var isUpToDate = true
-        
-        Alamofire.request(.GET, "\(SocketHandler.sharedSocket.getHoustonAPI())/order/getForcedUpdate")
+        Alamofire.request(.GET, "\(SocketHandler.sharedSocket.getHoustonAPI())/admin/getForcedUpdateInfo?device_id=ios")
             .responseSwiftyJSON({ (request, response, json, error) in
                 
-                let code = json["code"]
-                print("getForcedUpdate code: \(code)")
+            let code = json["code"]
+            print("getForcedUpdate code: \(code)")
+            
+            let msg = json["msg"]
+            print("getForcedUpdate msg = \(msg)")
+            
+            let ret = json["ret"]
+            print("getForcedUpdate ret: \(ret)")
+            
+            if code != 0 {
+                // error...
+                completion(success: false)
+                print("getForcedUpdateInfo fail")
+            }
+            else {
+                self.iOSMinVersion = ret["min_version"].doubleValue
+                self.iOSMinVersionURL = ret["min_version_url"].stringValue
                 
-                let msg = json["msg"]
-                print("getForcedUpdate msg = \(msg)")
-                
-                let ret = json["ret"]
-                print("getForcedUpdate ret: \(ret)")
-                
-                if code != 0 {
-                    let iOSMinVersion = ret[""].stringValue
-                    
-                    if let currentVersion = NSBundle.mainBundle().infoDictionary!["CFBundleVersion"] as? String {
-                        if currentVersion != iOSMinVersion {
-                            isUpToDate = false
-                        }
-                    }
-                }
+                completion(success: true)
+                print("getForcedUpdateInfo succees")
+            }
         })
-        
-        return isUpToDate
+    }
+    
+    public func isUpToDate() -> Bool {
+        if getCurrentiOSVersion() < getiOSMinVersion() {
+            return false
+        }
+        return true
+    }
+    
+    public func getCurrentiOSVersion() -> Double {
+        return Double(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String)!
+    }
+    
+    public func getiOSMinVersion() -> Double? {
+        return iOSMinVersion
+    }
+    
+    public func getiOSMinVersionURL() -> String? {
+        return iOSMinVersionURL
     }
 }

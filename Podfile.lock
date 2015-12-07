@@ -4,8 +4,8 @@ PODS:
   - PKHUD (2.2.5)
   - pop (1.0.8)
   - PureLayout (3.0.1)
-  - Socket.IO-Client-Swift (4.1.2)
-  - SwiftyJSON (2.3.1)
+  - Socket.IO-Client-Swift (4.1.3)
+  - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - Alamofire
@@ -31,7 +31,7 @@ SPEC CHECKSUMS:
   PKHUD: 15d9db01fb008bb9247c6d785c585f587955b113
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
-  Socket.IO-Client-Swift: e9e173cf20d6fa33c1c1c4f6354c7b168259eeb6
-  SwiftyJSON: 592b53bee5ef3dd9b3bebc6b9cb7ee35426ae8c3
+  Socket.IO-Client-Swift: 86bb1843673eafed0bd5a604f9fd131e00895d54
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.38.2

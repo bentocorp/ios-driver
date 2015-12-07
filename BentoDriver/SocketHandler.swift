@@ -49,9 +49,9 @@ extension SocketHandler {
     
     public func getHoustonAPI() -> String {
     #if DEBUG
-        return "https://houston.dev.bentonow.com:8443/api"
+        return "https://houston.dev.bentonow.com:8443"
     #else
-        return "https://houston.bentonow.com:8443/api"
+        return "https://houston.bentonow.com:8443"
     #endif
     }
     

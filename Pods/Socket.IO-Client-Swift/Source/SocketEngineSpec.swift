@@ -1,8 +1,8 @@
 //
-//  EventHandler.swift
+//  SocketEngineSpec.swift
 //  Socket.IO-Client-Swift
 //
-//  Created by Erik Little on 1/18/15.
+//  Created by Erik Little on 10/7/15.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,22 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
+//
 
 import Foundation
 
-struct SocketEventHandler {
-    let event: String
-    let id: NSUUID
-    let callback: NormalCallback
+@objc public protocol SocketEngineSpec {
+    weak var client: SocketEngineClient? {get set}
+    var cookies: [NSHTTPCookie]? {get}
+    var sid: String {get}
+    var socketPath: String {get}
+    var urlPolling: String {get}
+    var urlWebSocket: String {get}
     
-    func executeCallback(items: [AnyObject], withAck ack: Int, withSocket socket: SocketIOClient) {
-        self.callback(items, SocketAckEmitter(socket: socket, ackNum: ack))
-    }
+    init(client: SocketEngineClient, url: String, options: NSDictionary?)
+    
+    func close()
+    func open(opts: [String: AnyObject]?)
+    func send(msg: String, withData datas: [NSData])
+    func write(msg: String, withType type: SocketEnginePacketType, withData data: [NSData])
 }
