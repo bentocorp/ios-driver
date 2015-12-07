@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             self.reconnect()
         }
         
-        // post notification to check map settings
+        // let subscribers know of didEnterForeground
         NSNotificationCenter.defaultCenter().postNotificationName("didEnterForeground", object: nil)
     }
 

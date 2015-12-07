@@ -30,6 +30,8 @@
 		FC169CFD1BD49DF600D423D9 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CEB1BD49DF600D423D9 /* OpenSans-Semibold.ttf */; };
 		FC169CFE1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC169CEC1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf */; };
 		FC169CFF1BD49DF600D423D9 /* gradient-placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */; };
+		FC2B75381C126DFE00CC1EC1 /* ForcedUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2B75371C126DFE00CC1EC1 /* ForcedUpdate.swift */; };
+		FC2B75391C126DFE00CC1EC1 /* ForcedUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2B75371C126DFE00CC1EC1 /* ForcedUpdate.swift */; };
 		FC367CF21BFA716A00B7F919 /* task_switched.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC367CF11BFA716A00B7F919 /* task_switched.wav */; };
 		FC367CF31BFA716A00B7F919 /* task_switched.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC367CF11BFA716A00B7F919 /* task_switched.wav */; };
 		FC4B5E201BD6F37B00C31620 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4B5E1F1BD6F37B00C31620 /* String.swift */; };
@@ -178,6 +180,7 @@
 		FC169CEB1BD49DF600D423D9 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		FC169CEC1BD49DF600D423D9 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		FC169CED1BD49DF600D423D9 /* gradient-placeholder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gradient-placeholder2.png"; sourceTree = "<group>"; };
+		FC2B75371C126DFE00CC1EC1 /* ForcedUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForcedUpdate.swift; sourceTree = "<group>"; };
 		FC367CF11BFA716A00B7F919 /* task_switched.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = task_switched.wav; sourceTree = "<group>"; };
 		FC4B5E1F1BD6F37B00C31620 /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		FC4B5E211BD6F67E00C31620 /* ReusableStuff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableStuff.swift; sourceTree = "<group>"; };
@@ -458,6 +461,7 @@
 		FCFC93891BC731EA00DB52AC /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				FC2B75371C126DFE00CC1EC1 /* ForcedUpdate.swift */,
 				FCA863711C0FCEDE00150A8A /* MapSetting.swift */,
 				FCA840531BD8177D00B67416 /* MessageComposer.swift */,
 				FCE208031BDA3BD0006D8554 /* SoundEffect.swift */,
@@ -820,6 +824,7 @@
 				FCED93941BD19046008C17C8 /* Push.swift in Sources */,
 				FC1594401BCC5FB600F532BD /* BentoBox.swift in Sources */,
 				FC15942E1BC89BF100F532BD /* OrderListViewController.swift in Sources */,
+				FC2B75381C126DFE00CC1EC1 /* ForcedUpdate.swift in Sources */,
 				FC1594281BC89BBA00F532BD /* LoginViewController.swift in Sources */,
 				FCED93921BD174D5008C17C8 /* DishInfo.swift in Sources */,
 				FCA840541BD8177D00B67416 /* MessageComposer.swift in Sources */,
@@ -866,6 +871,7 @@
 				FCE036A71BEA9B2300F7605B /* Push.swift in Sources */,
 				FCE036A81BEA9B2300F7605B /* BentoBox.swift in Sources */,
 				FCE036A91BEA9B2300F7605B /* OrderListViewController.swift in Sources */,
+				FC2B75391C126DFE00CC1EC1 /* ForcedUpdate.swift in Sources */,
 				FCE036AA1BEA9B2300F7605B /* LoginViewController.swift in Sources */,
 				FCE036AB1BEA9B2300F7605B /* DishInfo.swift in Sources */,
 				FCE036AC1BEA9B2300F7605B /* MessageComposer.swift in Sources */,

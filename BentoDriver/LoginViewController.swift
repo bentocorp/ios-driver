@@ -25,21 +25,13 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
             print("prod build")
         #endif
         
-//        let alertController = UIAlertController(title: "Update Available", message: "Please update to the new version now", preferredStyle: .Alert)
-//        
-//        alertController.addAction(UIAlertAction(title: "Update", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
-//            
-//            let webpage = "https://s3-us-west-1.amazonaws.com/bentonow-assets/ios_driver_app/driver.html"
-//            
-//            if UIApplication.sharedApplication().canOpenURL(NSURL(string: webpage)!) == true {
-//                UIApplication.sharedApplication().openURL(NSURL(string: webpage)!)
-//            }
-//        }))
-//        
-//        presentViewController(alertController, animated: true, completion: nil)
-        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UIApplication.sharedApplication().idleTimerDisabled = false // ok to lock screen
+        
+//MARK: Forced Update
+        if ForcedUpdate.sharedInstance.isUpToDate() {
+            promptForcedUpdate()
+        }
         
 //MARK: Background Image
         let backgroundImage = UIImageView(frame: CGRectMake(0, 0, view.frame.width, view.frame.height))
@@ -109,10 +101,17 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
     }
     
     override func viewWillAppear(animated: Bool) {
+        // Add Observer
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkMapSettings", name: "didEnterForeground", object: nil)
+        
         navigationController?.navigationBarHidden = true
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
         SocketHandler.sharedSocket.delegate = self
         checkLoginInfo()
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -174,6 +173,20 @@ extension LoginViewController {
         alertController.addAction(UIAlertAction(title: "Settings", style: .Default, handler: { action in
             self.goToSettings()
         }))
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func promptForcedUpdate() {
+        let alertController = UIAlertController(title: "Update Available", message: "Please update to the new version now", preferredStyle: .Alert)
+        alertController.addAction(UIAlertAction(title: "Update", style: UIAlertActionStyle.Default, handler: { (UIAlertAction) -> Void in
+            
+            let webpage = "https://s3-us-west-1.amazonaws.com/bentonow-assets/ios_driver_app/driver.html"
+            
+            if UIApplication.sharedApplication().canOpenURL(NSURL(string: webpage)!) == true {
+                UIApplication.sharedApplication().openURL(NSURL(string: webpage)!)
+            }
+        }))
+        
         presentViewController(alertController, animated: true, completion: nil)
     }
     
