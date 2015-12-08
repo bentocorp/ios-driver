@@ -126,7 +126,11 @@ extension LoginViewController {
 //MARK: Forced Update
     func checkForcedUpdate() {
         if ForcedUpdate.sharedInstance.isUpToDate() == false {
+            print("Current version is out-of-date!")
             promptForcedUpdate()
+        }
+        else {
+            print("Current version is up-to-date!")
         }
     }
     

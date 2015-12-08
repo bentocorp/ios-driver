@@ -34,14 +34,14 @@ public class ForcedUpdate {
             if code != 0 {
                 // error...
                 completion(success: false)
-                print("getForcedUpdateInfo fail")
+                print("getForcedUpdateInfo: success = false")
             }
             else {
                 self.iOSMinVersion = ret["min_version"].doubleValue
                 self.iOSMinVersionURL = ret["min_version_url"].stringValue
                 
                 completion(success: true)
-                print("getForcedUpdateInfo succees")
+                print("getForcedUpdateInfo: success = true")
             }
         })
     }

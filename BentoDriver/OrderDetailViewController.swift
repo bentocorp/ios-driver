@@ -531,20 +531,16 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     // error from something else...ie. no internet
                     else {
                         self.statusBarNotification("Connection failed", taskMessage: "", success: false)
+                        return
                     }
                     
                     // continue with order accept
                     if task == "accept" {
                         self.delegate?.didAcceptOrder(self.order.id)
-                        
                         self.showHideButtons()
-                        
                         self.updateArrivedOrCompleteButtonState("arrived")
-                        
                         self.setArrivedWasTapped(false)
-
                         SoundEffect.sharedPlayer.playSound("lets_drive")
-                        
                         return
                     }
                     
