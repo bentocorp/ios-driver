@@ -526,7 +526,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     // error from invalid phone
                     if msg != nil {
                     // error message
-                        self.statusBarNotification("\(self.order.phone) is an invalid number", taskMessage: "", success: true)
+                        self.alertInvalidPhoneNumber()
                     }
                     // error from something else...ie. no internet
                     else {
@@ -709,8 +709,17 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 statusBarNotification("Task switched!", taskMessage: "", success: true)
         }
     }
+
+//MARK: Invalid Phone
+    func alertInvalidPhoneNumber() {
+        let alertController = UIAlertController(title: "Invalid Phone Number", message: "SMS was not sent! Please inform dispatcher.", preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: nil))
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
     
-    //MARK: Map Settings //TODO: Figure out how to put all of map settings in MapSettings.Swift
+//MARK: Map Settings //TODO: Figure out how to put all of map settings in MapSettings.Swift
     func promptMapSettings(isManualPrompt: Bool) {
         let alertController = UIAlertController(title: "Map Setting", message: "Current Setting: \(MapSetting.sharedMapSetting.getCurrentMapSetting())", preferredStyle: .Alert)
         
