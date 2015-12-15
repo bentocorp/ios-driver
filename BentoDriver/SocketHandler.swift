@@ -26,6 +26,7 @@ import PKHUD
     optional func socketHandlerDidAssignOrder(assignedOrder: Order)
     optional func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool)
     optional func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool)
+    optional func socketHandlerDidModifyOrder(modifiedOrder:Order, isCurrentTask: Bool)
 }
 
 //MARK: Properties
@@ -210,7 +211,6 @@ extension SocketHandler {
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
                             case .UNASSIGN:
-                                
                                 var isCurrentTask = false
                                 
                                 if OrderList.sharedInstance.orderArray.count != 0 {
@@ -222,7 +222,6 @@ extension SocketHandler {
                                 OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
                                 self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
                             case .REPRIORITIZE:
-                                
                                 var isCurrentTask = false
                                 
                                 if push.bodyOrderAction!.order.id == OrderList.sharedInstance.orderArray[0].id {
@@ -232,6 +231,15 @@ extension SocketHandler {
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 
                                 self.delegate.socketHandlerDidReprioritizeOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                            case .MODIFY:
+                                var isCurrentTask = false
+                                
+                                if push.bodyOrderAction!.order.id == OrderList.sharedInstance.orderArray[0].id {
+                                    isCurrentTask = true
+                                }
+                                
+                                OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
+                                
                                 
                             default: ()
                             }
