@@ -232,6 +232,7 @@ extension SocketHandler {
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 
                                 self.delegate.socketHandlerDidReprioritizeOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                
                             default: ()
                             }
                         }

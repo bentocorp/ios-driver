@@ -35,6 +35,8 @@ public class ForcedUpdate {
                 // error...
                 completion(success: false)
                 print("getForcedUpdateInfo: success = false")
+                
+                // display error description
             }
             else {
                 self.iOSMinVersion = ret["min_version"].doubleValue
@@ -42,6 +44,9 @@ public class ForcedUpdate {
                 
                 completion(success: true)
                 print("getForcedUpdateInfo: success = true")
+                
+                // if 0 but null, display an error
+                // make sure user knows that they have to tell us
             }
         })
     }

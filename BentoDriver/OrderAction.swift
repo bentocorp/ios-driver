@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 public enum PushType {
-    case CREATE, ASSIGN, REPRIORITIZE, UNASSIGN, UPDATE_STATUS
+    case CREATE, ASSIGN, REPRIORITIZE, UNASSIGN, MODIFY, UPDATE_STATUS
     
     static func pushTypeFromString(pushTypeString: String) -> PushType {
         
@@ -25,6 +25,8 @@ public enum PushType {
             return REPRIORITIZE
         case "unassign":
             return UNASSIGN
+        case "modify":
+            return MODIFY
         default:
             return UPDATE_STATUS
         }
