@@ -699,6 +699,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //        }
     }
     
+    func socketHandlerDidModifyOrder(modifiedOrder: Order, isCurrentTask: Bool) {
+        if isCurrentTask == true {
+            statusBarNotification("Task modified!", taskMessage: "", success: true)
+        }
+    }
+    
     func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool) {
         
         // reprioritized order became first on list

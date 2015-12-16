@@ -359,26 +359,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func socketHandlerDidModifyOrder(modifiedOrder: Order, isCurrentTask: Bool) {
         if isCurrentTask == true {
-            if OrderList.sharedInstance.orderArray.count != 0 {
-//                SocketHandler.sharedSocket.promptLocalNotification("switched")
-//                SoundEffect.sharedPlayer.playSound("task_switched")
-//                statusBarNotification("Task switched!")
-                updateUI()
-            }
-            else {
-//                SocketHandler.sharedSocket.promptLocalNotification("unassigned")
-//                SoundEffect.sharedPlayer.playSound("task_removed")
-//                statusBarNotification("Task removed!")
-                updateUI()
-            }
-        }
-        else {
-            if modifiedOrder.id == OrderList.sharedInstance.orderArray[0].id {
-//                SocketHandler.sharedSocket.promptLocalNotification("switched")
-//                SoundEffect.sharedPlayer.playSound("task_switched")
-//                statusBarNotification("Task switched!")
-                updateUI()
-            }
+            SocketHandler.sharedSocket.promptLocalNotification("modified")
+//            SoundEffect.sharedPlayer.playSound("task_modified")
+            statusBarNotification("Task modified!")
+            updateUI()
         }
     }
     

@@ -99,13 +99,14 @@ extension OrderList {
     public func modifyOrder(orderToModify: Order) {
         for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             if order.id == orderToModify.id {
-                orderArray.removeAtIndex(index)
                 
-                if index == 0 {
+                if orderToModify.id == orderArray[0].id {
+                    orderArray.removeAtIndex(index)
                     orderArray.insert(orderToModify, atIndex: 0)
                 }
                 else {
-                    orderArray.insert(orderToModify, atIndex: index-1)
+                    orderArray.removeAtIndex(index)
+                    orderArray.insert(orderToModify, atIndex: index)
                 }
             }
         }

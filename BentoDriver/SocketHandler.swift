@@ -237,8 +237,8 @@ extension SocketHandler {
                                     isCurrentTask = true
                                 }
                                 
-                                OrderList.sharedInstance.modifyOrder(push.bodyOrderAction!.order)
                                 self.delegate.socketHandlerDidModifyOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                OrderList.sharedInstance.modifyOrder(push.bodyOrderAction!.order)
                                 
                             default: ()
                             }
@@ -321,6 +321,8 @@ extension SocketHandler {
             localNotification.soundName = "task_removed.wav"
         case "switched":
             localNotification.soundName = "task_switched.wav"
+//        case: "modified"
+//            localNotification.soundName = ""
         default: ()
         }
         
