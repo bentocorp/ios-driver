@@ -63,7 +63,7 @@ extension OrderList {
         for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
             // once found, remove
             if order.id == orderToRemove.id {
-                OrderList.sharedInstance.orderArray.removeAtIndex(index)
+                orderArray.removeAtIndex(index)
             }
         }
     }
@@ -71,7 +71,7 @@ extension OrderList {
     public func reprioritizeOrder(orderToReprioritize: Order, afterId: String?) {
         
         // remove reproritized order...
-        self.removeOrder(orderToReprioritize)
+        removeOrder(orderToReprioritize)
         
         if afterId == "" { // null
             // add to last index of array
@@ -95,4 +95,26 @@ extension OrderList {
             }
         }
     }
+    
+    public func modifyOrder(orderToModify: Order) {
+        for (index, order) in OrderList.sharedInstance.orderArray.enumerate() {
+            if order.id == orderToModify.id {
+                orderArray.removeAtIndex(index)
+                
+                if index == 0 {
+                    orderArray.insert(orderToModify, atIndex: 0)
+                }
+                else {
+                    orderArray.insert(orderToModify, atIndex: index-1)
+                }
+            }
+        }
+    }
 }
+
+
+
+
+
+
+

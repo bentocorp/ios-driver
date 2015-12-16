@@ -152,6 +152,10 @@ extension LoginViewController {
     }
     
 //MARK: SocketHandlerDelegate Method
+    func socketHandlerDidAuthenticate() {
+        NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "presentHomepageWithDelay", userInfo: nil, repeats: false)
+    }
+    
     func socketHandlerDidConnect() {
         
     }
@@ -160,10 +164,6 @@ extension LoginViewController {
 
     }
     
-    func socketHandlerDidAuthenticate() {
-        NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "presentHomepageWithDelay", userInfo: nil, repeats: false)
-    }
-
     func socketHandlerDidFailToAuthenticate() {
 
     }
@@ -177,6 +177,10 @@ extension LoginViewController {
     }
     
     func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
+        
+    }
+    
+    func socketHandlerDidModifyOrder(modifiedOrder: Order, isCurrentTask: Bool) {
         
     }
     

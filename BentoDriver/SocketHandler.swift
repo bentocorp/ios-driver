@@ -22,7 +22,7 @@ import PKHUD
     optional func socketHandlerDidFailToAuthenticate()
     // disconnect
     optional func socketHandlerDidDisconnect()
-    // Push Type: assign/unassign/reprioritize
+    // Push Type: assign/unassign/reprioritize/modify
     optional func socketHandlerDidAssignOrder(assignedOrder: Order)
     optional func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool)
     optional func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool)
@@ -210,9 +210,9 @@ extension SocketHandler {
                             case .ASSIGN:
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
                                 self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
+                                
                             case .UNASSIGN:
                                 var isCurrentTask = false
-                                
                                 if OrderList.sharedInstance.orderArray.count != 0 {
                                     if push.bodyOrderAction!.order.id == OrderList.sharedInstance.orderArray[0].id {
                                         isCurrentTask = true
@@ -221,25 +221,24 @@ extension SocketHandler {
                                 
                                 OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
                                 self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                
                             case .REPRIORITIZE:
                                 var isCurrentTask = false
-                                
                                 if push.bodyOrderAction!.order.id == OrderList.sharedInstance.orderArray[0].id {
                                     isCurrentTask = true
                                 }
                                 
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
-                                
                                 self.delegate.socketHandlerDidReprioritizeOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                
                             case .MODIFY:
                                 var isCurrentTask = false
-                                
                                 if push.bodyOrderAction!.order.id == OrderList.sharedInstance.orderArray[0].id {
                                     isCurrentTask = true
                                 }
                                 
-                                OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
-                                
+                                OrderList.sharedInstance.modifyOrder(push.bodyOrderAction!.order)
+                                self.delegate.socketHandlerDidModifyOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
                                 
                             default: ()
                             }
