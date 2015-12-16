@@ -795,7 +795,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         var doesTaskRequireAction: Bool = false // initialize
         
-        if taskTitle == "Task removed!" || taskTitle == "Task switched!" {
+        if taskTitle == "Task removed!" || taskTitle == "Task switched!" || taskTitle == "Task modified!" {
             doesTaskRequireAction = true
             
             switch taskTitle {
@@ -805,6 +805,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             case "Task switched!":
                 SocketHandler.sharedSocket.promptLocalNotification("assigned")
                 SoundEffect.sharedPlayer.playSound("task_switched")
+            case "Task modified!":
+                SocketHandler.sharedSocket.promptLocalNotification("modified")
+                SoundEffect.sharedPlayer.playSound("task_modified")
             default: ()
             }
         }
