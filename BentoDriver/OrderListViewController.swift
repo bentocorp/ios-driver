@@ -360,7 +360,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     func socketHandlerDidModifyOrder(modifiedOrder: Order, isCurrentTask: Bool) {
         if isCurrentTask == true {
             SocketHandler.sharedSocket.promptLocalNotification("modified")
-//            SoundEffect.sharedPlayer.playSound("task_modified")
+            SoundEffect.sharedPlayer.playSound("task_modified")
             statusBarNotification("Task modified!")
             updateUI()
         }

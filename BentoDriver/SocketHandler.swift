@@ -321,8 +321,8 @@ extension SocketHandler {
             localNotification.soundName = "task_removed.wav"
         case "switched":
             localNotification.soundName = "task_switched.wav"
-//        case: "modified"
-//            localNotification.soundName = ""
+        case "modified":
+            localNotification.soundName = "task_modified.wav"
         default: ()
         }
         

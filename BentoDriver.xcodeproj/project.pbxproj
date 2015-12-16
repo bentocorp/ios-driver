@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		50C2976A2CD66A7A00665C87 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCBD0069580A030FAC2FA9E /* Pods.framework */; };
+		FC1398371C210010003F0E63 /* task_modified.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC1398361C210010003F0E63 /* task_modified.wav */; };
+		FC1398381C210010003F0E63 /* task_modified.wav in Resources */ = {isa = PBXBuildFile; fileRef = FC1398361C210010003F0E63 /* task_modified.wav */; };
 		FC1594281BC89BBA00F532BD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1594271BC89BBA00F532BD /* LoginViewController.swift */; };
 		FC15942E1BC89BF100F532BD /* OrderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15942D1BC89BF100F532BD /* OrderListViewController.swift */; };
 		FC1594301BC89C0500F532BD /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */; };
@@ -157,6 +159,7 @@
 		2FCBD0069580A030FAC2FA9E /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91D35A47F57D12811D161D2E /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		D099147A26E8593D53020F13 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		FC1398361C210010003F0E63 /* task_modified.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = task_modified.wav; sourceTree = "<group>"; };
 		FC1594271BC89BBA00F532BD /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FC15942D1BC89BF100F532BD /* OrderListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderListViewController.swift; sourceTree = "<group>"; };
 		FC15942F1BC89C0500F532BD /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
@@ -396,6 +399,7 @@
 		FCE675E51BDAFFAB004FFEBF /* Sound FX */ = {
 			isa = PBXGroup;
 			children = (
+				FC1398361C210010003F0E63 /* task_modified.wav */,
 				FC367CF11BFA716A00B7F919 /* task_switched.wav */,
 				FCE207FE1BDA3B9D006D8554 /* new_task.wav */,
 				FCE208071BDA4376006D8554 /* task_removed.wav */,
@@ -643,6 +647,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC1398371C210010003F0E63 /* task_modified.wav in Resources */,
 				FC169CFF1BD49DF600D423D9 /* gradient-placeholder2.png in Resources */,
 				FC169CF51BD49DF600D423D9 /* OpenSans-Bold.ttf in Resources */,
 				FC169CF81BD49DF600D423D9 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -688,6 +693,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC1398381C210010003F0E63 /* task_modified.wav in Resources */,
 				FCE036B81BEA9B2300F7605B /* gradient-placeholder2.png in Resources */,
 				FCE036B91BEA9B2300F7605B /* OpenSans-Bold.ttf in Resources */,
 				FCE036BA1BEA9B2300F7605B /* OpenSans-ExtraBoldItalic.ttf in Resources */,
