@@ -382,6 +382,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         updateUI()
     }
     
+    func didModifyOrder(orderInSession: Order) {
+        didTapOnGoToAcceptedTask(orderInSession)
+    }
+    
 //MARK:
     func changeOrderStatus(id: String, status: OrderStatus) {
         // search for order then reset status

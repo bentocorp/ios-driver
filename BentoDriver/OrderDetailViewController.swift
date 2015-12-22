@@ -17,6 +17,7 @@ import PKHUD
     func didAcceptOrder(orderId: String)
     func didCompleteOrder(orderId: String)
     optional func didTapOnGoToAcceptedTask(orderInSession: Order)
+    optional func didModifyOrder(orderInSession: Order)
 }
 
 class OrderDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate {
@@ -378,7 +379,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        presentViewController(alertController, animated: true, completion: nil)
     }
     
     func onText() {
@@ -702,6 +703,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func socketHandlerDidModifyOrder(modifiedOrder: Order, isCurrentTask: Bool) {
         if isCurrentTask == true {
             statusBarNotification("Task modified!", taskMessage: "", success: true)
+            self.order = modifiedOrder;
         }
     }
     
@@ -832,6 +834,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         if doesTaskRequireAction == true {
             alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: { action in
                 self.navigationController?.popViewControllerAnimated(true)
+                
+                if taskTitle == "Task modified!" {
+                    self.delegate?.didModifyOrder!(self.order)
+                }
             }))
             
             presentViewController(alertController, animated: true, completion: nil)
