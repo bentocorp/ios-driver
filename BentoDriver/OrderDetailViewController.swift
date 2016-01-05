@@ -117,12 +117,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
         // check if current array is empty, if not empty...
-        if order.itemArray.isEmpty == false {
-            
-            // then check in array for label...if label does not exist, don't show cells...
-            let label = order.itemArray[0].items[0].label
-            if label!.isEmpty == true || label == "" {
-                
+//        if order.itemArray.isEmpty == false {
+//            
+//            // then check in array for label...if label does not exist, don't show cells...
+//            let label = order.itemArray[0].items[0].label
+//            if label!.isEmpty == true || label == "" {
+        
                 // check if orderString is empty...if not...
                 if order.orderString.isEmpty == false {
                     
@@ -130,8 +130,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
                     view.addSubview(itemStringTextView)
                 }
-            }
-        }
+//            }
+//        }
         
 //MARK: Actions
         // View
