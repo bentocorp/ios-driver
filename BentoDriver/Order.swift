@@ -74,8 +74,8 @@ public class Order: NSObject {
         let firstCharInString = id[id.startIndex]
         
         if firstCharInString == "o" {
-            for items in json["item"].arrayValue {
-                itemArray.append(BentoBox(json: items))
+            for itemType in json["item"].arrayValue {
+                itemArray.append(BentoBox(json: itemType))
             }
         }
         else if firstCharInString == "g" {

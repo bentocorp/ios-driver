@@ -109,18 +109,18 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         itemStringTextView.userInteractionEnabled = true
         
-        // if there is a string message
-        if order.itemString != nil {
-            // display string message
-            itemStringTextView.text = order.itemString
-            view.addSubview(itemStringTextView)
-        }
+//        // if there is a string message
+//        if order.itemString != nil {
+//            // display string message
+//            itemStringTextView.text = order.itemString
+//            view.addSubview(itemStringTextView)
+//        }
         
-        if order.orderString.isEmpty == false {
-            // display orderString
-            itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
-            view.addSubview(itemStringTextView)
-        }
+//        if order.orderString.isEmpty == false {
+//            // display orderString
+//            itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+//            view.addSubview(itemStringTextView)
+//        }
         
 //MARK: Actions
         // View
@@ -209,11 +209,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if order.orderString.isEmpty {
+//        if order.orderString.isEmpty {
             return order.itemArray.count
-        }
+//        }
         
-        return 0
+//        return 0
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -227,7 +227,14 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         // Title label
         let headerTitleLabel = UILabel(frame: CGRectMake(10, 5, view.frame.width - 20, 30))
-        headerTitleLabel.text = "Box \(section + 1)"
+        
+        if order.itemArray[section].itemType == ItemType.BentoBox {
+            headerTitleLabel.text = "Box \(section + 1)"
+        }
+        else {
+            headerTitleLabel.text = "Add-ons"
+        }
+        
         headerTitleLabel.textColor = UIColor.whiteColor()
         headerTitleLabel.font = UIFont(name: "OpenSans-SemiBold", size: 21)
         headerView.addSubview(headerTitleLabel)
