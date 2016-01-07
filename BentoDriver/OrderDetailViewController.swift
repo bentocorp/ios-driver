@@ -116,22 +116,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             view.addSubview(itemStringTextView)
         }
         
-        // check if current array is empty, if not empty...
-//        if order.itemArray.isEmpty == false {
-//            
-//            // then check in array for label...if label does not exist, don't show cells...
-//            let label = order.itemArray[0].items[0].label
-//            if label!.isEmpty == true || label == "" {
-        
-                // check if orderString is empty...if not...
-                if order.orderString.isEmpty == false {
-                    
-                    // display orderString
-                    itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
-                    view.addSubview(itemStringTextView)
-                }
-//            }
-//        }
+        if order.orderString.isEmpty == false {
+            // display orderString
+            itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+            view.addSubview(itemStringTextView)
+        }
         
 //MARK: Actions
         // View
@@ -220,20 +209,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        // check if current array is empty
-        if order.itemArray.isEmpty == false {
-            
-            // then check in array for label. if label does not exist, don't show cells
-            let label = order.itemArray[0].items[0].label
-            if label!.isEmpty == true || label == "" {
-                
-                if order.orderString.isEmpty == false {
-                    return 0
-                }
-            }
+        if order.orderString.isEmpty {
+            return order.itemArray.count
         }
         
-        return order.itemArray.count // box count
+        return 0
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
