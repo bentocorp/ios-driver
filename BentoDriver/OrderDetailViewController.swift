@@ -116,11 +116,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //            view.addSubview(itemStringTextView)
 //        }
         
-//        if order.orderString.isEmpty == false {
-//            // display orderString
-//            itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
-//            view.addSubview(itemStringTextView)
-//        }
+        // comment this out to test item instead
+        if order.orderString.isEmpty == false {
+            // display orderString
+            itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+            view.addSubview(itemStringTextView)
+        }
         
 //MARK: Actions
         // View
@@ -209,11 +210,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: TableView
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-//        if order.orderString.isEmpty {
+        if order.orderString.isEmpty { // comment out this conditional to test item mode instead
             return order.itemArray.count
-//        }
-        
-//        return 0
+        }
+    
+        return 0
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -511,15 +512,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 dispatch_after(delayTime, dispatch_get_main_queue()) {
                     self.dismissHUDWithSuccess(false)
                     
-                    // error from invalid phone
-                    if msg != nil {
-                    // error message
-                        self.alertInvalidPhoneNumber()
-                    }
-                    // error from something else...ie. no internet
-                    else {
-                        self.statusBarNotification("Connection failed", taskMessage: "", success: false)
+                    // code 1 == show generic message
+                    if code == 1 {
+                        self.showOtherError("\(msg)")
+                        
                         return
+                    }
+                    // code 2 == invalid phone
+                    else {
+                        self.alertInvalidPhoneNumber()
                     }
                     
                     // continue with order accept
@@ -710,6 +711,15 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let alertController = UIAlertController(title: "Invalid Phone Number", message: "SMS was not sent! Please inform dispatcher.", preferredStyle: .Alert)
         
         alertController.addAction(UIAlertAction(title: "Roger that!", style: .Cancel, handler: nil))
+        
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+//MARK: Other Errors
+    func showOtherError(errorMessage: String) {
+        let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .Alert)
+        
+        alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
         
         presentViewController(alertController, animated: true, completion: nil)
     }
