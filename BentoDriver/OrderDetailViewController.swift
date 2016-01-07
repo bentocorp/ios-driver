@@ -512,14 +512,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 dispatch_after(delayTime, dispatch_get_main_queue()) {
                     self.dismissHUDWithSuccess(false)
                     
-                    // code 1 == show generic message
                     if code == 1 {
                         self.showOtherError("\(msg)")
-                        
                         return
                     }
-                    // code 2 == invalid phone
-                    else {
+                    else if code == 2 {
                         self.alertInvalidPhoneNumber()
                     }
                     
@@ -715,7 +712,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         presentViewController(alertController, animated: true, completion: nil)
     }
     
-//MARK: Other Errors
+    
+//MARK: Alert Error
     func showOtherError(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .Alert)
         
