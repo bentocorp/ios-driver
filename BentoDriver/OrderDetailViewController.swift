@@ -109,15 +109,17 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         itemStringTextView.userInteractionEnabled = true
         
-//        // if there is a string message
-//        if order.itemString != nil {
-//            // display string message
-//            itemStringTextView.text = order.itemString
-//            view.addSubview(itemStringTextView)
-//        }
         
         // comment this out to test item instead
-        if order.orderString.isEmpty == false {
+        if order.orderString.isEmpty == true {
+            // if there is a string message
+            if order.itemString != nil {
+                // display string message
+                itemStringTextView.text = order.itemString
+                view.addSubview(itemStringTextView)
+            }
+        }
+        else {
             // display orderString
             itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
             view.addSubview(itemStringTextView)
