@@ -65,7 +65,7 @@ extension SocketHandler {
 
         // close and remove any preexisting handlers before trying to connect
 //        socket.disconnect()
-//        socket.removeAllHandlers()
+        socket.removeAllHandlers()
         
         // connect
         connectUser(username, password: password)
@@ -103,7 +103,19 @@ extension SocketHandler {
         }
         
         socket.on("disconnect") { (data, ack) -> Void in
-            print(data)
+            print("disconnect event called - \(data)")
+        }
+        
+        socket.on("error") { (data, ack) -> Void in
+            print("error event called - \(data)")
+        }
+        
+        socket.on("reconnect") { (data, ack) -> Void in
+            print("reconnect event called - \(data)")
+        }
+        
+        socket.on("reconnectAttempt") { (data, ack) -> Void in
+            print("reconnectAttempt event called - \(data)")
         }
     }
 
@@ -159,8 +171,6 @@ extension SocketHandler {
                             
                             // 4) listen to "push"
                             self.listenToPushChannel()
-                            
-                            self.listenToHeartBeat()
                         }
                     }
                     else {
@@ -189,12 +199,6 @@ extension SocketHandler {
         }
 
         print("emitting user \(token) coordinates: \(lat) and \(long)")
-    }
-    
-    func listenToHeartBeat() {
-        socket.on("pong") { (data, ack) -> Void in
-            print(data)
-        }
     }
     
 //MARK: Listen To
@@ -275,12 +279,11 @@ extension SocketHandler {
         // stop timer to stop emiting location
         emitLocationTimer?.invalidate()
         
-        // don't trigger delegate method is lostConnection is true (ie. triggered by disconnected internet connection)
+        // don't trigger delegate method if lostConnection is true (ie. triggered by disconnected internet connection)
         if lostConnection == false {
-            // clear order list
+            
             OrderList.sharedInstance.orderArray.removeAll()
             
-            // logout user
             User.currentUser.logout()
             
             delegate.socketHandlerDidDisconnect!()
