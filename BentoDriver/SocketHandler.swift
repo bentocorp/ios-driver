@@ -101,8 +101,12 @@ extension SocketHandler {
                 })
             }
         }
+        
+        socket.on("disconnect") { (data, ack) -> Void in
+            print(data)
+        }
     }
-    
+
 //MARK: Authenticate
     func authenticateUser(username: String, password: String) {
         
@@ -155,6 +159,8 @@ extension SocketHandler {
                             
                             // 4) listen to "push"
                             self.listenToPushChannel()
+                            
+                            self.listenToHeartBeat()
                         }
                     }
                     else {
@@ -183,6 +189,12 @@ extension SocketHandler {
         }
 
         print("emitting user \(token) coordinates: \(lat) and \(long)")
+    }
+    
+    func listenToHeartBeat() {
+        socket.on("pong") { (data, ack) -> Void in
+            print(data)
+        }
     }
     
 //MARK: Listen To

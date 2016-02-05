@@ -601,7 +601,7 @@
 				TargetAttributes = {
 					FC9CB3141BBF4409000F4395 = {
 						CreatedOnToolsVersion = 7.0.1;
-						DevelopmentTeam = BU7ZBFN522;
+						DevelopmentTeam = WFJ7C63625;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -617,7 +617,7 @@
 						TestTargetID = FC9CB3141BBF4409000F4395;
 					};
 					FCE0369C1BEA9B2300F7605B = {
-						DevelopmentTeam = BU7ZBFN522;
+						DevelopmentTeam = WFJ7C63625;
 					};
 				};
 			};
@@ -1034,7 +1034,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bf9b0c61-3642-4d2f-bd0a-e434a565de29";
+				PROVISIONING_PROFILE = "9db4bcb1-1756-4caa-babd-2630138080d3";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1073,7 +1073,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bf9b0c61-3642-4d2f-bd0a-e434a565de29";
+				PROVISIONING_PROFILE = "9db4bcb1-1756-4caa-babd-2630138080d3";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};
 			name = Release;
@@ -1132,8 +1132,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Bento Technology Inc";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bento Technology Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jason Demant (QD448B9C65)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jason Demant (QD448B9C65)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1160,7 +1160,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ef5798ff-1424-446f-b099-931542d198aa";
+				PROVISIONING_PROFILE = "e18d39df-a9ec-459e-8764-b129aff848b8";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1172,8 +1172,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Bento Technology Inc";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bento Technology Inc";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jason Demant (QD448B9C65)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jason Demant (QD448B9C65)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1200,7 +1200,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ef5798ff-1424-446f-b099-931542d198aa";
+				PROVISIONING_PROFILE = "e18d39df-a9ec-459e-8764-b129aff848b8";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};
 			name = Release;
