@@ -17,14 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     var window: UIWindow?
     let locationManager = CLLocationManager()
-//    var reachability: Reachability!
-    
-//    var isInForeground: Bool?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-//        self.startReachability()
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         
@@ -36,8 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // Location Services
         self.initiateLocationManager()
-        
-//        self.isInForeground = true
     
         return true
     }
@@ -53,18 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-//        self.isInForeground = false
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-        
-//        self.isInForeground = true
-//        
-//        if self.isInForeground == true && NSUserDefaults.standardUserDefaults().boolForKey("didLoseInternetConnection") == true && NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn") == true {
-//            self.reconnect()
-//        }
         
         // let subscribers know of didEnterForeground
         NSNotificationCenter.defaultCenter().postNotificationName("didEnterForeground", object: nil)
@@ -118,107 +103,5 @@ extension AppDelegate {
         // set coordinates to User
         User.currentUser.coordinates = manager.location?.coordinate
     }
-    
-////MARK: Reachability
-//    func startReachability() {
-//        do {
-//            self.reachability = try Reachability.reachabilityForInternetConnection()
-//        } catch {
-//            print("Unable to create Reachability")
-//        }
-//        
-//        self.reachability.whenReachable = { reachability in
-//            // this is called on a background thread, but UI updates must
-//            // be on the main thread, like this:
-//            
-//            dispatch_async(dispatch_get_main_queue()) {
-//                
-//                if self.isInForeground == true && NSUserDefaults.standardUserDefaults().boolForKey("didLoseInternetConnection") == true {
-//                    self.reconnect()
-//                }
-//            }
-//        }
-//        self.reachability.whenUnreachable = { reachability in
-//            // this is called on a background thread, but UI updates must
-//            // be on the main thread, like this:
-//            dispatch_async(dispatch_get_main_queue()) {
-//                print("Not reachable")
-//                
-//                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "didLoseInternetConnection")
-//                self.disconnect()
-//            }
-//        }
-//        
-//        do {
-//            try self.reachability.startNotifier()
-//        } catch {
-//            print("Unable to start notifier")
-//        }
-//    }
-//    
-//    func disconnect() {
-//        // TODO: should probably put this is a new class
-//        let notification = CWStatusBarNotification()
-//        notification.notificationStyle = .NavigationBarNotification
-//        notification.notificationAnimationInStyle = .Left
-//        notification.notificationAnimationOutStyle = .Right
-//        notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-//        notification.notificationLabelTextColor = UIColor.whiteColor()
-//        notification.notificationLabelBackgroundColor = UIColor(red: 0.9059, green: 0.298, blue: 0.2353, alpha: 1.0) /* #e74c3c red */
-//        notification.displayNotificationWithMessage("Lost Connection", forDuration: 2.0)
-//        
-//        showHUD()
-//        
-//        SocketHandler.sharedSocket.closeSocket(true) // to prevent multi handlers when reconnected to internet
-//    }
-//    
-//    func reconnect() {
-//        let notification = CWStatusBarNotification()
-//        notification.notificationStyle = .NavigationBarNotification
-//        notification.notificationAnimationInStyle = .Left
-//        notification.notificationAnimationOutStyle = .Right
-//        notification.notificationLabelFont = UIFont(name: "OpenSans-Bold", size: 17)!
-//        notification.notificationLabelTextColor = UIColor.whiteColor()
-//        notification.notificationLabelBackgroundColor = UIColor(red: 0.1804, green: 0.8, blue: 0.4431, alpha: 1.0) /* #2ecc71 green */
-//        notification.displayNotificationWithMessage("Established Connection", forDuration: 1)
-//        
-//        // reconnect
-//        NSTimer.scheduledTimerWithTimeInterval(1.75, target: self, selector: "delayReconnect", userInfo: nil, repeats: false)
-//    }
-//    
-//    func delayReconnect() {
-//        let username = NSUserDefaults.standardUserDefaults().objectForKey("username") as? String
-//        let password = NSUserDefaults.standardUserDefaults().objectForKey("password") as? String
-//        
-//        if reachability.isReachableViaWiFi() {
-//            
-//            if username != nil {
-//                User.currentUser.login(username!, password: password!)
-//            }
-//            
-//            print("Reachable via WiFi")
-//        } else {
-//            
-//            if NSUserDefaults.standardUserDefaults().objectForKey("username") != nil {
-//                User.currentUser.login(username!, password: password!)
-//            }
-//            
-//            print("Reachable via Cellular")
-//        }
-//        
-//        dismissHUD()
-//    }
-//    
-//    func showHUD() {
-//        PKHUD.sharedHUD.contentView = PKHUDProgressView()
-//        PKHUD.sharedHUD.dimsBackground = true
-//        PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
-//        PKHUD.sharedHUD.show()
-//    }
-//    
-//    func dismissHUD() {
-//        PKHUD.sharedHUD.contentView = PKHUDSuccessView()
-//        PKHUD.sharedHUD.hide(afterDelay: 1)
-//    }
 }
 
