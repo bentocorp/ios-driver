@@ -62,10 +62,6 @@ extension SocketHandler {
         tryToConnect = true // ok to show timeout "failed to connect" message
         
         showHUD()
-
-        // close and remove any preexisting handlers before trying to connect
-//        socket.disconnect()
-        socket.removeAllHandlers()
         
         // connect
         connectUser(username, password: password)
@@ -74,7 +70,7 @@ extension SocketHandler {
 //MARK: Connect
     func connectUser(username: String, password: String) {
         // 1) connect
-        socket.on("connect") {data, ack in
+        socket.once("connect") {data, ack in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegate.socketHandlerDidConnect!()
                 print("socket did connect")
