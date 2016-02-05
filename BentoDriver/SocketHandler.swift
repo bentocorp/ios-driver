@@ -64,8 +64,8 @@ extension SocketHandler {
         showHUD()
 
         // close and remove any preexisting handlers before trying to connect
-        socket.disconnect()
-        socket.removeAllHandlers()
+//        socket.disconnect()
+//        socket.removeAllHandlers()
         
         // connect
         connectUser(username, password: password)
