@@ -617,7 +617,7 @@
 						TestTargetID = FC9CB3141BBF4409000F4395;
 					};
 					FCE0369C1BEA9B2300F7605B = {
-						DevelopmentTeam = WFJ7C63625;
+						DevelopmentTeam = BU7ZBFN522;
 					};
 				};
 			};
@@ -1160,7 +1160,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e18d39df-a9ec-459e-8764-b129aff848b8";
+				PROVISIONING_PROFILE = "21b0e3dd-8403-4adf-89c0-d7f3aa879f70";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1200,7 +1200,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.josephlau.driverdev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e18d39df-a9ec-459e-8764-b129aff848b8";
+				PROVISIONING_PROFILE = "21b0e3dd-8403-4adf-89c0-d7f3aa879f70";
 				SWIFT_OBJC_BRIDGING_HEADER = "BentoDriver/BentoDriver-Bridging-Header.h";
 			};
 			name = Release;

@@ -36,7 +36,7 @@ public class SocketHandler: NSObject {
     public var emitLocationTimer: NSTimer?
     
 #if DEBUG
-    public var socket = SocketIOClient(socketURL: "https://node.dev.bentonow.com:8443", options: nil)
+    public var socket = SocketIOClient(socketURL: "https://node.dev.bentonow.com:8443", options: [.ForceNew(false)])
 #else
      public var socket = SocketIOClient(socketURL: "https://node.bentonow.com:8443", options: nil)
 #endif
@@ -69,8 +69,9 @@ extension SocketHandler {
     
 //MARK: Connect
     func connectUser(username: String, password: String) {
+        
         // 1) connect
-        socket.once("connect") {data, ack in
+        socket.on("connect") {data, ack in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegate.socketHandlerDidConnect!()
                 print("socket did connect")
@@ -91,9 +92,8 @@ extension SocketHandler {
                     self.dismissHUD(false, message: "Failed to connect!")
                     
                     self.delegate.socketHandlerDidFailToConnect!()
+
                     print("socket did fail to connect")
-                    
-                    self.closeSocket(false)
                 })
             }
         }
@@ -265,7 +265,7 @@ extension SocketHandler {
     }
     
 //MARK: Disconnect
-    func closeSocket(lostConnection: Bool) {
+    func closeSocket(didDisconnectOnPurpose: Bool) {
         
         tryToConnect = false // prevent timeout "failed to connect" message
         
@@ -276,7 +276,7 @@ extension SocketHandler {
         emitLocationTimer?.invalidate()
         
         // don't trigger delegate method if lostConnection is true (ie. triggered by disconnected internet connection)
-        if lostConnection == false {
+        if didDisconnectOnPurpose == true {
             
             OrderList.sharedInstance.orderArray.removeAll()
             

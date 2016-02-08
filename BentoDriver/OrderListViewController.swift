@@ -103,11 +103,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         let alertController = UIAlertController(title: "", message: "Save login info?", preferredStyle: .Alert)
         
         alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
-            SocketHandler.sharedSocket.closeSocket(false)
+            SocketHandler.sharedSocket.closeSocket(true)
         }))
         
         alertController.addAction(UIAlertAction(title: "No", style: .Default, handler: { action in
-            SocketHandler.sharedSocket.closeSocket(false)
+            SocketHandler.sharedSocket.closeSocket(true)
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
