@@ -166,7 +166,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             // flag to check if arrived has been tapped on, reset to nil once order is complete
             if NSUserDefaults.standardUserDefaults().boolForKey("arrivedWasTapped") == false {
                 arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */
-                arrivedAndCompleteButton.setTitle("ARRIVED", forState: .Normal)
+                arrivedAndCompleteButton.setTitle("ALERT CUSTOMER", forState: .Normal)
             }
             else {
                 arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */
@@ -411,7 +411,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //          // no order has already been accepted, continue down...
             
             // tapped on arrive
-            if actionLowercaseString == "arrived" {
+            if actionLowercaseString == "alert customer" {
                 arrivedOrder()
             }
             // tapped on either reject, accept, or complete
@@ -486,7 +486,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func arrivedOrder() {
-        callHouston(api + "/sms/bento-here", parameters: parameters, task: "arrived")
+        callHouston(api + "/sms/bento-here", parameters: parameters, task: "alert customer")
     }
     
     func completeOrder() {
@@ -528,7 +528,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     if task == "accept" {
                         self.delegate?.didAcceptOrder(self.order.id)
                         self.showHideButtons()
-                        self.updateArrivedOrCompleteButtonState("arrived")
+                        self.updateArrivedOrCompleteButtonState("alert customer")
                         self.setArrivedWasTapped(false)
                         SoundEffect.sharedPlayer.playSound("lets_drive")
                         return
@@ -558,13 +558,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         
                         self.showHideButtons()
                         
-                        self.updateArrivedOrCompleteButtonState("arrived")
+                        self.updateArrivedOrCompleteButtonState("alert customer")
                         
                         self.setArrivedWasTapped(false)
                         
                         SoundEffect.sharedPlayer.playSound("lets_drive")
                     }
-                case "arrived":
+                case "alert customer":
                     if ret == "ok" {
                         self.updateArrivedOrCompleteButtonState("complete")
                         
@@ -604,9 +604,9 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     func updateArrivedOrCompleteButtonState(arrivedOrComplete: String) {
-        if arrivedOrComplete == "arrived" {
+        if arrivedOrComplete == "alert customer" {
             arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.8196, green: 0.4392, blue: 0.1686, alpha: 1.0) /* #d1702b */
-            arrivedAndCompleteButton.setTitle("ARRIVED", forState: .Normal)
+            arrivedAndCompleteButton.setTitle("ALERT CUSTOMER", forState: .Normal)
         }
         else if arrivedOrComplete == "complete" {
             arrivedAndCompleteButton.backgroundColor = UIColor(red: 0.2784, green: 0.6588, blue: 0.5333, alpha: 1.0) /* #47a888 */

@@ -220,25 +220,28 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             cell = OrderListCell(style: UITableViewCellStyle.Default, reuseIdentifier: cellId)
         }
         
-        let order = OrderList.sharedInstance.orderArray[indexPath.row]
+        if OrderList.sharedInstance.orderArray.count != 0 {
         
-        cell?.addressLabel.text = "\(order.street)\n\(order.city)"
-        cell?.nameLabel.text = order.name
-        
-        switch order.status{
-        case .Accepted:
-            cell?.circleImageView.image = UIImage(named: "blue-moon-64")
-        case .Rejected:
-            cell?.circleImageView.image = UIImage(named: "red-moon-64")
-        default:
-            cell?.circleImageView.image = UIImage(named: "yellow-moon-64")
+            let order = OrderList.sharedInstance.orderArray[indexPath.row]
+            
+            cell?.addressLabel.text = "\(order.street)\n\(order.city)"
+            cell?.nameLabel.text = order.name
+            
+            switch order.status{
+            case .Accepted:
+                cell?.circleImageView.image = UIImage(named: "blue-moon-64")
+            case .Rejected:
+                cell?.circleImageView.image = UIImage(named: "red-moon-64")
+            default:
+                cell?.circleImageView.image = UIImage(named: "yellow-moon-64")
+            }
+            
+            // fade in cell
+            cell?.alpha = 0
+            UIView.animateWithDuration(0.5, animations: { cell?.alpha = 1 })
+            
+            print(cell?.frame.width) // cell is stuck at 320pt...wtf?
         }
-        
-        // fade in cell
-        cell?.alpha = 0
-        UIView.animateWithDuration(0.5, animations: { cell?.alpha = 1 })
-        
-        print(cell?.frame.width) // cell is stuck at 320pt...wtf?
         
         return cell!
     }
