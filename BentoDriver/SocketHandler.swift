@@ -31,19 +31,23 @@ import PKHUD
 
 //MARK: Properties
 public class SocketHandler: NSObject {
-    static let sharedSocket = SocketHandler() // singleton
-    var delegate: SocketHandlerDelegate! // delegate
-    public var emitLocationTimer: NSTimer?
+    static let sharedSocket = SocketHandler()
+    
+    var delegate: SocketHandlerDelegate!
     
     public var socket: SocketIOClient?
     
+    var emitLocationTimer: NSTimer?
+    
     let notification = CWStatusBarNotification()
+    
     var tryToConnect: Bool? // prevent timeout "failed to connect" message
+    
+    var username: String?
+    var password: String?
     
     override init() {
         super.init()
-        
-        checkSocketStatus()
     }
 }
 
@@ -61,31 +65,25 @@ extension SocketHandler {
     public func connectAndAuthenticateWith(username: String, password: String) {
         print("connectAndAuthenticate called")
         
+        self.username = username
+        self.password = password
+        
         tryToConnect = true // ok to show timeout "failed to connect" message
         
         showHUD()
         
         // connect
-        connectUser(username, password: password)
+        connectUser()
     }
     
 //MARK: Connect
-    func connectUser(username: String, password: String) {
+    func connectUser() {
         
-        // 1) connect
-        socket?.on("connect") {data, ack in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.delegate.socketHandlerDidConnect!()
-                print("socket did connect")
-            })
-            
-            // 2) authenticate
-            self.authenticateUser(username, password: password)
-        }
+        configureHandlers()
         
-        // connect to Node & handle error if any
         self.socket?.connect(timeoutAfter: 10) { () -> Void in
-        
+            print("connect timed out")
+            
             if self.tryToConnect == true {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
@@ -94,36 +92,45 @@ extension SocketHandler {
                     self.dismissHUD(false, message: "Failed to connect!")
                     
                     self.delegate.socketHandlerDidFailToConnect!()
-
-                    print("socket did fail to connect")
                 })
             }
         }
+    }
+    
+    func configureHandlers() {
+        socket?.on("connect") {data, ack in
+            print("connect event called - \(data)")
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegate.socketHandlerDidConnect!()
+            })
+            
+            self.authenticateUser()
+        }
         
         socket?.on("disconnect") { (data, ack) -> Void in
-            print("disconnect event called - \(data)")
+            print("disconnect event fired - \(data)")
+            
+            self.stopTimer()
         }
         
         socket?.on("error") { (data, ack) -> Void in
-            print("error event called - \(data)")
+            print("error event fired - \(data)")
         }
         
         socket?.on("reconnect") { (data, ack) -> Void in
-            print("reconnect event called - \(data)")
+            print("reconnect event fired - \(data)")
             
-            if self.emitLocationTimer?.valid != false || self.emitLocationTimer != nil {
-                self.emitLocationTimer?.invalidate()
-                self.emitLocationTimer = nil
-            }
+            self.stopTimer()
         }
         
         socket?.on("reconnectAttempt") { (data, ack) -> Void in
-            print("reconnectAttempt event called - \(data)")
+            print("reconnectAttempt event fired - \(data)")
         }
     }
 
 //MARK: Authenticate
-    func authenticateUser(username: String, password: String) {
+    func authenticateUser() {
         
         // authenticate and get token
         socket?.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) { data in
@@ -170,7 +177,7 @@ extension SocketHandler {
                             NSUserDefaults.standardUserDefaults().setBool(false, forKey: "didLoseInternetConnection")
                             
                             // 3) emit to "loc"
-//                            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
+                            self.startTimer()
                             
                             // 4) listen to "push"
                             self.listenToPushChannel()
@@ -186,27 +193,6 @@ extension SocketHandler {
                         
                         self.closeSocket(false)
                     }
-                }
-            }
-        }
-    }
-    
-//MARK: Status
-    func checkSocketStatus() {
-        if socket != nil {
-            print("socket status - \(socket?.status)")
-            
-            if socket?.status != .Connected {
-                print("stop timer")
-                if self.emitLocationTimer?.valid != false || self.emitLocationTimer != nil {
-                    self.emitLocationTimer?.invalidate()
-                    self.emitLocationTimer = nil
-                }
-            }
-            else {
-                print("start timer")
-                if self.emitLocationTimer?.valid != true || self.emitLocationTimer == nil {
-                    self.emitLocationTimer = gNSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
                 }
             }
         }
@@ -292,6 +278,22 @@ extension SocketHandler {
         })
     }
     
+//MARK: Timer
+    func startTimer() {
+        if self.emitLocationTimer?.valid == false || self.emitLocationTimer == nil {
+            print("start timer")
+            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
+        }
+    }
+    
+    func stopTimer() {
+        if self.emitLocationTimer?.valid == true || self.emitLocationTimer != nil {
+            print("stop timer")
+            self.emitLocationTimer?.invalidate()
+            self.emitLocationTimer = nil
+        }
+    }
+    
 //MARK: Disconnect
     func closeSocket(didDisconnectOnPurpose: Bool) {
         
@@ -299,9 +301,6 @@ extension SocketHandler {
         
         socket?.disconnect()
         socket?.removeAllHandlers()
-        
-        // stop timer to stop emiting location
-        emitLocationTimer?.invalidate()
         
         // don't trigger delegate method if lostConnection is true (ie. triggered by disconnected internet connection)
         if didDisconnectOnPurpose == true {
