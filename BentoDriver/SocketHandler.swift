@@ -42,7 +42,7 @@ public class SocketHandler: NSObject {
     let notification = CWStatusBarNotification()
     
     var tryToConnect: Bool? // prevent timeout "failed to connect" message
-    var isAuthenticating: Bool = false
+//    var isAuthenticating: Bool = false
     
     var username: String?
     var password: String?
@@ -112,11 +112,11 @@ extension SocketHandler {
                 self.delegate.socketHandlerDidConnect!()
             })
             
-            if self.isAuthenticating == false {
-                self.isAuthenticating = true
+//            if self.isAuthenticating == false {
+//                self.isAuthenticating = true
                 
                 self.authenticateUser()
-            }
+//            }
         }
         
         socket?.on("disconnect") { (data, ack) -> Void in
@@ -200,19 +200,21 @@ extension SocketHandler {
                         }
                     }
                     else {
+                        print("socket did fail to authenticate")
+                        
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.dismissHUD(false, message: "Failed to authenticate")
+                            
+                            if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
+                                self.dismissHUD(false, message: "Failed to authenticate")
+                                self.closeSocket(false)
+                            }
                             
                             self.delegate.socketHandlerDidFailToAuthenticate!()
-                            print("socket did fail to authenticate")
+                            
                         })
-                        
-                        if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
-                            self.closeSocket(false)
-                        }
                     }
                     
-                    self.isAuthenticating = false
+//                    self.isAuthenticating = false
                 }
             }
         }
@@ -319,13 +321,14 @@ extension SocketHandler {
         
         tryToConnect = false // prevent timeout "failed to connect" message
         
-        socket?.disconnect()
-        socket?.removeAllHandlers()
-        
         stopTimer()
+        
+        socket?.disconnect()
         
         // don't trigger delegate method if lostConnection is true (ie. triggered by disconnected internet connection)
         if didDisconnectOnPurpose == true {
+            
+            socket?.removeAllHandlers()
             
             OrderList.sharedInstance.orderArray.removeAll()
             
