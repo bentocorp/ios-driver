@@ -48,6 +48,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NSUserDefaults.standardUserDefaults().setObject("detail", forKey: "currentScreen")
+        
         UIApplication.sharedApplication().idleTimerDisabled = true // prevent lock screen only when viewing orders
         
         title = self.order.name

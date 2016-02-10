@@ -108,6 +108,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHa
         
         navigationController?.navigationBarHidden = true
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
+        NSUserDefaults.standardUserDefaults().setObject("login", forKey: "currentScreen")
         SocketHandler.sharedSocket.delegate = self
         checkLoginInfo()
     }

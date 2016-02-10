@@ -86,6 +86,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkMapSettings", name: "didEnterForeground", object: nil)
         
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn") // TODO: consider adding to User class
+        NSUserDefaults.standardUserDefaults().setObject("list", forKey: "currentScreen")
         SocketHandler.sharedSocket.delegate = self
         updateUI()
     }
@@ -428,9 +429,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func updateUI() {
-        showOrHideNoTasksLabel()
-//        sortList()
-        orderListTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.showOrHideNoTasksLabel()
+    //        sortList()
+            self.orderListTableView.reloadData()
+        })
     }
     
 //    func sortList() {

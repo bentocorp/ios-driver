@@ -42,13 +42,10 @@ public class SocketHandler: NSObject {
     let notification = CWStatusBarNotification()
     
     var tryToConnect: Bool? // prevent timeout "failed to connect" message
+    var isAuthenticating: Bool = false
     
     var username: String?
     var password: String?
-    
-    override init() {
-        super.init()
-    }
 }
 
 //MARK: Methods
@@ -70,7 +67,7 @@ extension SocketHandler {
         
         tryToConnect = true // ok to show timeout "failed to connect" message
         
-        showHUD()
+        showHUD(false)
         
         // connect
         connectUser()
@@ -80,9 +77,9 @@ extension SocketHandler {
     func connectUser() {
         
         #if DEBUG
-            socket = SocketIOClient(socketURL: "https://node.dev.bentonow.com:8443", options: nil)
+            socket = SocketIOClient(socketURL: "https://node.dev.bentonow.com:8443", options: [.ReconnectWait(1)])
         #else
-            socket = SocketIOClient(socketURL: "https://node.bentonow.com:8443", options: nil)
+            socket = SocketIOClient(socketURL: "https://node.bentonow.com:8443", options: [.ReconnectWait(1)])
         #endif
         
         configureHandlers()
@@ -98,6 +95,10 @@ extension SocketHandler {
                     self.dismissHUD(false, message: "Failed to connect!")
                     
                     self.delegate.socketHandlerDidFailToConnect!()
+                    
+                    if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
+                        self.closeSocket(false)
+                    }
                 })
             }
         }
@@ -111,7 +112,11 @@ extension SocketHandler {
                 self.delegate.socketHandlerDidConnect!()
             })
             
-            self.authenticateUser()
+            if self.isAuthenticating == false {
+                self.isAuthenticating = true
+                
+                self.authenticateUser()
+            }
         }
         
         socket?.on("disconnect") { (data, ack) -> Void in
@@ -128,6 +133,10 @@ extension SocketHandler {
             print("reconnect event fired - \(data)")
             
             self.stopTimer()
+            
+            if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String != "login" {
+                self.showHUD(true)
+            }
         }
         
         socket?.on("reconnectAttempt") { (data, ack) -> Void in
@@ -160,6 +169,7 @@ extension SocketHandler {
                     if code == 0 {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.dismissHUD(true, message: "Authenticated")
+                            self.tryToConnect = false
                             
                             self.delegate.socketHandlerDidAuthenticate!()
                             print("socket did authenticate")
@@ -197,8 +207,12 @@ extension SocketHandler {
                             print("socket did fail to authenticate")
                         })
                         
-                        self.closeSocket(false)
+                        if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
+                            self.closeSocket(false)
+                        }
                     }
+                    
+                    self.isAuthenticating = false
                 }
             }
         }
@@ -308,6 +322,8 @@ extension SocketHandler {
         socket?.disconnect()
         socket?.removeAllHandlers()
         
+        stopTimer()
+        
         // don't trigger delegate method if lostConnection is true (ie. triggered by disconnected internet connection)
         if didDisconnectOnPurpose == true {
             
@@ -322,8 +338,14 @@ extension SocketHandler {
     }
     
 //MARK: HUD
-    func showHUD() {
-        PKHUD.sharedHUD.contentView = PKHUDProgressView()
+    func showHUD(isReconnecting: Bool) {
+        if isReconnecting {
+            PKHUD.sharedHUD.contentView = PKHUDTextView(text: "Reestablishing connectivity...")
+        }
+        else {
+            PKHUD.sharedHUD.contentView = PKHUDProgressView()
+        }
+        
         PKHUD.sharedHUD.dimsBackground = true
         PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
         PKHUD.sharedHUD.show()
