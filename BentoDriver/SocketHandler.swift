@@ -79,6 +79,12 @@ extension SocketHandler {
 //MARK: Connect
     func connectUser() {
         
+        #if DEBUG
+            socket = SocketIOClient(socketURL: "https://node.dev.bentonow.com:8443", options: nil)
+        #else
+            socket = SocketIOClient(socketURL: "https://node.bentonow.com:8443", options: nil)
+        #endif
+        
         configureHandlers()
         
         self.socket?.connect(timeoutAfter: 10) { () -> Void in
@@ -133,7 +139,7 @@ extension SocketHandler {
     func authenticateUser() {
         
         // authenticate and get token
-        socket?.emitWithAck("get", "/api/authenticate?username=\(username)&password=\(password)&type=driver")(timeoutAfter: 1) { data in
+        socket?.emitWithAck("get", "/api/authenticate?username=\(username!)&password=\(password!)&type=driver")(timeoutAfter: 1) { data in
             
             // check data for type String, then cast as String if exists
             if let jsonString = data[0] as? String {
