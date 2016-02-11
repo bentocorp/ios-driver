@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
-
+import Crashlytics
 
 public class OrderList {
     static let sharedInstance = OrderList() // singleton
@@ -32,6 +32,10 @@ extension OrderList {
                 
                 let ret = json["ret"].arrayValue
                 print("ret: \(ret)")
+
+                // this info is only sent with a crash report
+//                let api = "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned?token=\(User.currentUser.token!)"
+//                CLSLogv("API - %@\nResponse - %@", getVaList([api, "\(ret)"]))
                 
                 // Handle error...
                 if code != 0 {

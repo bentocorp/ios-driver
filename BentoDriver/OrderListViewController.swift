@@ -20,10 +20,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     var orderListTableView: UITableView!
     var noTasksLabel: UILabel!
     
-    func crashButtonTapped() {
-        Crashlytics.sharedInstance().crash()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,12 +81,16 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         let button = UIButton(type: UIButtonType.RoundedRect)
-        button.frame = CGRectMake(20, 300, 100, 30)
+        button.frame = CGRectMake(20, 50, 100, 30)
         button.setTitle("Crash", forState: UIControlState.Normal)
         button.addTarget(self, action: "crashButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
         view.addSubview(button)
     }
-
+    
+    func crashButtonTapped() {
+        Crashlytics.sharedInstance().crash()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
