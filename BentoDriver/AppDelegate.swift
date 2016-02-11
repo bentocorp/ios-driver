@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 import Foundation
 import PKHUD
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 
@@ -20,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        Fabric.with([Crashlytics.self])
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         

@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (3.1.3)
   - Alamofire-SwiftyJSON (2.0.0-beta.1)
+  - Crashlytics (3.6.0):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.5)
   - PKHUD (2.2.5)
   - pop (1.0.8)
   - PureLayout (3.0.1)
@@ -10,6 +13,8 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Alamofire-SwiftyJSON (from `https://raw.githubusercontent.com/pdutourgeerling/Alamofire-SwiftyJSON-Podspec/master/Alamofire-SwiftyJSON.podspec`)
+  - Crashlytics
+  - Fabric
   - PKHUD
   - pop
   - PureLayout
@@ -28,6 +33,8 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 9f93b56389e48def9220dd57d1f44b1927229a5a
   Alamofire-SwiftyJSON: e394c54579b41d18d2aa1b88adf9fd6a2351e888
+  Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
+  Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
   PKHUD: 15d9db01fb008bb9247c6d785c585f587955b113
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb

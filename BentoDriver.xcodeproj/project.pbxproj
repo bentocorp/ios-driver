@@ -522,6 +522,7 @@
 				4042D430177CFCCB28CECE73 /* Embed Pods Frameworks */,
 				79583C11A1E86808A53DFC43 /* Copy Pods Resources */,
 				FCE4268F1BD3C1C800DF3D19 /* Embed Frameworks */,
+				FC6059831C6D2D4800834D27 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -579,6 +580,7 @@
 				FCE036CF1BEA9B2300F7605B /* Embed Pods Frameworks */,
 				FCE036D01BEA9B2300F7605B /* Copy Pods Resources */,
 				FCE036D11BEA9B2300F7605B /* Embed Frameworks */,
+				FC6059821C6D2D3B00834D27 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -767,6 +769,32 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+		};
+		FC6059821C6D2D3B00834D27 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" e416b51207b62057016bf1d61606566656652d9a 94f22fb1715a37a11893e5911e99464e0721aa230defd6059edcf2392a850bbf";
+		};
+		FC6059831C6D2D4800834D27 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" e416b51207b62057016bf1d61606566656652d9a 94f22fb1715a37a11893e5911e99464e0721aa230defd6059edcf2392a850bbf";
 		};
 		FCE0369D1BEA9B2300F7605B /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1009,6 +1037,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Bento Technology Inc";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bento Technology Inc";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1134,6 +1163,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jason Demant (QD448B9C65)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jason Demant (QD448B9C65)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
