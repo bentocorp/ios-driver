@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        Fabric.with([Crashlytics.self])
+        Fabric.sharedSDK().debug = true // for answers
+        Fabric.with([Crashlytics.self]) // for crash reports
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         

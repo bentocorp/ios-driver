@@ -12,6 +12,7 @@ import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
 import PKHUD
+import Crashlytics
 
 class OrderListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate, OrderDetailViewControllerDelegate {
     
@@ -19,8 +20,15 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     var orderListTableView: UITableView!
     var noTasksLabel: UILabel!
     
+    func crashButtonTapped() {
+        Crashlytics.sharedInstance().crash()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // log user to crash reports
+        self.logUser()
         
 //MARK: Check/Enforce Map Preference
         checkMapSettings()
@@ -75,6 +83,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             self.dismissHUD()
             self.updateUI()
         }
+        
+        let button = UIButton(type: UIButtonType.RoundedRect)
+        button.frame = CGRectMake(20, 300, 100, 30)
+        button.setTitle("Crash", forState: UIControlState.Normal)
+        button.addTarget(self, action: "crashButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
+        view.addSubview(button)
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,6 +107,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+//MARK: Crashlytics Log User
+    func logUser() {
+        if User.currentUser.username != nil {
+            Crashlytics.sharedInstance().setUserEmail(User.currentUser.username!)
+        }
     }
 
 //MARK: Log Out
