@@ -33,30 +33,44 @@ extension OrderList {
                 let ret = json["ret"].arrayValue
                 print("ret: \(ret)")
                 
-                Mixpanel.sharedInstance().track("Called getAllAssigned", properties: ["api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned&token=\(User.currentUser.token!)", "json": "\(json)"])
-                
                 // Handle error...
                 if code != 0 {
                     print(msg)
-                    return
+                    
+                    Mixpanel.sharedInstance().track("Called getAllAssigned", properties: [
+                        "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned&token=\(User.currentUser.token!)",
+                        "code": "\(code)",
+                        "msg": "\(msg)",
+                        "count": "N/A"
+                        ]
+                    )
                 }
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
-                    // add orders to ordersArray
-                    for orderJSON in ret {
-                        let order: Order = Order.init(json: orderJSON)
-                        print(order.id)
+                else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
-                        self.orderArray.append(order)
-                        print(order.status)
-                    }
-                    
-                    completion(result: json)
-                })
-                
-                print("getAllAssigned count - \(self.orderArray.count)")
-                print("getAllAssigned - \(self.orderArray)")
+                        // add orders to ordersArray
+                        for orderJSON in ret {
+                            let order: Order = Order.init(json: orderJSON)
+                            print(order.id)
+                            
+                            self.orderArray.append(order)
+                            print(order.status)
+                        }
+                        
+                        completion(result: json)
+                        
+                        print("getAllAssigned count - \(self.orderArray.count)")
+                        print("getAllAssigned - \(self.orderArray)")
+                        
+                        Mixpanel.sharedInstance().track("Called getAllAssigned", properties: [
+                            "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned&token=\(User.currentUser.token!)",
+                            "code": "\(code)",
+                            "msg": "\(msg)",
+                            "count": "\(self.orderArray.count)"
+                            ]
+                        )
+                    })
+                }
             })
     }
     
