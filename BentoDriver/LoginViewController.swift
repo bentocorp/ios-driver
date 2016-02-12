@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 import SwiftyJSON
 import PKHUD
+import Crashlytics
+import Mixpanel
 
 class LoginViewController: UIViewController, CLLocationManagerDelegate, SocketHandlerDelegate, UITextFieldDelegate {
     
@@ -152,8 +154,25 @@ extension LoginViewController {
         presentViewController(alertController, animated: true, completion: nil)
     }
     
+//MARK: Crashlytics
+    func logUser() {
+        if User.currentUser.username != nil {
+            Crashlytics.sharedInstance().setUserEmail(User.currentUser.username!)
+        }
+    }
+    
+//MARK: Mixpanel
+    func loginUser() {
+        if User.currentUser.username != nil {
+            Mixpanel.sharedInstance().identify(User.currentUser.username!)
+            Mixpanel.sharedInstance().people.set(["$name":User.currentUser.username!, "$email": User.currentUser.username!])
+        }
+    }
+    
 //MARK: SocketHandlerDelegate Method
     func socketHandlerDidAuthenticate() {
+        logUser()
+        loginUser()
         NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "presentHomepageWithDelay", userInfo: nil, repeats: false)
     }
     

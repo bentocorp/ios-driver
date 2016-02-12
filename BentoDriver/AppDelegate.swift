@@ -12,6 +12,7 @@ import Foundation
 import PKHUD
 import Fabric
 import Crashlytics
+import Mixpanel
 
 @UIApplicationMain
 
@@ -23,8 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        // FABRIC
         Fabric.sharedSDK().debug = true // for answers
         Fabric.with([Crashlytics.self]) // for crash reports
+        
+        // MIXPANEL
+        #if DEBUG
+        #else
+            Mixpanel.sharedInstanceWithToken("f2923ee2de657a03cb959ee13c216ac2")
+        #endif
         
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         

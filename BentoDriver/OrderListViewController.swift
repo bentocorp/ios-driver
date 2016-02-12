@@ -12,7 +12,7 @@ import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
 import PKHUD
-import Crashlytics
+import Mixpanel
 
 class OrderListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SocketHandlerDelegate, OrderDetailViewControllerDelegate {
     
@@ -22,9 +22,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // log user to crash reports
-        self.logUser()
         
 //MARK: Check/Enforce Map Preference
         checkMapSettings()
@@ -79,16 +76,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             self.dismissHUD()
             self.updateUI()
         }
-        
-        let button = UIButton(type: UIButtonType.RoundedRect)
-        button.frame = CGRectMake(20, 50, 100, 30)
-        button.setTitle("Crash", forState: UIControlState.Normal)
-        button.addTarget(self, action: "crashButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
-        view.addSubview(button)
-    }
-    
-    func crashButtonTapped() {
-        Crashlytics.sharedInstance().crash()
     }
     
     override func didReceiveMemoryWarning() {
@@ -109,13 +96,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-//MARK: Crashlytics Log User
-    func logUser() {
-        if User.currentUser.username != nil {
-            Crashlytics.sharedInstance().setUserEmail(User.currentUser.username!)
-        }
-    }
-
 //MARK: Log Out
     func onLogout() {
         promptLogoutConfirmationAlert()
@@ -126,10 +106,12 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket(true)
+            Mixpanel.sharedInstance().reset()
         }))
         
         alertController.addAction(UIAlertAction(title: "No", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket(true)
+            Mixpanel.sharedInstance().reset()
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")

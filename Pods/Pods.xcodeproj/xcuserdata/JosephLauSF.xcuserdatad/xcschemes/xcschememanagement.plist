@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Mixpanel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PKHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -47,7 +52,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1F8EB7AF964805C736B1E106DA4E6EEC</key>
+		<key>23B18385CFF1EF640D1FC21D8DA39D47</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,7 +67,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>64714B02F2D52A8CE12EE57E55FE0D91</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6BBB0D65A6EEA8794EB126091104D2A9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8240A687A12B3496C485DFBEB80E79E2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9101FDB65910AC14B95838E5BF3B7E6B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,17 +92,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E8D578BA63D2FC350EE5C83D87477C56</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EC0C4E8BE88B45C185826374963E4268</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FE3C43494C72DDEC9008B462DEE6ED13</key>
+		<key>F2116BC125C620805CB776CF689EB1CC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
