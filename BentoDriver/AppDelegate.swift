@@ -54,6 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // reset notification badge
         application.applicationIconBadgeNumber = 0
+        
+        Mixpanel.sharedInstance().track("applicationWillResignActive")
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
@@ -77,14 +79,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // reset notification badge
         application.applicationIconBadgeNumber = 0
+        
+        Mixpanel.sharedInstance().track("applicationDidBecomeActive")
     }
     
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn")
-        
-        Mixpanel.sharedInstance().track("applicationWillTerminate")
     }
 }
 
