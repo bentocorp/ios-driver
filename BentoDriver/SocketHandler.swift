@@ -11,6 +11,7 @@ import CoreLocation
 import Socket_IO_Client_Swift
 import SwiftyJSON
 import PKHUD
+import Mixpanel
 
 //MARK: Protocol
 @objc protocol SocketHandlerDelegate {
@@ -106,7 +107,7 @@ extension SocketHandler {
     
     func configureHandlers() {
         socket?.on("connect") {data, ack in
-            print("connect event called - \(data)")
+            print("connect triggered - \(data)")
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegate.socketHandlerDidConnect!()
@@ -120,17 +121,23 @@ extension SocketHandler {
         }
         
         socket?.on("disconnect") { (data, ack) -> Void in
-            print("disconnect event fired - \(data)")
+            print("disconnect triggered - \(data)")
+            
+            Mixpanel.sharedInstance().track("Disconnect Event Triggered", properties: ["data": "\(data)"])
             
             self.stopTimer()
         }
         
         socket?.on("error") { (data, ack) -> Void in
-            print("error event fired - \(data)")
+            print("error triggered - \(data)")
+            
+            Mixpanel.sharedInstance().track("Error Event Triggered", properties: ["data": "\(data)"])
         }
         
         socket?.on("reconnect") { (data, ack) -> Void in
-            print("reconnect event fired - \(data)")
+            print("reconnect triggered - \(data)")
+            
+            Mixpanel.sharedInstance().track("Reconnect Event Triggered", properties: ["data": "\(data)"])
             
             self.stopTimer()
             
@@ -140,7 +147,7 @@ extension SocketHandler {
         }
         
         socket?.on("reconnectAttempt") { (data, ack) -> Void in
-            print("reconnectAttempt event fired - \(data)")
+            print("reconnectAttempt triggered - \(data)")
         }
     }
 
