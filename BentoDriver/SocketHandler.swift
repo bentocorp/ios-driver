@@ -109,6 +109,8 @@ extension SocketHandler {
         socket?.on("connect") {data, ack in
             print("connect triggered - \(data)")
             
+            Mixpanel.sharedInstance().track("Connect Event Triggered", properties: ["data": "\(data)"])
+            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegate.socketHandlerDidConnect!()
             })
