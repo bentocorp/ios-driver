@@ -166,6 +166,8 @@ extension LoginViewController {
         if User.currentUser.username != nil {
             Mixpanel.sharedInstance().identify(User.currentUser.username!)
             Mixpanel.sharedInstance().people.set(["$name":User.currentUser.username!, "$email": User.currentUser.username!])
+            
+            Mixpanel.sharedInstance().track("Logged In")
         }
     }
     

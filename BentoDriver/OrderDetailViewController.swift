@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 import Alamofire_SwiftyJSON
 import PKHUD
+import Mixpanel
 
 @objc protocol OrderDetailViewControllerDelegate {
     func didRejectOrder(orderId: String)
@@ -498,94 +499,121 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         
         showHUD()
         
+        var paramsStr: String = ""
+        for (key, value) in parameters {
+            if let valStr = value as? String {
+                paramsStr += (key + "=" + valStr + "&")
+            }
+        }
+        
         Alamofire.request(.GET, apiString, parameters: parameters)
             .responseSwiftyJSON({ (request, response, json, error) in
-            
-            let code = json["code"]
-            print("code: \(code)")
                 
-            let msg = json["msg"]
-            print("msg = \(msg)")
+            if error == nil {
+        
+                let code = json["code"]
+                print("code: \(code)")
+                    
+                let msg = json["msg"]
+                print("msg = \(msg)")
+                    
+                let ret = json["ret"].stringValue.lowercaseString // normalize ret to lowercase
+                print("ret: \(ret)")
                 
-            let ret = json["ret"].stringValue.lowercaseString // normalize ret to lowercase
-            print("ret: \(ret)")
-            
-            // Handler error...
-            if code != 0 {
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    self.dismissHUDWithSuccess(false)
-                    
-                    if code == 1 {
-                        self.showOtherError("\(msg)")
-                        return
+                Mixpanel.sharedInstance().track("Called \(apiString)", properties: [
+                    "api": "\(apiString)?\(paramsStr)",
+                    "code": "\(code)",
+                    "msg": "\(msg)",
+                    "ret": "\(ret)"
+                    ]
+                )
+                
+                // Handler error...
+                if code != 0 {
+                    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
+                    dispatch_after(delayTime, dispatch_get_main_queue()) {
+                        self.dismissHUDWithSuccess(false)
+                        
+                        if code == 1 {
+                            self.showOtherError("\(msg)")
+                            return
+                        }
+                        else if code == 2 {
+                            self.alertInvalidPhoneNumber()
+                        }
+                        
+                        // continue with order accept
+                        if task == "accept" {
+                            self.delegate?.didAcceptOrder(self.order.id)
+                            self.showHideButtons()
+                            self.updateArrivedOrCompleteButtonState("alert customer")
+                            self.setArrivedWasTapped(false)
+                            SoundEffect.sharedPlayer.playSound("lets_drive")
+                            return
+                        }
+                        
+                        // show complete button once HUD has been dismissed after 2 seconds...
+                        NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: false)
                     }
-                    else if code == 2 {
-                        self.alertInvalidPhoneNumber()
-                    }
                     
-                    // continue with order accept
-                    if task == "accept" {
-                        self.delegate?.didAcceptOrder(self.order.id)
-                        self.showHideButtons()
-                        self.updateArrivedOrCompleteButtonState("alert customer")
-                        self.setArrivedWasTapped(false)
-                        SoundEffect.sharedPlayer.playSound("lets_drive")
-                        return
-                    }
-                    
-                    // show complete button once HUD has been dismissed after 2 seconds...
-                    NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "showCompleteButton", userInfo: nil, repeats: false)
+                    return
                 }
                 
-                return
+                // No Error
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    switch task {
+                    case "reject":
+                        if ret == "ok" {
+                            self.delegate?.didRejectOrder(self.order.id)
+                            
+                            self.showHideButtons()
+                            
+                            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
+                        }
+                    case "accept":
+                        if ret == "ok" {
+                            self.delegate?.didAcceptOrder(self.order.id)
+                            
+                            self.showHideButtons()
+                            
+                            self.updateArrivedOrCompleteButtonState("alert customer")
+                            
+                            self.setArrivedWasTapped(false)
+                            
+                            SoundEffect.sharedPlayer.playSound("lets_drive")
+                        }
+                    case "alert customer":
+                        if ret == "ok" {
+                            self.updateArrivedOrCompleteButtonState("complete")
+                            
+                            self.setArrivedWasTapped(true)
+                            
+                            SoundEffect.sharedPlayer.playSound("notified")
+                        }
+                    default: // complete
+                        if ret == "ok" {
+                            self.delegate?.didCompleteOrder(self.order.id)
+                            
+                            self.setArrivedWasTapped(false)
+                            
+                            SoundEffect.sharedPlayer.playSound("good_job")
+                            
+                            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
+                        }
+                    }
+                    
+                    self.dismissHUDWithSuccess(true)
+                })
             }
-            
-            // No Error
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                switch task {
-                case "reject":
-                    if ret == "ok" {
-                        self.delegate?.didRejectOrder(self.order.id)
-                        
-                        self.showHideButtons()
-                        
-                        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
-                    }
-                case "accept":
-                    if ret == "ok" {
-                        self.delegate?.didAcceptOrder(self.order.id)
-                        
-                        self.showHideButtons()
-                        
-                        self.updateArrivedOrCompleteButtonState("alert customer")
-                        
-                        self.setArrivedWasTapped(false)
-                        
-                        SoundEffect.sharedPlayer.playSound("lets_drive")
-                    }
-                case "alert customer":
-                    if ret == "ok" {
-                        self.updateArrivedOrCompleteButtonState("complete")
-                        
-                        self.setArrivedWasTapped(true)
-                        
-                        SoundEffect.sharedPlayer.playSound("notified")
-                    }
-                default: // complete
-                    if ret == "ok" {
-                        self.delegate?.didCompleteOrder(self.order.id)
-                        
-                        self.setArrivedWasTapped(false)
-                        
-                        SoundEffect.sharedPlayer.playSound("good_job")
-                        
-                        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "popViewController", userInfo: nil, repeats: false)
-                    }
-                }
+            else {
+                print("\(apiString) Error - \(error.debugDescription)")
                 
-                self.dismissHUDWithSuccess(true)
-            })
+                Mixpanel.sharedInstance().track("Called \(apiString)", properties: [
+                    "api": "\(apiString)\(paramsStr)",
+                    "error": error.debugDescription
+                    ]
+                )
+            }
         })
     }
     

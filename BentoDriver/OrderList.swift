@@ -23,53 +23,69 @@ extension OrderList {
         // get all assigned orders
         Alamofire.request(.GET, "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
             .responseSwiftyJSON({ (request, response, json, error) in
-                
-                let code = json["code"]
-                print("code: \(code)")
-                
-                let msg = json["msg"]
-                print("msg = \(msg)")
-                
-                let ret = json["ret"].arrayValue
-                print("ret: \(ret)")
-                
-                // Handle error...
-                if code != 0 {
-                    print(msg)
+        
+                if error == nil {
                     
-                    Mixpanel.sharedInstance().track("Called getAllAssigned", properties: [
-                        "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned&token=\(User.currentUser.token!)",
-                        "code": "\(code)",
-                        "msg": "\(msg)",
-                        "count": "N/A"
-                        ]
-                    )
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        // add orders to ordersArray
-                        for orderJSON in ret {
-                            let order: Order = Order.init(json: orderJSON)
-                            print(order.id)
-                            
-                            self.orderArray.append(order)
-                            print(order.status)
-                        }
-                        
-                        completion(result: json)
-                        
-                        print("getAllAssigned count - \(self.orderArray.count)")
-                        print("getAllAssigned - \(self.orderArray)")
+                    let code = json["code"]
+                    print("code: \(code)")
+                    
+                    let msg = json["msg"]
+                    print("msg = \(msg)")
+                    
+                    let ret = json["ret"].arrayValue
+                    print("ret: \(ret)")
+                
+                    // Handle error...
+                    if code != 0 {
+                        print(msg)
                         
                         Mixpanel.sharedInstance().track("Called getAllAssigned", properties: [
-                            "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned&token=\(User.currentUser.token!)",
+                            "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned?token=\(User.currentUser.token!)",
                             "code": "\(code)",
                             "msg": "\(msg)",
-                            "count": "\(self.orderArray.count)"
+                            "count": "N/A"
                             ]
                         )
-                    })
+                        
+                        // handler houston error
+                    }
+                    else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            // add orders to ordersArray
+                            for orderJSON in ret {
+                                let order: Order = Order.init(json: orderJSON)
+                                print(order.id)
+                                
+                                self.orderArray.append(order)
+                                print(order.status)
+                            }
+                            
+                            completion(result: json)
+                            
+                            print("getAllAssigned count - \(self.orderArray.count)")
+                            print("getAllAssigned - \(self.orderArray)")
+                            
+                            Mixpanel.sharedInstance().track("Called getAllAssigned", properties: [
+                                "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned?token=\(User.currentUser.token!)",
+                                "code": "\(code)",
+                                "msg": "\(msg)",
+                                "count": "\(self.orderArray.count)"
+                                ]
+                            )
+                        })
+                    }
+                }
+                else {
+                    print("/getAllAssigned Error - \(error.debugDescription)")
+                    
+                    Mixpanel.sharedInstance().track("Called getAllAssigned", properties: [
+                        "api": "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned?token=\(User.currentUser.token!)",
+                        "error": error.debugDescription
+                        ]
+                    )
+                    
+                    completion(result: json)
                 }
             })
     }

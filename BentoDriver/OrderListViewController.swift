@@ -107,11 +107,13 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket(true)
             Mixpanel.sharedInstance().reset()
+            Mixpanel.sharedInstance().track("Logged Out")
         }))
         
         alertController.addAction(UIAlertAction(title: "No", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket(true)
             Mixpanel.sharedInstance().reset()
+            Mixpanel.sharedInstance().track("Logged Out")
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
