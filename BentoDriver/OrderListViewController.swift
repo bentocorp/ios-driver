@@ -106,14 +106,14 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         
         alertController.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket(true)
-            Mixpanel.sharedInstance().reset()
             Mixpanel.sharedInstance().track("Logged Out")
+            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "resetMixpanel", userInfo: nil, repeats: false)
         }))
         
         alertController.addAction(UIAlertAction(title: "No", style: .Default, handler: { action in
             SocketHandler.sharedSocket.closeSocket(true)
-            Mixpanel.sharedInstance().reset()
             Mixpanel.sharedInstance().track("Logged Out")
+            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "resetMixpanel", userInfo: nil, repeats: false)
             
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "username")
             NSUserDefaults.standardUserDefaults().setObject("", forKey: "password")
@@ -122,6 +122,10 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         alertController.addAction(UIAlertAction(title: "Cancel", style: .Destructive, handler: nil))
         
         presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func resetMixpanel() {
+        Mixpanel.sharedInstance().reset()
     }
     
 //MARK: Map Settings //TODO: Figure out how to put all of map settings in MapSettings.Swift
