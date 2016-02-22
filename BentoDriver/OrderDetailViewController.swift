@@ -528,7 +528,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                     ]
                 )
                 
-                // Handler error...
+                // Handle error...
                 if code != 0 {
                     let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.0 * Double(NSEC_PER_SEC)))
                     dispatch_after(delayTime, dispatch_get_main_queue()) {
@@ -607,6 +607,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
             else {
                 print("\(apiString) Error - \(error.debugDescription)")
+                
+                self.dismissHUDWithSuccess(false)
                 
                 Mixpanel.sharedInstance().track("Called \(apiString)", properties: [
                     "api": "\(apiString)\(paramsStr)",
