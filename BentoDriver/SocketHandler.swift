@@ -326,7 +326,7 @@ extension SocketHandler {
     func startTimer() {
         if self.emitLocationTimer?.valid == false || self.emitLocationTimer == nil {
             print("start timer")
-            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
+            self.emitLocationTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "emitToLocChannel", userInfo: nil, repeats: true)
         }
     }
     
