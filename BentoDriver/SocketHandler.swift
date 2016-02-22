@@ -99,7 +99,7 @@ extension SocketHandler {
                     
                     self.dismissHUD(false, message: "Failed to connect!")
                     
-                    self.delegate.socketHandlerDidFailToConnect!()
+                    self.delegate.socketHandlerDidFailToConnect?()
                     
                     if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
                         self.closeSocket(false)
@@ -116,7 +116,8 @@ extension SocketHandler {
             Mixpanel.sharedInstance().track("Connect Event Triggered", properties: ["data": "\(data)"])
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.delegate.socketHandlerDidConnect!()
+                self.delegate.socketHandlerDidConnect?()
+                self.delegate.socketConnectEventTriggered?()
             })
             
 //            if self.isAuthenticating == false {
@@ -133,7 +134,9 @@ extension SocketHandler {
             
             self.stopTimer()
             
-            self.delegate.socketDisconnectEventTrigger!()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegate.socketDisconnectEventTrigger?()
+            })
         }
         
         socket?.on("error") { (data, ack) -> Void in
@@ -153,7 +156,9 @@ extension SocketHandler {
                 self.showHUD()
             }
             
-            self.delegate.socketReconnectEventTriggered!()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegate.socketReconnectEventTriggered?()
+            })
         }
         
         socket?.on("reconnectAttempt") { (data, ack) -> Void in
@@ -188,7 +193,7 @@ extension SocketHandler {
                             self.dismissHUD(true, message: "Authenticated")
                             self.tryToConnect = false
                             
-                            self.delegate.socketHandlerDidAuthenticate!()
+                            self.delegate.socketHandlerDidAuthenticate?()
                             print("socket did authenticate")
                         })
                         
@@ -226,7 +231,7 @@ extension SocketHandler {
                                 self.closeSocket(false)
                             }
                             
-                            self.delegate.socketHandlerDidFailToAuthenticate!()
+                            self.delegate.socketHandlerDidFailToAuthenticate?()
                             
                         })
                     }
@@ -274,7 +279,7 @@ extension SocketHandler {
                             switch push.bodyOrderAction!.type! {
                             case .ASSIGN:
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
-                                self.delegate.socketHandlerDidAssignOrder!(push.bodyOrderAction!.order)
+                                self.delegate.socketHandlerDidAssignOrder?(push.bodyOrderAction!.order)
                                 
                             case .UNASSIGN:
                                 var isCurrentTask = false
@@ -285,7 +290,7 @@ extension SocketHandler {
                                 }
                                 
                                 OrderList.sharedInstance.removeOrder(push.bodyOrderAction!.order)
-                                self.delegate.socketHandlerDidUnassignOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                self.delegate.socketHandlerDidUnassignOrder?(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
                                 
                             case .REPRIORITIZE:
                                 var isCurrentTask = false
@@ -294,7 +299,7 @@ extension SocketHandler {
                                 }
                                 
                                 OrderList.sharedInstance.reprioritizeOrder(push.bodyOrderAction!.order, afterId: push.bodyOrderAction!.after)
-                                self.delegate.socketHandlerDidReprioritizeOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                self.delegate.socketHandlerDidReprioritizeOrder?(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
                                 
                             case .MODIFY:
                                 var isCurrentTask = false
@@ -302,7 +307,7 @@ extension SocketHandler {
                                     isCurrentTask = true
                                 }
                                 
-                                self.delegate.socketHandlerDidModifyOrder!(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
+                                self.delegate.socketHandlerDidModifyOrder?(push.bodyOrderAction!.order, isCurrentTask: isCurrentTask)
                                 OrderList.sharedInstance.modifyOrder(push.bodyOrderAction!.order)
                                 
                             default: ()
@@ -351,7 +356,7 @@ extension SocketHandler {
             
             User.currentUser.logout()
             
-            delegate.socketHandlerDidDisconnect!()
+            delegate.socketHandlerDidDisconnect?()
         }
         
         print("socket closed")
