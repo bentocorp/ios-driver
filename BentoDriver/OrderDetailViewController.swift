@@ -29,6 +29,8 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     var api: String!
     var parameters : [String : AnyObject]!
     
+    var alamofireManager : Alamofire.Manager?
+    
     var userActionView: UIView!
     var rejectButton: UIButton!
     var acceptButton: UIButton!
@@ -392,7 +394,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
 
-
 //MARK: On Order Action -> Confirm Order Action
     func onOrderAction(sender: UIButton) {
         
@@ -506,7 +507,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         
-        Alamofire.request(.GET, apiString, parameters: parameters)
+        // set custom timeout interval
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = 5
+        configuration.timeoutIntervalForResource = 5
+        alamofireManager = Alamofire.Manager(configuration: configuration)
+        
+        alamofireManager!.request(.GET, apiString, parameters: parameters)
             .responseSwiftyJSON({ (request, response, json, error) in
                 
             if error == nil {
@@ -606,9 +613,20 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 })
             }
             else {
-                print("\(apiString) Error - \(error.debugDescription)")
+                print("API String - \(apiString), Error String - \(error.debugDescription)")
                 
-                self.dismissHUDWithSuccess(false)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                    self.dismissHUDWithSuccess(false)
+                    
+                    // error alert
+                    let alertController = UIAlertController(title: "Error", message: "Failed to connect. Please try again.\n---\n\n\(error.debugDescription)", preferredStyle: .Alert)
+                    
+                    alertController.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+                    
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                    
+                })
                 
                 Mixpanel.sharedInstance().track("Called \(apiString)", properties: [
                     "api": "\(apiString)\(paramsStr)",

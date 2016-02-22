@@ -30,6 +30,7 @@ import Mixpanel
     optional func socketHandlerDidModifyOrder(modifiedOrder:Order, isCurrentTask: Bool)
     
     optional func socketConnectEventTriggered()
+    optional func socketReconnectAttemptEventTriggered()
     optional func socketReconnectEventTriggered()
     optional func socketDisconnectEventTrigger()
 }
@@ -163,6 +164,10 @@ extension SocketHandler {
         
         socket?.on("reconnectAttempt") { (data, ack) -> Void in
             print("reconnectAttempt triggered - \(data)")
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.delegate.socketReconnectAttemptEventTriggered?()
+            })
         }
     }
 
