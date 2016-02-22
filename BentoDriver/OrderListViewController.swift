@@ -288,7 +288,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     
     func socketReconnectAttemptEventTriggered() {
         connectedToNodeLabel.textColor = UIColor.purpleColor()
-        connectedToNodeLabel.text = "Socket Connection Status: Attempting to reconnecting..."
+        connectedToNodeLabel.text = "Socket Connection Status: Attempting to reconnect..."
     }
     
     func socketDisconnectEventTrigger() {
