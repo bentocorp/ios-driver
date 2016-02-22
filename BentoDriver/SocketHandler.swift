@@ -29,9 +29,9 @@ import Mixpanel
     optional func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool)
     optional func socketHandlerDidModifyOrder(modifiedOrder:Order, isCurrentTask: Bool)
     
-    optional func socketIsConnected()
-    optional func socketIsReconnecting()
-    optional func socketIsDisconnected()
+    optional func socketConnectEventTriggered()
+    optional func socketReconnectEventTriggered()
+    optional func socketDisconnectEventTrigger()
 }
 
 //MARK: Properties
@@ -132,6 +132,8 @@ extension SocketHandler {
             Mixpanel.sharedInstance().track("Disconnect Event Triggered", properties: ["data": "\(data)"])
             
             self.stopTimer()
+            
+            self.delegate.socketDisconnectEventTrigger!()
         }
         
         socket?.on("error") { (data, ack) -> Void in
@@ -150,6 +152,8 @@ extension SocketHandler {
             if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String != "login" {
                 self.showHUD()
             }
+            
+            self.delegate.socketReconnectEventTriggered!()
         }
         
         socket?.on("reconnectAttempt") { (data, ack) -> Void in

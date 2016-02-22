@@ -54,15 +54,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // reset notification badge
         application.applicationIconBadgeNumber = 0
-        
-        Mixpanel.sharedInstance().track("applicationWillResignActive")
     }
     
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        
-        Mixpanel.sharedInstance().track("applicationDidEnterBackground")
     }
     
     func applicationWillEnterForeground(application: UIApplication) {
@@ -70,8 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // let subscribers know of didEnterForeground
         NSNotificationCenter.defaultCenter().postNotificationName("didEnterForeground", object: nil)
-        
-        Mixpanel.sharedInstance().track("applicationWillEnterForeground")
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -79,8 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // reset notification badge
         application.applicationIconBadgeNumber = 0
-        
-        Mixpanel.sharedInstance().track("applicationDidBecomeActive")
     }
     
     func applicationWillTerminate(application: UIApplication) {
