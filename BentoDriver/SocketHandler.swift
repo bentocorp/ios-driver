@@ -152,9 +152,9 @@ extension SocketHandler {
             
             self.stopTimer()
             
-            if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String != "login" {
-                self.showHUD()
-            }
+//            if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String != "login" {
+//                self.showHUD()
+//            }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.delegate.socketReconnectEventTriggered?()

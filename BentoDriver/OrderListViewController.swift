@@ -19,6 +19,7 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     let notification = CWStatusBarNotification()
     var orderListTableView: UITableView!
     var noTasksLabel: UILabel!
+    var connectedToNodeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,18 +72,11 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         view.addSubview(noTasksLabel)
         
 //MARK: SOCKET CONNECTIVITY STATUS
-        let connectedToNodeLabel = UILabel(frame: CGRectMake(20, view.frame.size.height - 40, view.frame.size.width - 40, 40))
+        connectedToNodeLabel = UILabel(frame: CGRectMake(20, view.frame.size.height - 40, view.frame.size.width - 40, 40))
         connectedToNodeLabel.font = UIFont(name: "OpenSans-Bold", size: 10)
-        view.addSubview(connectedToNodeLabel)
-        
         connectedToNodeLabel.textColor = UIColor.greenColor()
-        connectedToNodeLabel.text = "Connected to Node"
-        
-        //        connectedToNodeLabel.textColor = UIColor.yellowColor()
-        //        connectedToNodeLabel.text = "Reconnecting to Node"
-        //
-        //        connectedToNodeLabel.textColor = UIColor.redColor()
-        //        connectedToNodeLabel.text = "Disconnected from Node - Please login again"
+        connectedToNodeLabel.text = "Socket Connection Status: Connected"
+        view.addSubview(connectedToNodeLabel)
         
 //MARK: Pull Orders
         OrderList.sharedInstance.pullOrders { (result) -> Void in
@@ -281,12 +275,20 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
 //MARK: SocketHandlerDelegate
-    func socketHandlerDidConnect() {
-        
+    
+    func socketConnectEventTriggered() {
+        connectedToNodeLabel.textColor = UIColor.greenColor()
+        connectedToNodeLabel.text = "Socket Connection Status: Connected"
     }
     
-    func socketHandlerDidFailToConnect() {
-        
+    func socketReconnectEventTriggered() {
+        connectedToNodeLabel.textColor = UIColor.yellowColor()
+        connectedToNodeLabel.text = "Socket Connection Status: Reconnecting..."
+    }
+    
+    func socketDisconnectEventTrigger() {
+        connectedToNodeLabel.textColor = UIColor.redColor()
+        connectedToNodeLabel.text = "Socket Connection Status: Disconnected"
     }
     
     func socketHandlerDidAuthenticate() {
@@ -302,10 +304,6 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
             self.dismissHUD()
             self.updateUI()
         }
-    }
-    
-    func socketHandlerDidFailToAuthenticate() {
-        
     }
     
     func socketHandlerDidDisconnect() {

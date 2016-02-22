@@ -178,34 +178,6 @@ extension LoginViewController {
         NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "presentHomepageWithDelay", userInfo: nil, repeats: false)
     }
     
-    func socketHandlerDidConnect() {
-        
-    }
-    
-    func socketHandlerDidFailToConnect() {
-
-    }
-    
-    func socketHandlerDidFailToAuthenticate() {
-
-    }
-    
-    func socketHandlerDidDisconnect() {
-        
-    }
-    
-    func socketHandlerDidAssignOrder(assignedOrder: Order) {
-        
-    }
-    
-    func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool) {
-        
-    }
-    
-    func socketHandlerDidModifyOrder(modifiedOrder: Order, isCurrentTask: Bool) {
-        
-    }
-    
     func presentHomepageWithDelay() {
         let navC = UINavigationController.init(rootViewController: OrderListViewController())
         navigationController?.presentViewController(navC, animated: true, completion: nil)

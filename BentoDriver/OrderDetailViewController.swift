@@ -644,14 +644,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     
 //MARK: SocketHandlerDelegate
     
-    func socketHandlerDidConnect() {
-        
-    }
-    
-    func socketHandlerDidFailToConnect() {
-        
-    }
-    
     // this would only be called if internet had disconnected and reconnected again. in that case, check if any Orders were unassigned while disconnected
     func socketHandlerDidAuthenticate() {
         
@@ -672,10 +664,6 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     func delayReconnectedAlert() {
         // for now, just pop back... can think of a better UX in future
         statusBarNotification("Established Connection", taskMessage: "You'll be returned to 'Tasks' page.", success: true)
-    }
-    
-    func socketHandlerDidFailToAuthenticate() {
-        
     }
     
     func socketHandlerDidDisconnect() {
