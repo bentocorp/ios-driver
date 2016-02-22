@@ -28,6 +28,10 @@ import Mixpanel
     optional func socketHandlerDidUnassignOrder(unassignedOrder: Order, isCurrentTask: Bool)
     optional func socketHandlerDidReprioritizeOrder(reprioritized: Order, isCurrentTask: Bool)
     optional func socketHandlerDidModifyOrder(modifiedOrder:Order, isCurrentTask: Bool)
+    
+    optional func socketIsConnected()
+    optional func socketIsReconnecting()
+    optional func socketIsDisconnected()
 }
 
 //MARK: Properties
@@ -68,7 +72,7 @@ extension SocketHandler {
         
         tryToConnect = true // ok to show timeout "failed to connect" message
         
-        showHUD(false)
+        showHUD()
         
         // connect
         connectUser()
@@ -144,7 +148,7 @@ extension SocketHandler {
             self.stopTimer()
             
             if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String != "login" {
-                self.showHUD(true)
+                self.showHUD()
             }
         }
         
@@ -350,13 +354,13 @@ extension SocketHandler {
     }
     
 //MARK: HUD
-    func showHUD(isReconnecting: Bool) {
-        if isReconnecting {
-            PKHUD.sharedHUD.contentView = PKHUDTextView(text: "Reestablishing connectivity...")
-        }
-        else {
+    func showHUD() {
+//        if isReconnecting {
+//            PKHUD.sharedHUD.contentView = PKHUDTextView(text: "Reestablishing connectivity...")
+//        }
+//        else {
             PKHUD.sharedHUD.contentView = PKHUDProgressView()
-        }
+//        }
         
         PKHUD.sharedHUD.dimsBackground = true
         PKHUD.sharedHUD.userInteractionOnUnderlyingViewsEnabled = false
