@@ -70,6 +70,20 @@ class OrderListViewController: UIViewController, UITableViewDataSource, UITableV
         noTasksLabel.textColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) // #2d3e45
         view.addSubview(noTasksLabel)
         
+//MARK: SOCKET CONNECTIVITY STATUS
+        let connectedToNodeLabel = UILabel(frame: CGRectMake(20, view.frame.size.height - 40, view.frame.size.width - 40, 40))
+        connectedToNodeLabel.font = UIFont(name: "OpenSans-Bold", size: 10)
+        view.addSubview(connectedToNodeLabel)
+        
+        connectedToNodeLabel.textColor = UIColor.greenColor()
+        connectedToNodeLabel.text = "Connected to Node"
+        
+        //        connectedToNodeLabel.textColor = UIColor.yellowColor()
+        //        connectedToNodeLabel.text = "Reconnecting to Node"
+        //
+        //        connectedToNodeLabel.textColor = UIColor.redColor()
+        //        connectedToNodeLabel.text = "Disconnected from Node - Please login again"
+        
 //MARK: Pull Orders
         OrderList.sharedInstance.pullOrders { (result) -> Void in
             print("result: \(result)")
