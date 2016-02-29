@@ -519,6 +519,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 
             case .Success:
                 if let value = response.result.value {
+                    
                     let json = JSON(value)
                     
                     let code = json["code"]
@@ -615,7 +616,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
                         self.dismissHUDWithSuccess(true)
                     })
                 }
-            case .Failure(let error):                
+            case .Failure(let error):
                 print("API String - \(apiString), Error String - \(error.debugDescription)")
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in

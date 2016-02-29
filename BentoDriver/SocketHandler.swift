@@ -73,7 +73,9 @@ extension SocketHandler {
         
         tryToConnect = true // ok to show timeout "failed to connect" message
         
-        showHUD()
+        if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
+            showHUD()
+        }
         
         // connect
         connectUser()
@@ -98,7 +100,9 @@ extension SocketHandler {
                     
                     self.tryToConnect = false // prevent timeout "failed to connect" message
                     
-                    self.dismissHUD(false, message: "Failed to connect!")
+                    if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
+                        self.dismissHUD(false, message: "Failed to connect!")
+                    }
                     
                     self.delegate.socketHandlerDidFailToConnect?()
                     
@@ -195,7 +199,9 @@ extension SocketHandler {
                     
                     if code == 0 {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.dismissHUD(true, message: "Authenticated")
+                            if NSUserDefaults.standardUserDefaults().objectForKey("currentScreen") as? String == "login" {
+                                self.dismissHUD(true, message: "Authenticated")
+                            }
                             self.tryToConnect = false
                             
                             self.delegate.socketHandlerDidAuthenticate?()
