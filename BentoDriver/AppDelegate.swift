@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Override point for customization after application launch.
         
         // FABRIC
-        Fabric.sharedSDK().debug = true // for answers
+        Fabric.sharedSDK().debug = false // for answers
         Fabric.with([Crashlytics.self]) // for crash reports
         
         // MIXPANEL

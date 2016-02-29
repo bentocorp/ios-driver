@@ -20,10 +20,11 @@ public class OrderList {
 extension OrderList {
     public func pullOrders(completion: (result: JSON) -> Void) {
         
+        
         // get all assigned orders
         Alamofire.request(.GET, "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
             .responseSwiftyJSON({ (request, response, json, error) in
-        
+                
                 if error == nil {
                     
                     let code = json["code"]

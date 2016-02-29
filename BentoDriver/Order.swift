@@ -83,6 +83,5 @@ public class Order: NSObject {
         }
         
         orderString = json["orderString"].stringValue
-
     }
 }
