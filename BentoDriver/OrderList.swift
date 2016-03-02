@@ -26,6 +26,7 @@ extension OrderList {
             switch response.result {
             case .Success:
                 if let value = response.result.value {
+
                     let json = JSON(value)
                     
                     let code = json["code"]
@@ -75,7 +76,6 @@ extension OrderList {
                             )
                         })
                     }
-
                 }
             case .Failure(let error):
                 print(error)
@@ -94,6 +94,8 @@ extension OrderList {
        
 //        Alamofire.request(.GET, "\(SocketHandler.sharedSocket.getHoustonAPI())/api/order/getAllAssigned", parameters: ["token": User.currentUser.token!])
 //            .responseSwiftyJSON({ (request, response, json, error) in
+//                
+//                print(response?.allHeaderFields)
 //                
 //                if error == nil {
 //                    

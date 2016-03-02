@@ -50,7 +50,7 @@ public class Order: NSObject {
     public var itemArray: [BentoBox] = [] // to do
     public var itemString: String?
     
-    public var orderString: String
+    public var orderString: String!
     
     init(json: JSON) {
         driverId = json["driverId"].intValue
@@ -82,6 +82,8 @@ public class Order: NSObject {
             itemString = json["item"].stringValue
         }
         
-        orderString = json["orderString"].stringValue
+        if let data = json["orderString"].stringValue.dataUsingEncoding(NSUTF8StringEncoding) {
+            orderString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
+        }
     }
 }
