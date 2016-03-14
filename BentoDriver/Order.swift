@@ -18,16 +18,21 @@ public enum OrderStatus {
         let lowercaseString = statusString.lowercaseString
         
         switch lowercaseString {
-            case "pending":
+            case "pending": // change to assigned
                 return Pending
             case "rejected":
                 return Rejected
-            case "accepted":
+            case "accepted": // change to en route
                 return Accepted
             default:
                 return Completed
         }
     }
+    
+    /*
+    REJECTED("Rejected"), UNASSIGNED("Open"), PENDING("Assigned"), ACCEPTED("En Route"), MODIFIED("Modified"),
+    COMPLETE("Delivered"), CANCELLED("Cancelled"), ARRIVED("Arrived");
+    */
 }
 
 public class Order: NSObject {

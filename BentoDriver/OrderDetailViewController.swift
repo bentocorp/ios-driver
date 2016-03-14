@@ -671,23 +671,11 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
     // this would only be called if internet had disconnected and reconnected again. in that case, check if any Orders were unassigned while disconnected
     func socketHandlerDidAuthenticate() {
         
-        showHUD()
-        
         OrderList.sharedInstance.orderArray.removeAll()
         
         OrderList.sharedInstance.pullOrders { (result) -> Void in
             print("result: \(result)")
-            
-            // for now, just pop back... can think of a better UX in future
-            NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "delayReconnectedAlert", userInfo: nil, repeats: false)
-            
-            self.dismissHUDWithSuccess(true)
         }
-    }
-    
-    func delayReconnectedAlert() {
-        // for now, just pop back... can think of a better UX in future
-        statusBarNotification("Established Connection", taskMessage: "You'll be returned to 'Tasks' page.", success: true)
     }
     
     func socketHandlerDidDisconnect() {
