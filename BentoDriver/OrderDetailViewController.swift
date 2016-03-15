@@ -72,19 +72,28 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         view.addSubview(infoView)
         
         // text
-        let textButton = UIButton(frame: CGRectMake(view.frame.width/4 - 40, 20, 40, 40))
-        textButton.setImage(UIImage(named: "green-bubble-64"), forState: .Normal)
-        textButton.addTarget(self, action: "onText", forControlEvents: .TouchUpInside)
-        infoView.addSubview(textButton)
+//        let textButton = UIButton(frame: CGRectMake(view.frame.width/4 - 40, 20, 40, 40))
+//        textButton.setImage(UIImage(named: "green-bubble-64"), forState: .Normal)
+//        textButton.addTarget(self, action: "onText", forControlEvents: .TouchUpInside)
+//        infoView.addSubview(textButton)
+        
+        // address label
+        let addressLabel = UILabel(frame: CGRectMake(10, 10, 180, 60))
+        addressLabel.textColor = UIColor.whiteColor()
+        addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
+        addressLabel.text = "Address:\n\(order.street)"
+        addressLabel.numberOfLines = 0;
+        addressLabel.adjustsFontSizeToFitWidth = true
+        infoView.addSubview(addressLabel)
         
         // phone
-        let phoneButton = UIButton(frame: CGRectMake(view.frame.width/2 - 20, 20, 40, 40))
+        let phoneButton = UIButton(frame: CGRectMake(view.frame.width - 140, 20, 40, 40))
         phoneButton.setImage(UIImage(named: "green-phone-64"), forState: .Normal)
         phoneButton.addTarget(self, action: "onPhone", forControlEvents: .TouchUpInside)
         infoView.addSubview(phoneButton)
         
         // location
-        let locationButton = UIButton(frame: CGRectMake(view.frame.width/1.25 - 10, 20, 40, 40))
+        let locationButton = UIButton(frame: CGRectMake(view.frame.width - 60, 20, 40, 40))
         locationButton.setImage(UIImage(named: "green-map-64"), forState: .Normal)
         locationButton.addTarget(self, action: "onLocation", forControlEvents: .TouchUpInside)
         infoView.addSubview(locationButton)
@@ -137,17 +146,17 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         view.addSubview(userActionView)
         
         // Reject
-        rejectButton = UIButton(frame: CGRectMake(5, 10, view.frame.width / 2 - 10, 50))
-        rejectButton.backgroundColor = UIColor(red: 0.8039, green: 0.2863, blue: 0.2235, alpha: 1.0) /* #cd4939 */
-        rejectButton.layer.cornerRadius = 3
-        rejectButton.setTitle("REJECT", forState: .Normal)
-        rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
-        rejectButton.titleLabel?.textColor = UIColor.whiteColor()
-        rejectButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
-        userActionView.addSubview(rejectButton)
+//        rejectButton = UIButton(frame: CGRectMake(5, 10, view.frame.width / 2 - 10, 50))
+//        rejectButton.backgroundColor = UIColor(red: 0.8039, green: 0.2863, blue: 0.2235, alpha: 1.0) /* #cd4939 */
+//        rejectButton.layer.cornerRadius = 3
+//        rejectButton.setTitle("REJECT", forState: .Normal)
+//        rejectButton.titleLabel?.font = UIFont(name: "OpenSans-Bold", size: 21)
+//        rejectButton.titleLabel?.textColor = UIColor.whiteColor()
+//        rejectButton.addTarget(self, action: "onOrderAction:", forControlEvents: .TouchUpInside)
+//        userActionView.addSubview(rejectButton)
         
         // Accept
-        acceptButton = UIButton(frame: CGRectMake(view.frame.width / 2 + 5, 10, view.frame.width / 2 - 10, 50))
+        acceptButton = UIButton(frame: CGRectMake(5, 10, view.frame.width - 10, 50))
         acceptButton.backgroundColor = UIColor(red: 0.2275, green: 0.5255, blue: 0.8118, alpha: 1.0) /* #3a86cf */
         acceptButton.layer.cornerRadius = 3
         acceptButton.setTitle("ACCEPT", forState: .Normal)
@@ -191,7 +200,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //MARK: Show/Hide Buttons
     func showHideButtons() {
         if order.status == .Rejected {
-            rejectButton.hidden = true
+//            rejectButton.hidden = true
             acceptButton.hidden = true
             arrivedAndCompleteButton.hidden = true
             
@@ -203,12 +212,12 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             userActionView.addSubview(rejectedLabel)
         }
         else if order.status == .Accepted {
-            rejectButton.hidden = true
+//            rejectButton.hidden = true
             acceptButton.hidden = true
             arrivedAndCompleteButton.hidden = false
         }
         else {
-            rejectButton.hidden = false
+//            rejectButton.hidden = false
             acceptButton.hidden = false
             arrivedAndCompleteButton.hidden = true
         }
@@ -365,6 +374,10 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
             if UIApplication.sharedApplication().canOpenURL(url!) == true {
                 UIApplication.sharedApplication().openURL(url!)
             }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Text", style: .Default, handler: { action in
+            self.onText();
         }))
         
         alertController.addAction(UIAlertAction(title: "Copy to clipboard", style: .Default, handler: { action in
