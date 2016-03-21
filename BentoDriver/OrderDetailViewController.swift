@@ -77,23 +77,14 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //        textButton.addTarget(self, action: "onText", forControlEvents: .TouchUpInside)
 //        infoView.addSubview(textButton)
         
-        // address label
-        let addressLabel = UILabel(frame: CGRectMake(10, 10, 160, 60))
-        addressLabel.textColor = UIColor.whiteColor()
-        addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
-        addressLabel.text = "Address:\n\(order.street)"
-        addressLabel.numberOfLines = 0;
-        addressLabel.adjustsFontSizeToFitWidth = true
-        infoView.addSubview(addressLabel)
-        
         // phone
-        let phoneButton = UIButton(frame: CGRectMake(view.frame.width - 140, 20, 40, 40))
+        let phoneButton = UIButton(frame: CGRectMake(view.frame.width * 0.25 - 20, 20, 40, 40))
         phoneButton.setImage(UIImage(named: "green-phone-64"), forState: .Normal)
         phoneButton.addTarget(self, action: "onPhone", forControlEvents: .TouchUpInside)
         infoView.addSubview(phoneButton)
         
         // location
-        let locationButton = UIButton(frame: CGRectMake(view.frame.width - 60, 20, 40, 40))
+        let locationButton = UIButton(frame: CGRectMake(view.frame.width * 0.75 - 20, 20, 40, 40))
         locationButton.setImage(UIImage(named: "green-map-64"), forState: .Normal)
         locationButton.addTarget(self, action: "onLocation", forControlEvents: .TouchUpInside)
         infoView.addSubview(locationButton)
@@ -102,6 +93,18 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         let lineSeparator = UIView(frame: CGRectMake(0, 64 + infoView.frame.height, view.frame.width, 2))
         lineSeparator.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
         self.view.addSubview(lineSeparator)
+        
+        // separator
+        let lineSeparator2 = UIView(frame: CGRectMake(0, 64 + infoView.frame.height + 30, view.frame.width, 2))
+        lineSeparator2.backgroundColor = UIColor(red: 0.1765, green: 0.2431, blue: 0.2706, alpha: 1.0) /* #2d3e45 the lighter version without trans*/
+        self.view.addSubview(lineSeparator2)
+        
+        // address label
+        let addressLabel = UILabel(frame: CGRectMake(20, lineSeparator.frame.origin.y, self.view.frame.size.width-40, 30))
+        addressLabel.textColor = UIColor.whiteColor()
+        addressLabel.font = UIFont(name: "OpenSans-Bold", size: 17)
+        addressLabel.text = "ADDRESS: \(order.street)"
+        self.view.addSubview(addressLabel)
         
 //MARK: TableView
         bentoTableView = UITableView(frame: CGRectMake(0, 64 + infoView.frame.height, view.frame.width, (view.frame.height - 80) - (64 + infoView.frame.height - 10)))
@@ -117,7 +120,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
 //MARK: Task
-        itemStringTextView = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 90)))
+        itemStringTextView = UITextView(frame: CGRectMake(20, 64 + infoView.frame.height + lineSeparator.frame.height + 20 + 30, self.view.frame.width - 40, self.view.frame.height - (64 + infoView.frame.height + 20 + backgroundView.frame.height + 120)))
         itemStringTextView.textColor = UIColor.whiteColor()
         itemStringTextView.backgroundColor = UIColor.clearColor()
         itemStringTextView.font = UIFont(name: "OpenSans-SemiBold", size: 17)
@@ -135,7 +138,13 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         else {
             // display orderString
-            itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+            if (order.notes != "") {
+                itemStringTextView.text = "NOTES:\n====\n\(order.notes)\n====\n\n\(order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n"))"
+            }
+            else {
+                itemStringTextView.text = order.orderString.stringByReplacingOccurrencesOfString("\\n", withString: "\n")
+            }
+    
             view.addSubview(itemStringTextView)
         }
         
