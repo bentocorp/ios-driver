@@ -78,7 +78,7 @@ class OrderDetailViewController: UIViewController, UITableViewDataSource, UITabl
 //        infoView.addSubview(textButton)
         
         // address label
-        let addressLabel = UILabel(frame: CGRectMake(10, 10, 180, 60))
+        let addressLabel = UILabel(frame: CGRectMake(10, 10, 160, 60))
         addressLabel.textColor = UIColor.whiteColor()
         addressLabel.font = UIFont(name: "OpenSans-SemiBold", size: 17)
         addressLabel.text = "Address:\n\(order.street)"

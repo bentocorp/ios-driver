@@ -40,6 +40,7 @@ public class Order: NSObject {
     public var id: String // either g-424 or b-324, g is generic -> string, b is array for bentos
     public var name: String
     public var phone: String
+    public var notes: String
 
     /*-Address (Dictionary)-*/
     public var street: String
@@ -62,6 +63,7 @@ public class Order: NSObject {
         id = json["id"].stringValue
         name = json["name"].stringValue
         phone = json["phone"].stringValue
+        notes = json["notes"].stringValue
         
         // address
         var address = json["address"]
